@@ -1,5 +1,5 @@
 <?php
-    require_once('/var/www/artifact-management-tool/private/initialize.php');
+    require_once(__DIR__ . '/../initialize.php');
 
     date_default_timezone_set('America/New_York');
     $current_hour = (int) date('G');
@@ -28,7 +28,7 @@
     }
 
     file_put_contents(
-        __FILE__ . '.log', 
+        __FILE__ . '.log',
         __FILE__ . ' finished running at ' . date('Y-m-d G:i:s') . "\n",
         FILE_APPEND
     );
