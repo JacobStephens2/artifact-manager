@@ -1360,10 +1360,15 @@ table#useBy.cards-view tbody {
 
 table#useBy.cards-view tbody tr {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  grid-template-rows: auto auto auto;
-  gap: 0.55rem 0.75rem;
-  padding: 1rem 1.1rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas:
+    "name    name"
+    "type    type"
+    "date    date"
+    "record  getrid";
+  row-gap: 0.65rem;
+  column-gap: 0.75rem;
+  padding: 1.1rem 1.2rem;
   border-radius: var(--radius-md);
   background: var(--surface-lowest);
   box-shadow: inset 0 0 0 1px rgba(80, 95, 118, 0.08);
@@ -1377,6 +1382,7 @@ table#useBy.cards-view tbody td {
   text-align: left;
   min-width: 0;
   white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 table#useBy.cards-view tbody td.overdue,
@@ -1394,27 +1400,29 @@ table#useBy.cards-view tbody td.candidate {
 }
 
 table#useBy.cards-view tbody td.name {
-  grid-column: 1;
-  grid-row: 1;
+  grid-area: name;
+}
+
+table#useBy.cards-view tbody td.name > div {
+  min-width: 0;
 }
 
 table#useBy.cards-view tbody td.name a.action.edit {
   font-size: 1rem;
   font-weight: 700;
   color: var(--primary);
-  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 table#useBy.cards-view tbody td.type {
-  grid-column: 2;
-  grid-row: 1;
-  justify-self: end;
+  grid-area: type;
+  justify-self: start;
   align-self: start;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: 1.9rem;
-  padding: 0.3rem 0.7rem;
+  padding: 0.3rem 0.75rem;
   border-radius: 999px;
   background: rgba(0, 41, 57, 0.08);
   color: var(--tertiary);
@@ -1425,8 +1433,7 @@ table#useBy.cards-view tbody td.type {
 }
 
 table#useBy.cards-view tbody td.useByDate {
-  grid-column: 1 / -1;
-  grid-row: 2;
+  grid-area: date;
   font-size: 0.96rem;
   color: var(--text-soft);
 }
@@ -1437,21 +1444,19 @@ table#useBy.cards-view tbody td.useByDate.overdue-past {
 }
 
 table#useBy.cards-view tbody td.record {
-  grid-column: 1;
-  grid-row: 3;
+  grid-area: record;
   align-self: center;
 }
 
 table#useBy.cards-view tbody td.get-rid-of {
-  grid-column: 2;
-  grid-row: 3;
+  grid-area: getrid;
   justify-self: end;
   align-self: center;
 }
 
 table#useBy.cards-view tbody td.get-rid-of button.get-rid-of-btn {
   min-height: 2.4rem;
-  padding: 0.45rem 0.9rem;
+  padding: 0.5rem 0.95rem;
   font-size: 0.9rem;
 }
 
