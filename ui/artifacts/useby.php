@@ -9,7 +9,7 @@
   include(SHARED_PATH . '/dataTable.html'); 
 ?>
 <script defer src="/shared/filter_button.js"></script>
-<script defer src="useby.js?v=3"></script>
+<script defer src="useby.js?v=4"></script>
 
 <?php // process form submission and initialize variables
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
