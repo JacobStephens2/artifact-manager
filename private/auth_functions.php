@@ -24,6 +24,9 @@ function log_in_user($user, $remember = false) {
   $_SESSION['FullName'] = $userArray['first_name'] . ' ' . $userArray['last_name'];
   $_SESSION['user_id'] = $user['id'];
   $_SESSION['player_id'] = $user['player_id'];
+  if (empty($_SESSION['player_id'])) {
+    $_SESSION['player_id'] = backfill_user_player_id($user['id']);
+  }
   $_SESSION['last_login'] = time();
   $_SESSION['username'] = $user['username'];
   $_SESSION['user_group'] = $user['user_group'];
@@ -113,8 +116,30 @@ function log_out() {
   return true;
 }
 
+function backfill_user_player_id($user_id) {
+  global $db;
+  $stmt = mysqli_prepare($db, "SELECT id FROM players WHERE represents_user_id = ? ORDER BY id ASC LIMIT 1");
+  mysqli_stmt_bind_param($stmt, "i", $user_id);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  $row = mysqli_fetch_assoc($result);
+  mysqli_stmt_close($stmt);
+  if (!$row) {
+    return null;
+  }
+  $player_id = (int) $row['id'];
+  $update = mysqli_prepare($db, "UPDATE users SET player_id = ? WHERE id = ? AND (player_id IS NULL OR player_id = 0)");
+  mysqli_stmt_bind_param($update, "ii", $player_id, $user_id);
+  mysqli_stmt_execute($update);
+  mysqli_stmt_close($update);
+  return $player_id;
+}
+
 function is_logged_in() {
   if (isset($_SESSION['user_id'])) {
+    if (empty($_SESSION['player_id']) && empty($_SESSION['guest_mode'])) {
+      $_SESSION['player_id'] = backfill_user_player_id($_SESSION['user_id']);
+    }
     return true;
   }
   // Restore session from JWT if PHP session expired but token is still valid
@@ -134,6 +159,9 @@ function is_logged_in() {
           $_SESSION['FullName'] = $user['first_name'] . ' ' . $user['last_name'];
           $_SESSION['user_id'] = $user['id'];
           $_SESSION['player_id'] = $user['player_id'];
+          if (empty($_SESSION['player_id'])) {
+            $_SESSION['player_id'] = backfill_user_player_id($user['id']);
+          }
           $_SESSION['last_login'] = time();
           $_SESSION['username'] = $user['username'];
           $_SESSION['user_group'] = $user['user_group'];
