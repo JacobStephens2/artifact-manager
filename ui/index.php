@@ -143,33 +143,40 @@ include(SHARED_PATH . '/header.php');
 
     <div class="dashboard-grid">
       <?php if (!empty($top_overdue)) { ?>
-      <section class="menu-card overdue-card">
+      <section id="priority-queue" class="menu-card overdue-card">
         <p class="section-label">Priority Queue</p>
         <h2 class="menu-card-title">Most past due</h2>
-        <table class="overdue-table">
+        <ul class="overdue-list">
           <?php foreach ($top_overdue as $item) {
             $overdue = $item['days_diff'] < 0;
           ?>
-            <tr>
-              <td class="overdue-name">
-                <a href="<?php echo url_for('/artifacts/' . (is_guest() ? 'show' : 'edit') . '.php?id=' . h(u($item['id']))); ?>">
+            <li class="overdue-item-card">
+              <div class="overdue-item-head">
+                <a class="overdue-item-title" href="<?php echo url_for('/artifacts/' . (is_guest() ? 'show' : 'edit') . '.php?id=' . h(u($item['id']))); ?>">
                   <?php echo h($item['title']); ?>
                 </a>
                 <?php if (!empty($item['type'])) { ?>
                   <span class="status-chip"><?php echo h($item['type']); ?></span>
                 <?php } ?>
-              </td>
-              <td class="overdue-date<?php if ($overdue) echo ' overdue-past'; ?>">
+              </div>
+              <p class="overdue-item-date<?php if ($overdue) echo ' overdue-past'; ?>">
                 <?php echo h($item['use_by']); ?>
-              </td>
+              </p>
               <?php if (!is_guest()) { ?>
-              <td class="overdue-action">
-                <a href="/uses/1-n-new?artifact_id=<?php echo h(u($item['id'])); ?>">Record</a>
-              </td>
+              <div class="overdue-item-actions">
+                <a class="menu-link" href="/uses/1-n-new?artifact_id=<?php echo h(u($item['id'])); ?>">Record</a>
+                <form method="post" action="<?php echo url_for('/artifacts/mark-get-rid-of.php'); ?>" class="overdue-item-getridof">
+                  <?php echo csrf_input(); ?>
+                  <input type="hidden" name="artifact_id" value="<?php echo h($item['id']); ?>">
+                  <input type="hidden" name="artifact_name" value="<?php echo h($item['title']); ?>">
+                  <input type="hidden" name="return_to" value="dashboard">
+                  <button type="submit" class="get-rid-of-btn">Get Rid Of</button>
+                </form>
+              </div>
               <?php } ?>
-            </tr>
+            </li>
           <?php } ?>
-        </table>
+        </ul>
         <a class="menu-link" href="<?php echo url_for('/artifacts/useby.php'); ?>">View full queue</a>
       </section>
       <?php } ?>

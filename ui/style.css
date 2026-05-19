@@ -538,8 +538,7 @@ td.name.artifact.edit {
 
 .table-action,
 a.action,
-.name a,
-.overdue-action a {
+.name a {
   color: var(--primary);
   font-weight: 600;
 }
@@ -837,24 +836,40 @@ ul.userResults {
   margin-bottom: 0;
 }
 
-.overdue-table {
-  margin: 0.75rem 0 0.25rem;
-  box-shadow: none;
-  background: transparent;
+.overdue-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 0.85rem;
+  margin: 0.75rem 0 1rem;
+  padding: 0;
+  list-style: none;
 }
 
-.overdue-table td {
-  padding: 0.85rem 0.35rem;
-  background: transparent;
+.overdue-item-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 1rem 1.1rem;
+  border-radius: var(--radius-md);
+  background: var(--surface-lowest);
+  box-shadow: inset 0 0 0 1px rgba(80, 95, 118, 0.08);
 }
 
-.overdue-name a {
-  display: block;
-  margin-bottom: 0.3rem;
+.overdue-item-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.overdue-date {
-  white-space: nowrap;
+.overdue-item-title {
+  font-weight: 700;
+  color: var(--primary);
+  word-break: break-word;
+}
+
+.overdue-item-date {
+  margin: 0;
   font-size: 0.96rem;
   color: var(--text-soft);
 }
@@ -864,8 +879,26 @@ ul.userResults {
   font-weight: 700;
 }
 
-.overdue-action {
-  white-space: nowrap;
+.overdue-item-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.overdue-item-actions .menu-link {
+  padding: 0;
+}
+
+.overdue-item-getridof {
+  margin: 0;
+}
+
+.overdue-item-getridof button.get-rid-of-btn {
+  min-height: 2.4rem;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.9rem;
 }
 
 .status-chip {

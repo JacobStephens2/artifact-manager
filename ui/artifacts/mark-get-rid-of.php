@@ -30,6 +30,8 @@
 
   if ($return_to === 'to-get-rid-of') {
     redirect_to(url_for('/artifacts/to-get-rid-of.php'));
+  } elseif ($return_to === 'dashboard') {
+    redirect_to(url_for('/index.php') . '#priority-queue');
   } else {
     redirect_to(url_for('/artifacts/useby.php'));
   }
