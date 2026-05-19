@@ -58,7 +58,10 @@
     </h1>
     <div class="page-header-actions">
       <?php if (!is_guest()) { ?><button id="send_use_email" data-userid="<?php echo $user_id; ?>">Send Interact Email</button><?php } ?>
-      <button id="toggle_view" type="button">Card view</button>
+      <div id="view_toggle" class="view-toggle" role="group" aria-label="View mode">
+        <button type="button" class="view-toggle-btn" data-view="table" aria-pressed="false">Table</button>
+        <button type="button" class="view-toggle-btn" data-view="cards" aria-pressed="false">Cards</button>
+      </div>
       <button id="display_filters">Show filters</button>
     </div>
   </div>
@@ -345,28 +348,45 @@
 
     (function () {
       var table = document.querySelector('#useBy');
-      var btn = document.querySelector('#toggle_view');
-      if (!table || !btn) return;
+      var toggle = document.querySelector('#view_toggle');
+      if (!table || !toggle) return;
+      var segments = toggle.querySelectorAll('.view-toggle-btn');
 
       var stored = null;
       try { stored = localStorage.getItem('usebyView'); } catch (e) {}
       var initial = stored || (window.innerWidth <= 750 ? 'cards' : 'table');
-      applyView(initial);
+      applyView(initial, false);
 
-      btn.addEventListener('click', function () {
-        var next = table.classList.contains('cards-view') ? 'table' : 'cards';
-        try { localStorage.setItem('usebyView', next); } catch (e) {}
-        applyView(next);
+      segments.forEach(function (segment) {
+        segment.addEventListener('click', function () {
+          var next = segment.dataset.view;
+          if (next === currentView()) return;
+          try { localStorage.setItem('usebyView', next); } catch (e) {}
+          applyView(next, true);
+        });
       });
 
-      function applyView(view) {
+      function currentView() {
+        return table.classList.contains('cards-view') ? 'cards' : 'table';
+      }
+
+      function applyView(view, animate) {
+        if (animate) {
+          table.classList.add('view-switching');
+          window.setTimeout(function () {
+            table.classList.remove('view-switching');
+          }, 220);
+        }
         if (view === 'cards') {
           table.classList.add('cards-view');
-          btn.textContent = 'Table view';
         } else {
           table.classList.remove('cards-view');
-          btn.textContent = 'Card view';
         }
+        segments.forEach(function (segment) {
+          var active = segment.dataset.view === view;
+          segment.classList.toggle('is-active', active);
+          segment.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
       }
     })();
   </script>
