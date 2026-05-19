@@ -341,7 +341,7 @@
         event.preventDefault();
         document.querySelector('form').submit();
       }
-    })
+    });
 
     (function () {
       var table = document.querySelector('#useBy');
