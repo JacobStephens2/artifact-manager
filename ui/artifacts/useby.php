@@ -210,7 +210,7 @@
               }
           ?>
 
-          <td class="useByDate date" data-label="Interact by"><?php print_r($useByDate->format('Y-m-d')); ?></td>
+          <td class="useByDate date<?php if ($useByDate < $DateTimeNow) echo ' overdue-past'; ?>" data-label="Interact by"><?php print_r($useByDate->format('Y-m-d')); ?></td>
 
             <?php if (!is_guest()) { ?>
             <td class="record" data-label="Record">
