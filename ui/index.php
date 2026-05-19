@@ -70,6 +70,9 @@ while ($artifact = mysqli_fetch_assoc($artifact_result)) {
     'type' => $artifact['type'],
     'use_by' => $use_by->format('Y-m-d'),
     'days_diff' => $diff,
+    'most_recent' => $artifact['MostRecentUseOrResponse'] !== null
+      ? substr($artifact['MostRecentUseOrResponse'], 0, 10)
+      : null,
   ];
 }
 mysqli_stmt_close($stmt);
@@ -160,7 +163,12 @@ include(SHARED_PATH . '/header.php');
                 <?php } ?>
               </div>
               <p class="overdue-item-date<?php if ($overdue) echo ' overdue-past'; ?>">
+                <span class="overdue-item-date-label">Interact by</span>
                 <?php echo h($item['use_by']); ?>
+              </p>
+              <p class="overdue-item-date overdue-item-date-last">
+                <span class="overdue-item-date-label">Last interacted</span>
+                <?php echo $item['most_recent'] !== null ? h($item['most_recent']) : '—'; ?>
               </p>
               <?php if (!is_guest()) { ?>
               <div class="overdue-item-actions">

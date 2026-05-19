@@ -871,12 +871,31 @@ ul.userResults {
 .overdue-item-date {
   margin: 0;
   font-size: 0.96rem;
+  color: var(--text);
+}
+
+.overdue-item-date-last {
+  font-size: 0.92rem;
+  color: var(--text-soft);
+}
+
+.overdue-item-date-label {
+  display: inline-block;
+  margin-right: 0.45rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--text-soft);
 }
 
 .overdue-past {
   color: var(--danger);
   font-weight: 700;
+}
+
+.overdue-past .overdue-item-date-label {
+  color: var(--danger);
 }
 
 .overdue-item-actions {
