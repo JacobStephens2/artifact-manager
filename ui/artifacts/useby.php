@@ -58,6 +58,7 @@
     </h1>
     <div class="page-header-actions">
       <?php if (!is_guest()) { ?><button id="send_use_email" data-userid="<?php echo $user_id; ?>">Send Interact Email</button><?php } ?>
+      <button id="toggle_view" type="button">Card view</button>
       <button id="display_filters">Show filters</button>
     </div>
   </div>
@@ -341,6 +342,33 @@
         document.querySelector('form').submit();
       }
     })
+
+    (function () {
+      var table = document.querySelector('#useBy');
+      var btn = document.querySelector('#toggle_view');
+      if (!table || !btn) return;
+
+      var stored = null;
+      try { stored = localStorage.getItem('usebyView'); } catch (e) {}
+      var initial = stored || (window.innerWidth <= 750 ? 'cards' : 'table');
+      applyView(initial);
+
+      btn.addEventListener('click', function () {
+        var next = table.classList.contains('cards-view') ? 'table' : 'cards';
+        try { localStorage.setItem('usebyView', next); } catch (e) {}
+        applyView(next);
+      });
+
+      function applyView(view) {
+        if (view === 'cards') {
+          table.classList.add('cards-view');
+          btn.textContent = 'Table view';
+        } else {
+          table.classList.remove('cards-view');
+          btn.textContent = 'Card view';
+        }
+      }
+    })();
   </script>
 
   <a href="https://www.flaticon.com/free-icons/copy" title="copy icons">Copy icons created by Anggara - Flaticon</a>
