@@ -3,6 +3,7 @@
   require_once('private/initialize.php');
   require_once('../private/rate_limiter.php');
   require_once('../private/app_logger.php');
+  require_once('../private/query_functions.php');
   header('Content-Type: application/json');
 
   $logger = new AppLogger();
