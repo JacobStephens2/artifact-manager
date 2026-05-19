@@ -289,7 +289,10 @@
           </td>
 
           <td class="mostRecentUse date hideOnPrint" data-label="Last interacted">
-            <?php echo h(substr($artifact['MostRecentUseOrResponse'],0,10)); ?>
+            <?php
+              $mostRecent = substr($artifact['MostRecentUseOrResponse'] ?? '', 0, 10);
+              echo $mostRecent !== '' ? h($mostRecent) : '—';
+            ?>
           </td>
 
           <td class="acquisitionDate" data-label="Tracking start"><?php echo h($artifact['Acq']); ?></td>

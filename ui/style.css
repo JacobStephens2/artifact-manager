@@ -1383,8 +1383,9 @@ table#useBy.cards-view tbody tr {
     "name    name"
     "type    type"
     "date    date"
+    "last    last"
     "record  getrid";
-  row-gap: 0.65rem;
+  row-gap: 0.55rem;
   column-gap: 0.75rem;
   padding: 1.1rem 1.2rem;
   border-radius: var(--radius-md);
@@ -1404,7 +1405,6 @@ table#useBy.cards-view tbody td {
 }
 
 table#useBy.cards-view tbody td.overdue,
-table#useBy.cards-view tbody td.mostRecentUse,
 table#useBy.cards-view tbody td.acquisitionDate,
 table#useBy.cards-view tbody td.interval,
 table#useBy.cards-view tbody td.SwS,
@@ -1453,12 +1453,34 @@ table#useBy.cards-view tbody td.type {
 table#useBy.cards-view tbody td.useByDate {
   grid-area: date;
   font-size: 0.96rem;
-  color: var(--text-soft);
+  color: var(--text);
 }
 
 table#useBy.cards-view tbody td.useByDate.overdue-past {
   color: var(--danger);
   font-weight: 700;
+}
+
+table#useBy.cards-view tbody td.mostRecentUse {
+  grid-area: last;
+  font-size: 0.92rem;
+  color: var(--text-soft);
+}
+
+table#useBy.cards-view tbody td.useByDate::before,
+table#useBy.cards-view tbody td.mostRecentUse::before {
+  content: attr(data-label);
+  display: inline-block;
+  margin-right: 0.45rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+table#useBy.cards-view tbody td.useByDate.overdue-past::before {
+  color: var(--danger);
 }
 
 table#useBy.cards-view tbody td.record {
