@@ -1290,6 +1290,24 @@ p.copied_message {
     box-sizing: border-box;
   }
 
+  .overdue-card {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .overdue-card > .section-label,
+  .overdue-card > .menu-card-title,
+  .overdue-card > .menu-link {
+    padding-left: 1.1rem;
+    padding-right: 1.1rem;
+  }
+
+  .overdue-list {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
 }
 
 .view-toggle {
