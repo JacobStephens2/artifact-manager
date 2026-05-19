@@ -157,7 +157,7 @@
         }
         ?>
         <tr>
-          <td class="name artifact edit">
+          <td class="name artifact edit" data-label="Name">
             <div>
               <a id="artifact_id_<?php echo $id; ?>"
                 class="action edit"
@@ -209,10 +209,10 @@
               }
           ?>
 
-          <td class="useByDate date"><?php print_r($useByDate->format('Y-m-d')); ?></td>
+          <td class="useByDate date" data-label="Interact by"><?php print_r($useByDate->format('Y-m-d')); ?></td>
 
             <?php if (!is_guest()) { ?>
-            <td class="record">
+            <td class="record" data-label="Record">
               <a href="/uses/1-n-new?artifact_id=<?php echo $id; ?>"
                 target="_blank"
                 >
@@ -221,12 +221,12 @@
             </td>
             <?php } ?>
 
-          <td class="type"><?php echo h($artifact['type']); ?></td>
+          <td class="type" data-label="Type"><?php echo h($artifact['type']); ?></td>
 
           <?php
           if ($showAttributes === 'yes') {
             ?>
-            <td class="SwS">
+            <td class="SwS" data-label="SwS">
               <?php
                 // find the first number without leading zeros
                 preg_match(
@@ -238,13 +238,13 @@
               ?>
             </td>
 
-            <td class="AvgT"><?php echo (h($artifact['mnt']) + h($artifact['mxt'])) / 2; ?></td>
-            <td class="Age"><?php echo h($artifact['age']); ?></td>
-            <td class="SwSs"><?php echo h($artifact['ss']); ?></td>
-            <td class="MnP" ><?php echo h($artifact['mnp']); ?></td>
-            <td class="MxP"><?php echo h($artifact['mxp']); ?></td>
+            <td class="AvgT" data-label="AvgT"><?php echo (h($artifact['mnt']) + h($artifact['mxt'])) / 2; ?></td>
+            <td class="Age" data-label="Age"><?php echo h($artifact['age']); ?></td>
+            <td class="SwSs" data-label="SwS's"><?php echo h($artifact['ss']); ?></td>
+            <td class="MnP" data-label="MnP"><?php echo h($artifact['mnp']); ?></td>
+            <td class="MxP" data-label="MxP"><?php echo h($artifact['mxp']); ?></td>
 
-            <td class="candidate">
+            <td class="candidate" data-label="Candidate">
               <?php
               if ( strlen($artifact['Candidate']) > 0 ) {
                 echo 'Yes';
@@ -256,7 +256,7 @@
           ?>
 
           <?php if (!is_guest()) { ?>
-          <td class="get-rid-of hideOnPrint">
+          <td class="get-rid-of hideOnPrint" data-label="Get Rid Of">
             <form method="post" action="<?php echo url_for('/artifacts/mark-get-rid-of.php'); ?>" style="display:inline; margin:0;">
               <?php echo csrf_input(); ?>
               <input type="hidden" name="artifact_id" value="<?php echo $id; ?>">
@@ -267,7 +267,7 @@
           </td>
           <?php } ?>
 
-          <td class="overdue"
+          <td class="overdue" data-label="Overdue"
             <?php
                 if ($useByDate < $DateTimeNow) {
                   echo 'style="color: red;"';
@@ -284,12 +284,12 @@
               ?>
           </td>
 
-          <td class="mostRecentUse date hideOnPrint">
+          <td class="mostRecentUse date hideOnPrint" data-label="Last interacted">
             <?php echo h(substr($artifact['MostRecentUseOrResponse'],0,10)); ?>
           </td>
 
-          <td class="acquisitionDate"><?php echo h($artifact['Acq']); ?></td>
-          <td class="interval"><?php echo $this_interval; ?></td>
+          <td class="acquisitionDate" data-label="Tracking start"><?php echo h($artifact['Acq']); ?></td>
+          <td class="interval" data-label="Interval"><?php echo $this_interval; ?></td>
         </tr>
       <?php } ?>
     </tbody>
