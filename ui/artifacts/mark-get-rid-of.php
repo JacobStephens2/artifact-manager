@@ -2,14 +2,10 @@
   require_once('../../private/initialize.php');
   require_login();
 
-  if (!is_post_request()) {
-    redirect_to(url_for('/artifacts/useby.php'));
-  }
-
-  $artifact_id = $_POST['artifact_id'] ?? null;
-  $value = isset($_POST['value']) ? (int) $_POST['value'] : 1;
-  $return_to = $_POST['return_to'] ?? 'useby';
-  $artifact_name = $_POST['artifact_name'] ?? 'Artifact';
+  $artifact_id = $_REQUEST['artifact_id'] ?? null;
+  $value = isset($_REQUEST['value']) ? (int) $_REQUEST['value'] : 1;
+  $return_to = $_REQUEST['return_to'] ?? 'useby';
+  $artifact_name = $_REQUEST['artifact_name'] ?? 'Artifact';
 
   if ($artifact_id === null) {
     $_SESSION['message'] = 'No artifact specified.';

@@ -827,11 +827,13 @@ function email_artifact_use_notice($user_id) {
                   $use_by_date = $overdue['use_by_date'];
                   $id = $overdue['artifact_id'];
                   $interval = $overdue['interval'];
+                  $get_rid_of_url = 'https://' . DOMAIN . '/artifacts/mark-get-rid-of.php?artifact_id=' . $id . '&artifact_name=' . urlencode($name) . '&return_to=useby';
                   if ($most_recent_use === 'No interactions') {
                       $body .= "
                           <li>
                               <a href='https://" . DOMAIN . "/artifacts/edit.php?id=$id'>$name</a>:
                               <a href='https://" . DOMAIN . "/uses/1-n-new?artifact_id=$id'>Record Interaction</a>
+                              | <a href='$get_rid_of_url'>Get Rid Of</a>
                               $most_recent_use, interact by $use_by_date (" . date('l', strtotime($use_by_date)) . ", interval: $interval days)
                           </li>
                       ";
@@ -840,6 +842,7 @@ function email_artifact_use_notice($user_id) {
                           <li>
                               <a href='https://" . DOMAIN . "/artifacts/edit.php?id=$id'>$name</a>:
                               <a href='https://" . DOMAIN . "/uses/1-n-new?artifact_id=$id'>Record Interaction</a>
+                              | <a href='$get_rid_of_url'>Get Rid Of</a>
                               last interacted $most_recent_use, interact by $use_by_date (" . date('l', strtotime($use_by_date)) . " interval: $interval days)
                           </li>
                       ";
