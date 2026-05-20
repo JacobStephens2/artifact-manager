@@ -5,12 +5,14 @@
   $artifact_id = $_REQUEST['artifact_id'] ?? null;
   $value = isset($_REQUEST['value']) ? (int) $_REQUEST['value'] : 1;
   $return_to = $_REQUEST['return_to'] ?? 'useby';
-  $artifact_name = $_REQUEST['artifact_name'] ?? 'Artifact';
 
   if ($artifact_id === null) {
     $_SESSION['message'] = 'No artifact specified.';
     redirect_to(url_for('/artifacts/useby.php'));
   }
+
+  $artifact_record = find_artifact_by_id($artifact_id);
+  $artifact_name = $artifact_record['Title'] ?? ($_REQUEST['artifact_name'] ?? 'Artifact');
 
   $result = set_artifact_to_get_rid_of($artifact_id, $value);
 
