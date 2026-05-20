@@ -38,10 +38,19 @@
       )
     */
 
+    $is_ajax = strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest';
+
     if ($_POST['artifact']['name'] == '') {
-      
+
+      if ($is_ajax) {
+        header('Content-Type: application/json');
+        http_response_code(400);
+        echo json_encode(['ok' => false, 'message' => 'Please choose an artifact.']);
+        exit;
+      }
+
       $_SESSION['message'] = "Please choose an artifact.";
-      
+
       redirect_to(url_for('/uses/' . $formProcessingFile));
 
     } else {
@@ -56,11 +65,32 @@
         } else {
           $user_count_word = 'people';
         }
-        $_SESSION['message'] = "The interaction with " . $_POST['artifact']['name'] 
-          . " with $user_count $user_count_word was recorded."
-        ;
+        $message = "The interaction with " . $_POST['artifact']['name']
+          . " with $user_count $user_count_word was recorded.";
+
+        if ($is_ajax) {
+          $status = compute_artifact_use_by_status((int) $_POST['artifact']['id'], (int) $_SESSION['user_id']);
+          header('Content-Type: application/json');
+          echo json_encode([
+            'ok' => true,
+            'message' => $message,
+            'artifact_id' => (int) $_POST['artifact']['id'],
+            'new_use_by_date' => $status['use_by_date'],
+            'most_recent_use_date' => $status['most_recent_use_date'],
+            'is_overdue' => $status['is_overdue'],
+          ]);
+          exit;
+        }
+
+        $_SESSION['message'] = $message;
         redirect_to(url_for('/uses/' . $formProcessingFile));
       } else {
+        if ($is_ajax) {
+          header('Content-Type: application/json');
+          http_response_code(500);
+          echo json_encode(['ok' => false, 'message' => 'Failed to record interaction.']);
+          exit;
+        }
         $errors = $insertResult;
       }
     }

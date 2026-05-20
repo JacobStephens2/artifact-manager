@@ -9,7 +9,7 @@
   include(SHARED_PATH . '/dataTable.html'); 
 ?>
 <script defer src="/shared/filter_button.js"></script>
-<script defer src="useby.js?v=5"></script>
+<script defer src="useby.js?v=6"></script>
 
 <?php // process form submission and initialize variables
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -120,6 +120,44 @@
 
   <p class="copied_message" style="display: none"></p>
   <div id="useby-toast" class="toast" role="status" aria-live="polite"></div>
+
+  <?php if (!is_guest()) { ?>
+  <?php
+    $modal_default_setting = singleValueQuery(
+      "SELECT note FROM uses WHERE user_id = '" . (int) $_SESSION['user_id'] . "' ORDER BY id DESC LIMIT 1"
+    );
+  ?>
+  <div id="record-modal" class="modal" hidden aria-hidden="true">
+    <div class="modal-backdrop" data-modal-close></div>
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="record-modal-title">
+      <button type="button" class="modal-close" data-modal-close aria-label="Close">&times;</button>
+      <h2 id="record-modal-title" class="modal-title">Record interaction</h2>
+      <p id="record-modal-artifact" class="modal-subtitle"></p>
+      <form id="record-modal-form" method="post" action="<?php echo url_for('/uses/1-n-new.php'); ?>">
+        <?php echo csrf_input(); ?>
+        <input type="hidden" name="artifact[id]" id="record-modal-artifact-id">
+        <input type="hidden" name="artifact[name]" id="record-modal-artifact-name">
+        <input type="hidden" name="user[0][id]" value="<?php echo h($_SESSION['player_id'] ?? ''); ?>">
+        <input type="hidden" name="user[0][name]" value="<?php echo h($_SESSION['FullName'] ?? ''); ?>">
+
+        <label for="record-modal-date">Date</label>
+        <input type="date" name="useDate" id="record-modal-date" required>
+
+        <label for="record-modal-setting">Setting</label>
+        <input type="text" name="Note" id="record-modal-setting" value="<?php echo h($modal_default_setting ?? ''); ?>">
+
+        <label for="record-modal-notes">Notes</label>
+        <textarea name="NotesTwo" id="record-modal-notes" rows="3"></textarea>
+
+        <div class="modal-actions">
+          <a class="modal-link" id="record-modal-fullform-link" href="#" target="_blank">Open full form</a>
+          <button type="button" class="modal-cancel" data-modal-close>Cancel</button>
+          <button type="submit" class="modal-save">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <?php } ?>
 
   <table id="useBy" class="list" data-page-length='100'>
     <thead>
@@ -367,6 +405,133 @@
       }
 
       var overdueSpan = document.querySelector('span#totalOverdue');
+
+      var recordModal = document.getElementById('record-modal');
+      var recordForm = document.getElementById('record-modal-form');
+      var modalArtifactInput = document.getElementById('record-modal-artifact-id');
+      var modalArtifactNameInput = document.getElementById('record-modal-artifact-name');
+      var modalArtifactDisplay = document.getElementById('record-modal-artifact');
+      var modalDateInput = document.getElementById('record-modal-date');
+      var modalSettingInput = document.getElementById('record-modal-setting');
+      var modalNotesInput = document.getElementById('record-modal-notes');
+      var modalSaveBtn = recordForm ? recordForm.querySelector('.modal-save') : null;
+      var modalFullFormLink = document.getElementById('record-modal-fullform-link');
+      var currentRecordRow = null;
+
+      function todayLocal() {
+        var d = new Date();
+        return d.getFullYear() + '-'
+          + String(d.getMonth() + 1).padStart(2, '0') + '-'
+          + String(d.getDate()).padStart(2, '0');
+      }
+
+      function openRecordModal(artifactId, artifactName, tr) {
+        if (!recordModal) return;
+        currentRecordRow = tr;
+        modalArtifactInput.value = artifactId;
+        modalArtifactNameInput.value = artifactName;
+        modalArtifactDisplay.textContent = artifactName;
+        modalDateInput.value = todayLocal();
+        modalNotesInput.value = '';
+        if (modalSaveBtn) { modalSaveBtn.disabled = false; modalSaveBtn.textContent = 'Save'; }
+        if (modalFullFormLink) {
+          modalFullFormLink.href = '/uses/1-n-new.php?artifact_id=' + encodeURIComponent(artifactId);
+        }
+        recordModal.hidden = false;
+        recordModal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+        window.setTimeout(function () { modalDateInput.focus(); }, 30);
+      }
+
+      function closeRecordModal() {
+        if (!recordModal) return;
+        recordModal.hidden = true;
+        recordModal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+        currentRecordRow = null;
+      }
+
+      if (recordModal) {
+        recordModal.querySelectorAll('[data-modal-close]').forEach(function (el) {
+          el.addEventListener('click', closeRecordModal);
+        });
+        document.addEventListener('keydown', function (event) {
+          if (event.key === 'Escape' && !recordModal.hidden) closeRecordModal();
+        });
+      }
+
+      document.querySelectorAll('table#useBy td.record a').forEach(function (link) {
+        link.addEventListener('click', function (event) {
+          if (!recordModal) return;
+          event.preventDefault();
+          var tr = link.closest('tr');
+          var idMatch = (link.getAttribute('href') || '').match(/artifact_id=(\d+)/);
+          var artifactId = idMatch ? idMatch[1] : null;
+          var titleAnchor = tr ? tr.querySelector('td.name a') : null;
+          var artifactName = titleAnchor ? titleAnchor.textContent.trim() : '';
+          if (!artifactId) return;
+          openRecordModal(artifactId, artifactName, tr);
+        });
+      });
+
+      if (recordForm) {
+        recordForm.addEventListener('submit', function (event) {
+          event.preventDefault();
+          if (modalSaveBtn) { modalSaveBtn.disabled = true; modalSaveBtn.textContent = 'Saving…'; }
+          fetch(recordForm.action, {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' },
+            body: new FormData(recordForm),
+          })
+            .then(function (response) {
+              return response.json().then(function (data) { return { ok: response.ok, data: data }; });
+            })
+            .then(function (result) {
+              if (result.ok && result.data && result.data.ok) {
+                handleRecordSuccess(result.data, currentRecordRow);
+                closeRecordModal();
+                showToast(result.data.message || 'Interaction recorded.', 'success');
+              } else {
+                var msg = (result.data && result.data.message) || ('Request failed (HTTP ' + (result.ok ? 'OK' : 'error') + ')');
+                showToast(msg, 'error');
+                if (modalSaveBtn) { modalSaveBtn.disabled = false; modalSaveBtn.textContent = 'Save'; }
+              }
+            })
+            .catch(function (error) {
+              showToast('Network error: ' + error.message, 'error');
+              if (modalSaveBtn) { modalSaveBtn.disabled = false; modalSaveBtn.textContent = 'Save'; }
+            });
+        });
+      }
+
+      function handleRecordSuccess(data, tr) {
+        if (!tr) return;
+        var wasOverdue = false;
+        var overdueCell = tr.querySelector('td.overdue');
+        if (overdueCell) wasOverdue = overdueCell.textContent.trim() === 'Yes';
+
+        if (!data.is_overdue) {
+          if (typeof table !== 'undefined' && table) {
+            table.row(tr).remove().draw(false);
+          } else {
+            tr.remove();
+          }
+          if (wasOverdue) {
+            var overdueSpan = document.querySelector('span#totalOverdue');
+            if (overdueSpan) {
+              var n = parseInt(overdueSpan.textContent, 10);
+              if (!isNaN(n) && n > 0) overdueSpan.textContent = (n - 1);
+            }
+          }
+          return;
+        }
+
+        var useByCell = tr.querySelector('td.useByDate');
+        if (useByCell && data.new_use_by_date) useByCell.textContent = data.new_use_by_date;
+        var recentCell = tr.querySelector('td.mostRecentUse');
+        if (recentCell) recentCell.textContent = data.most_recent_use_date || '—';
+      }
 
       document.querySelectorAll('table#useBy td.get-rid-of form').forEach(function (form) {
         form.addEventListener('submit', function (event) {

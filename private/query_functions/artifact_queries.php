@@ -4,6 +4,75 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
+  function compute_artifact_use_by_status($artifact_id, $user_id) {
+    global $db;
+    $stmt = mysqli_prepare(
+      $db,
+      "SELECT
+        games.Acq,
+        games.interaction_frequency_days,
+        (SELECT MAX(uses.use_date) FROM uses WHERE uses.artifact_id = games.id) AS most_recent_use,
+        (SELECT MAX(responses.PlayDate) FROM responses WHERE responses.Title = games.id) AS most_recent_response
+      FROM games
+      WHERE games.id = ? AND games.user_id = ?
+      LIMIT 1"
+    );
+    mysqli_stmt_bind_param($stmt, "ii", $artifact_id, $user_id);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($result);
+    mysqli_stmt_close($stmt);
+
+    if (!$row) {
+      return ['use_by_date' => null, 'most_recent_use_date' => null, 'is_overdue' => false];
+    }
+
+    $interval_stmt = mysqli_prepare($db, "SELECT default_use_interval FROM users WHERE id = ?");
+    mysqli_stmt_bind_param($interval_stmt, "i", $user_id);
+    mysqli_stmt_execute($interval_stmt);
+    $interval_row = mysqli_fetch_assoc(mysqli_stmt_get_result($interval_stmt));
+    mysqli_stmt_close($interval_stmt);
+    $default_interval = (float) ($interval_row['default_use_interval'] ?? (defined('DEFAULT_USE_INTERVAL') ? DEFAULT_USE_INTERVAL : 90));
+
+    $this_interval = $row['interaction_frequency_days'] !== null
+      ? (float) $row['interaction_frequency_days']
+      : $default_interval;
+
+    $most_recent_raw = null;
+    if ($row['most_recent_use'] !== null && $row['most_recent_response'] !== null) {
+      $most_recent_raw = strtotime($row['most_recent_use']) >= strtotime($row['most_recent_response'])
+        ? $row['most_recent_use'] : $row['most_recent_response'];
+    } else {
+      $most_recent_raw = $row['most_recent_use'] ?? $row['most_recent_response'];
+    }
+    $most_recent_date = $most_recent_raw !== null ? substr($most_recent_raw, 0, 10) : null;
+
+    date_default_timezone_set('America/New_York');
+    $acq = new DateTime(substr($row['Acq'], 0, 10));
+    $now = new DateTime(date('Y-m-d'));
+
+    if ($most_recent_date === null) {
+      $base = clone $acq;
+      $hours = (int) ($this_interval * 24);
+    } else {
+      $recent = new DateTime($most_recent_date);
+      if ($recent < $acq) {
+        $base = clone $acq;
+        $hours = (int) ($this_interval * 24);
+      } else {
+        $base = clone $recent;
+        $hours = (int) ($this_interval * 2 * 24);
+      }
+    }
+    $use_by = $base->add(DateInterval::createFromDateString("$hours hours"));
+
+    return [
+      'use_by_date' => $use_by->format('Y-m-d'),
+      'most_recent_use_date' => $most_recent_date,
+      'is_overdue' => $use_by < $now,
+    ];
+  }
+
   function set_artifact_to_get_rid_of($artifact_id, $value) {
     global $db;
     $user_id = (int) $_SESSION['user_id'];

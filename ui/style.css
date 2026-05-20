@@ -1053,6 +1053,116 @@ p.copied_message {
   border: 2px solid #7a1d12;
 }
 
+.modal[hidden] { display: none; }
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 22, 38, 0.55);
+}
+
+.modal-panel {
+  position: relative;
+  z-index: 1;
+  background: #ffffff;
+  color: var(--text);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 24px 56px rgba(10, 16, 32, 0.45);
+  padding: 1.5rem 1.5rem 1.25rem;
+  width: min(34rem, calc(100vw - 2rem));
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+}
+
+.modal-title {
+  margin: 0 0 0.25rem;
+  font-size: 1.35rem;
+  color: var(--primary);
+}
+
+.modal-subtitle {
+  margin: 0 0 1rem;
+  color: var(--text-soft);
+  font-size: 0.95rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.55rem;
+  background: transparent;
+  border: none;
+  font-size: 1.7rem;
+  color: var(--text-soft);
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.25rem 0.55rem;
+  min-height: 0;
+}
+
+.modal-close:hover { color: var(--text); }
+
+.modal-panel label {
+  display: block;
+  margin-top: 0.75rem;
+  margin-bottom: 0.3rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+.modal-panel input[type="date"],
+.modal-panel input[type="text"],
+.modal-panel textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: 1.1rem;
+  flex-wrap: wrap;
+}
+
+.modal-actions .modal-link {
+  margin-right: auto;
+  font-size: 0.85rem;
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.modal-cancel {
+  background: transparent;
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px rgba(80, 95, 118, 0.25);
+}
+
+.modal-save {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
 .white-space {
   height: 300px;
 }
