@@ -9,7 +9,7 @@
   include(SHARED_PATH . '/dataTable.html'); 
 ?>
 <script defer src="/shared/filter_button.js"></script>
-<script defer src="useby.js?v=6"></script>
+<script defer src="useby.js?v=7"></script>
 
 <?php // process form submission and initialize variables
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -299,13 +299,21 @@
           ?>
 
           <?php if (!is_guest()) { ?>
-          <td class="get-rid-of hideOnPrint" data-label="Get Rid Of">
-            <form method="post" action="<?php echo url_for('/artifacts/mark-get-rid-of.php'); ?>" style="display:inline; margin:0;">
+          <td class="get-rid-of hideOnPrint" data-label="Actions">
+            <form method="post" action="<?php echo url_for('/artifacts/mark-get-rid-of.php'); ?>" class="get-rid-of-form" style="margin:0;">
               <?php echo csrf_input(); ?>
               <input type="hidden" name="artifact_id" value="<?php echo $id; ?>">
               <input type="hidden" name="artifact_name" value="<?php echo h($artifact['Title']); ?>">
               <input type="hidden" name="return_to" value="useby">
               <button type="submit" class="get-rid-of-btn">Get Rid Of</button>
+            </form>
+            <form method="post" action="<?php echo url_for('/artifacts/set-tracked.php'); ?>" class="untrack-form" style="margin:0;">
+              <?php echo csrf_input(); ?>
+              <input type="hidden" name="artifact_id" value="<?php echo $id; ?>">
+              <input type="hidden" name="artifact_name" value="<?php echo h($artifact['Title']); ?>">
+              <input type="hidden" name="value" value="0">
+              <input type="hidden" name="return_to" value="useby">
+              <button type="submit" class="untrack-btn">Remove</button>
             </form>
           </td>
           <?php } ?>
@@ -533,15 +541,16 @@
         if (recentCell) recentCell.textContent = data.most_recent_use_date || '—';
       }
 
-      document.querySelectorAll('table#useBy td.get-rid-of form').forEach(function (form) {
+      function wireRowRemovalForm(form, options) {
         form.addEventListener('submit', function (event) {
           event.preventDefault();
           var btn = form.querySelector('button');
+          var originalLabel = btn ? btn.textContent : '';
           var tr = form.closest('tr');
           var wasOverdue = tr && tr.querySelector('td.overdue')
             && tr.querySelector('td.overdue').textContent.trim() === 'Yes';
 
-          if (btn) { btn.disabled = true; btn.textContent = 'Removing…'; }
+          if (btn) { btn.disabled = true; btn.textContent = options.pendingLabel || 'Removing…'; }
           fetch(form.action, {
             method: 'POST',
             credentials: 'include',
@@ -564,18 +573,26 @@
                   var n = parseInt(overdueSpan.textContent, 10);
                   if (!isNaN(n) && n > 0) overdueSpan.textContent = (n - 1);
                 }
-                showToast(result.data.message || 'Marked to get rid of.', 'success');
+                showToast(result.data.message || options.successFallback, 'success');
               } else {
                 var msg = (result.data && result.data.message) || ('Request failed (HTTP ' + (result.ok ? 'OK' : 'error') + ')');
                 showToast(msg, 'error');
-                if (btn) { btn.disabled = false; btn.textContent = 'Get Rid Of'; }
+                if (btn) { btn.disabled = false; btn.textContent = originalLabel; }
               }
             })
             .catch(function (error) {
               showToast('Network error: ' + error.message, 'error');
-              if (btn) { btn.disabled = false; btn.textContent = 'Get Rid Of'; }
+              if (btn) { btn.disabled = false; btn.textContent = originalLabel; }
             });
         });
+      }
+
+      document.querySelectorAll('table#useBy td.get-rid-of form.get-rid-of-form').forEach(function (form) {
+        wireRowRemovalForm(form, { pendingLabel: 'Removing…', successFallback: 'Marked to get rid of.' });
+      });
+
+      document.querySelectorAll('table#useBy td.get-rid-of form.untrack-form').forEach(function (form) {
+        wireRowRemovalForm(form, { pendingLabel: 'Removing…', successFallback: 'Removed from tracked collection.' });
       });
     })();
 

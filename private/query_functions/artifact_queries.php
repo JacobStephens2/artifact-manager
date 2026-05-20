@@ -85,6 +85,18 @@ use PHPMailer\PHPMailer\Exception;
     return $result;
   }
 
+  function set_artifact_tracked($artifact_id, $value) {
+    global $db;
+    $user_id = (int) $_SESSION['user_id'];
+    $artifact_id = (int) $artifact_id;
+    $value = (int) $value;
+    $stmt = mysqli_prepare($db, "UPDATE games SET KeptCol = ? WHERE id = ? AND user_id = ? LIMIT 1");
+    mysqli_stmt_bind_param($stmt, "iii", $value, $artifact_id, $user_id);
+    $result = mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    return $result;
+  }
+
   function find_artifacts_to_get_rid_of() {
     global $db;
     $user_id = (int) $_SESSION['user_id'];
