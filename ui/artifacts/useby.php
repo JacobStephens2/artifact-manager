@@ -218,7 +218,6 @@
                 href="<?php echo url_for('/artifacts/' . (is_guest() ? 'show' : 'edit') . '.php?id=' . $id); ?>"
                 ><?php echo h($artifact['Title']);
               ?></a>
-              </a>
               <img class="clipboard"
                 id="artifact_id_copy_<?php echo $id; ?>"
                 src="/assets/copy.png"
