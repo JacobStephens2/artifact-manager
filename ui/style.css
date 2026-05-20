@@ -691,7 +691,7 @@ section.actions {
 .object.edit,
 .objects.listing,
 main > form,
-main > div:not(#dataTableImports):not(.guest-banner):not(#message):not(.errors) {
+main > div:not(#dataTableImports):not(.guest-banner):not(#message):not(.errors):not(.toast) {
   background: rgba(247, 249, 251, 0.82);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
@@ -762,7 +762,7 @@ main > div:not(#dataTableImports):not(.guest-banner):not(#message):not(.errors) 
 .object.edit,
 .object.new,
 main > form,
-main > div:not(#dataTableImports):not(.guest-banner):not(#message):not(.errors) {
+main > div:not(#dataTableImports):not(.guest-banner):not(#message):not(.errors):not(.toast) {
   padding: 1.5rem;
 }
 
