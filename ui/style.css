@@ -1628,14 +1628,24 @@ table#useBy.cards-view tbody td.name {
 }
 
 table#useBy.cards-view tbody td.name > div {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
   min-width: 0;
 }
 
 table#useBy.cards-view tbody td.name a.action.edit {
+  flex: 1 1 auto;
+  min-width: 0;
   font-size: 1rem;
   font-weight: 700;
   color: var(--primary);
   overflow-wrap: anywhere;
+}
+
+table#useBy.cards-view tbody td.name .clipboard {
+  flex: 0 0 auto;
+  margin-top: 0.25rem;
 }
 
 table#useBy.cards-view tbody td.type {
