@@ -1596,7 +1596,6 @@ table#useBy.cards-view tbody td {
 
 table#useBy.cards-view tbody td.overdue,
 table#useBy.cards-view tbody td.acquisitionDate,
-table#useBy.cards-view tbody td.interval,
 table#useBy.cards-view tbody td.SwS,
 table#useBy.cards-view tbody td.AvgT,
 table#useBy.cards-view tbody td.Age,
@@ -1605,6 +1604,23 @@ table#useBy.cards-view tbody td.MnP,
 table#useBy.cards-view tbody td.MxP,
 table#useBy.cards-view tbody td.candidate {
   display: none;
+}
+
+table#useBy.cards-view tbody td.interval {
+  grid-column: 1 / -1;
+  font-size: 0.92rem;
+  color: var(--text-soft);
+}
+
+table#useBy.cards-view tbody td.interval::before {
+  content: 'Interval';
+  display: inline-block;
+  margin-right: 0.45rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-soft);
 }
 
 table#useBy.cards-view tbody td.name {

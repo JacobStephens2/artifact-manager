@@ -34,6 +34,7 @@
   $minimumAge = $_POST['minimumAge'] ?? 0;
   $shelfSort = $_POST['shelfSort'] ?? 'no';
   $showAttributes = $_POST['showAttributes'] ?? 'no';
+  $showInterval = $_POST['showInterval'] ?? 'no';
   $typeArray = $_SESSION['type'] ?? [];
   $default_use_interval = singleValueQuery("SELECT default_use_interval
     FROM users
@@ -97,8 +98,18 @@
       <label for="showAttributes">Show artifact attributes</label>
       <input type="hidden" name="showAttributes" value="no">
       <input type="checkbox" name="showAttributes" id="showAttributes" value="yes"
-        <?php 
+        <?php
           if ($showAttributes === 'yes') {
+            echo ' checked ';
+          }
+        ?>
+      >
+
+      <label for="showInterval">Show interval column</label>
+      <input type="hidden" name="showInterval" value="no">
+      <input type="checkbox" name="showInterval" id="showInterval" value="yes"
+        <?php
+          if ($showInterval === 'yes') {
             echo ' checked ';
           }
         ?>
@@ -186,7 +197,7 @@
         <th>Overdue (<span id="totalOverdue"></span>)</th>
         <th class="hideOnPrint">Recent Interaction</th>
         <th>Tracking Start</th>
-        <th>Interval</th>
+        <?php if ($showInterval === 'yes') { ?><th>Interval</th><?php } ?>
       </tr>
     </thead>
 
@@ -343,7 +354,9 @@
           </td>
 
           <td class="acquisitionDate" data-label="Tracking start"><?php echo h($artifact['Acq']); ?></td>
+          <?php if ($showInterval === 'yes') { ?>
           <td class="interval" data-label="Interval"><?php echo $this_interval; ?></td>
+          <?php } ?>
         </tr>
       <?php } ?>
     </tbody>
