@@ -364,37 +364,63 @@
   <?php mysqli_free_result($artifact_set); ?>
   <script>
     document.querySelector('span#totalOverdue').innerText = '<?php echo $total_overdue; ?>';
+    <?php
+      // Compute column indices based on which columns are actually rendered
+      // so the DataTable order config does not reference missing columns
+      // (e.g. Record / Get Rid Of are hidden in guest mode, Interval is
+      // hidden unless its filter is on).
+      $colIdx = [];
+      $col = 0;
+      $colIdx['name'] = $col++;
+      $colIdx['interactBy'] = $col++;
+      if (!is_guest()) { $colIdx['record'] = $col++; }
+      $colIdx['type'] = $col++;
+      if ($showAttributes === 'yes') {
+        $colIdx['sws'] = $col++;
+        $colIdx['avgt'] = $col++;
+        $colIdx['age'] = $col++;
+        $colIdx['swss'] = $col++;
+        $colIdx['mnp'] = $col++;
+        $colIdx['mxp'] = $col++;
+        $colIdx['candidate'] = $col++;
+      }
+      if (!is_guest()) { $colIdx['getRidOf'] = $col++; }
+      $colIdx['overdue'] = $col++;
+      $colIdx['recentUse'] = $col++;
+      $colIdx['acq'] = $col++;
+      if ($showInterval === 'yes') { $colIdx['interval'] = $col++; }
+    ?>
     let table = new DataTable('#useBy', {
       // options
       <?php
-        if ($shelfSort === 'yes') {
+        if ($shelfSort === 'yes' && $showAttributes === 'yes') {
           ?>
           order: [
-            [ 3, 'asc'], // Type
-            [ 4, 'asc'], // SwS
-            [ 5, 'asc'], // AvgT
-            [ 6, 'asc'], // Age
-            [ 7, 'asc'], // SwS's
-            [ 8, 'asc'], // MnP
-            [ 9, 'asc'], // MxP
-            [ 13, 'desc'], // recent use
-            [ 10, 'desc'], // C
+            [ <?php echo $colIdx['type']; ?>, 'asc'],
+            [ <?php echo $colIdx['sws']; ?>, 'asc'],
+            [ <?php echo $colIdx['avgt']; ?>, 'asc'],
+            [ <?php echo $colIdx['age']; ?>, 'asc'],
+            [ <?php echo $colIdx['swss']; ?>, 'asc'],
+            [ <?php echo $colIdx['mnp']; ?>, 'asc'],
+            [ <?php echo $colIdx['mxp']; ?>, 'asc'],
+            [ <?php echo $colIdx['recentUse']; ?>, 'desc'],
+            [ <?php echo $colIdx['candidate']; ?>, 'desc'],
           ]
           <?php
         } elseif ($showAttributes === 'yes') {
           ?>
           order: [
-            [ 1, 'asc'],  // interact by date
-            [ 5, 'asc'],  // AvgT
-            [ 6, 'asc'],  // Age
+            [ <?php echo $colIdx['interactBy']; ?>, 'asc'],
+            [ <?php echo $colIdx['avgt']; ?>, 'asc'],
+            [ <?php echo $colIdx['age']; ?>, 'asc'],
           ]
           <?php
         } else {
           ?>
           order: [
-            [ 1, 'asc'],  // interact by date
-            [ 6, 'asc'],  // recent use
-            [ 7, 'asc'],  // acquisition date
+            [ <?php echo $colIdx['interactBy']; ?>, 'asc'],
+            [ <?php echo $colIdx['recentUse']; ?>, 'asc'],
+            [ <?php echo $colIdx['acq']; ?>, 'asc'],
           ]
           <?php
         }
