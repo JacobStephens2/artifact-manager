@@ -5,8 +5,15 @@
   $artifact_id = $_REQUEST['artifact_id'] ?? null;
   $value = isset($_REQUEST['value']) ? (int) $_REQUEST['value'] : 1;
   $return_to = $_REQUEST['return_to'] ?? 'useby';
+  $is_ajax = strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest';
 
   if ($artifact_id === null) {
+    if ($is_ajax) {
+      header('Content-Type: application/json');
+      http_response_code(400);
+      echo json_encode(['ok' => false, 'message' => 'No artifact specified.']);
+      exit;
+    }
     $_SESSION['message'] = 'No artifact specified.';
     redirect_to(url_for('/artifacts/useby.php'));
   }
@@ -17,14 +24,26 @@
   $result = set_artifact_to_get_rid_of($artifact_id, $value);
 
   if ($result) {
-    if ($value === 1) {
-      $_SESSION['message'] = h($artifact_name) . ' marked to get rid of.';
-    } else {
-      $_SESSION['message'] = h($artifact_name) . ' restored to collection.';
-    }
+    $message = $value === 1
+      ? $artifact_name . ' marked to get rid of.'
+      : $artifact_name . ' restored to collection.';
   } else {
-    $_SESSION['message'] = 'Failed to update artifact.';
+    $message = 'Failed to update artifact.';
   }
+
+  if ($is_ajax) {
+    header('Content-Type: application/json');
+    echo json_encode([
+      'ok' => (bool) $result,
+      'value' => $value,
+      'artifact_id' => (int) $artifact_id,
+      'artifact_name' => $artifact_name,
+      'message' => $message,
+    ]);
+    exit;
+  }
+
+  $_SESSION['message'] = h($message);
 
   if ($return_to === 'to-get-rid-of') {
     redirect_to(url_for('/artifacts/to-get-rid-of.php'));

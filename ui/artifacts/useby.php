@@ -9,7 +9,7 @@
   include(SHARED_PATH . '/dataTable.html'); 
 ?>
 <script defer src="/shared/filter_button.js"></script>
-<script defer src="useby.js?v=4"></script>
+<script defer src="useby.js?v=5"></script>
 
 <?php // process form submission and initialize variables
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -119,6 +119,7 @@
   </form>
 
   <p class="copied_message" style="display: none"></p>
+  <div id="useby-toast" class="toast" role="status" aria-live="polite"></div>
 
   <table id="useBy" class="list" data-page-length='100'>
     <thead>
@@ -348,6 +349,70 @@
         document.querySelector('form').submit();
       }
     });
+
+    (function () {
+      var toastEl = document.getElementById('useby-toast');
+      var toastTimer = null;
+      function showToast(message, kind) {
+        if (!toastEl) { alert(message); return; }
+        toastEl.textContent = message;
+        toastEl.classList.remove('toast-success', 'toast-error', 'is-visible');
+        toastEl.classList.add(kind === 'error' ? 'toast-error' : 'toast-success');
+        void toastEl.offsetWidth;
+        toastEl.classList.add('is-visible');
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () {
+          toastEl.classList.remove('is-visible');
+        }, 3500);
+      }
+
+      var overdueSpan = document.querySelector('span#totalOverdue');
+
+      document.querySelectorAll('table#useBy td.get-rid-of form').forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+          var btn = form.querySelector('button');
+          var tr = form.closest('tr');
+          var wasOverdue = tr && tr.querySelector('td.overdue')
+            && tr.querySelector('td.overdue').textContent.trim() === 'Yes';
+
+          if (btn) { btn.disabled = true; btn.textContent = 'Removing…'; }
+          fetch(form.action, {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' },
+            body: new FormData(form),
+          })
+            .then(function (response) {
+              return response.json().then(function (data) {
+                return { ok: response.ok, data: data };
+              });
+            })
+            .then(function (result) {
+              if (result.ok && result.data && result.data.ok) {
+                if (typeof table !== 'undefined' && table && tr) {
+                  table.row(tr).remove().draw(false);
+                } else if (tr) {
+                  tr.remove();
+                }
+                if (wasOverdue && overdueSpan) {
+                  var n = parseInt(overdueSpan.textContent, 10);
+                  if (!isNaN(n) && n > 0) overdueSpan.textContent = (n - 1);
+                }
+                showToast(result.data.message || 'Marked to get rid of.', 'success');
+              } else {
+                var msg = (result.data && result.data.message) || ('Request failed (HTTP ' + (result.ok ? 'OK' : 'error') + ')');
+                showToast(msg, 'error');
+                if (btn) { btn.disabled = false; btn.textContent = 'Get Rid Of'; }
+              }
+            })
+            .catch(function (error) {
+              showToast('Network error: ' + error.message, 'error');
+              if (btn) { btn.disabled = false; btn.textContent = 'Get Rid Of'; }
+            });
+        });
+      });
+    })();
 
     (function () {
       var table = document.querySelector('#useBy');
