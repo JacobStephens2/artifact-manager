@@ -1021,15 +1021,16 @@ p.copied_message {
   left: 50%;
   bottom: 1.5rem;
   transform: translate(-50%, 1rem);
-  z-index: 200;
-  max-width: min(28rem, calc(100vw - 2rem));
-  padding: 0.85rem 1.1rem;
+  z-index: 9999;
+  max-width: min(32rem, calc(100vw - 2rem));
+  padding: 1rem 1.25rem;
   border-radius: 12px;
-  background: var(--surface);
-  color: var(--text);
+  background: #1a2345;
+  color: #ffffff;
   font-weight: 600;
-  font-size: 0.95rem;
-  box-shadow: 0 8px 24px rgba(20, 32, 54, 0.18);
+  font-size: 1rem;
+  line-height: 1.35;
+  box-shadow: 0 12px 28px rgba(10, 16, 32, 0.45);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.18s ease, transform 0.18s ease;
@@ -1041,13 +1042,15 @@ p.copied_message {
 }
 
 .toast.toast-success {
-  background: var(--primary);
-  color: #f4f6ff;
+  background: #1a2345;
+  color: #ffffff;
+  border: 2px solid #2f7d4f;
 }
 
 .toast.toast-error {
-  background: var(--danger);
+  background: #b63d2f;
   color: #ffffff;
+  border: 2px solid #7a1d12;
 }
 
 .white-space {
