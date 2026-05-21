@@ -19,7 +19,7 @@
     <link rel="manifest" href="<?php echo url_for('manifest.json') ?>">
     <link rel="apple-touch-icon" href="<?php echo url_for('assets/icon-192x192.png') ?>">
 
-    <link rel="stylesheet" media="all" href="../../style.css?v=20" />
+    <link rel="stylesheet" media="all" href="../../style.css?v=21" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -95,7 +95,10 @@
           <a href="<?php echo url_for('/artifacts/to-get-rid-of'); ?>">
             To&nbsp;Get&nbsp;Rid&nbsp;Of
           </a>
-        
+
+          <a href="<?php echo url_for('/analysis'); ?>">
+            Analysis
+          </a>
 
           <a href="<?php echo url_for('/users'); ?>">
             Users
@@ -123,6 +126,7 @@
           <a href="<?php echo url_for('/uses/interactions'); ?>">Interactions</a>
           <a href="<?php echo url_for('/artifacts'); ?>">Entities</a>
           <a href="<?php echo url_for('/artifacts/to-get-rid-of'); ?>">To&nbsp;Get&nbsp;Rid&nbsp;Of</a>
+          <a href="<?php echo url_for('/analysis'); ?>">Analysis</a>
           <a href="<?php echo url_for('/types'); ?>">Types</a>
           <a href="<?php echo url_for('/login.php?action=logout'); ?>">Exit&nbsp;Guest&nbsp;Mode</a>
           <?php

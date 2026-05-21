@@ -1187,6 +1187,68 @@ body.modal-open {
   overflow: hidden;
 }
 
+.analysis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 1.25rem;
+}
+
+.analysis-card .chart-wrap {
+  position: relative;
+  height: 260px;
+  margin-top: 0.75rem;
+}
+
+table.analysis-list {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+table.analysis-list th,
+table.analysis-list td {
+  padding: 0.55rem 0.65rem;
+}
+
+table.analysis-list th.num,
+table.analysis-list td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+ul.fun-facts {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  gap: 0.65rem;
+}
+
+ul.fun-facts li {
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-md);
+  background: var(--surface-lowest);
+  box-shadow: inset 0 0 0 1px rgba(80, 95, 118, 0.08);
+  font-size: 0.98rem;
+  line-height: 1.4;
+}
+
+ul.fun-facts .fact-label {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  margin-bottom: 0.25rem;
+}
+
+ul.fun-facts .fact-aside {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.85rem;
+  color: var(--text-soft);
+}
+
 .white-space {
   height: 300px;
 }
