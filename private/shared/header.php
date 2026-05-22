@@ -19,7 +19,7 @@
     <link rel="manifest" href="<?php echo url_for('manifest.json') ?>">
     <link rel="apple-touch-icon" href="<?php echo url_for('assets/icon-192x192.png') ?>">
 
-    <link rel="stylesheet" media="all" href="../../style.css?v=23" />
+    <link rel="stylesheet" media="all" href="../../style.css?v=24" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -40,7 +40,7 @@
     <header class="site-header">
       <div class="site-header-inner">
         <div class="site-brand">
-          <a class="header-link" href="/">Artifact</a>
+          <a class="header-link" href="/">Artifact Manager</a>
           <p class="site-tagline">Track what you own. Use what you keep.</p>
         </div>
 
