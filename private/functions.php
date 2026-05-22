@@ -87,9 +87,17 @@ function get_and_clear_session_message() {
 
 function display_session_message() {
   $msg = get_and_clear_session_message();
-  if(!is_blank($msg)) {
-    return '<div id="message">' . h($msg) . '</div>';
+  if (is_blank($msg)) {
+    return '';
   }
+  return '<div id="flash-toast" class="toast toast-success" role="status" aria-live="polite">'
+    . h($msg)
+    . '</div>'
+    . '<script>(function(){var t=document.getElementById("flash-toast");if(!t)return;'
+    . 'requestAnimationFrame(function(){t.classList.add("is-visible");});'
+    . 'setTimeout(function(){t.classList.remove("is-visible");setTimeout(function(){t.remove();},250);},4500);'
+    . 't.addEventListener("click",function(){t.classList.remove("is-visible");setTimeout(function(){t.remove();},250);});'
+    . '})();</script>';
 }
 
 ?>
