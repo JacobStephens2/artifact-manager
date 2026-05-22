@@ -128,6 +128,7 @@
   function notify_admin_new_user($user) {
     try {
       $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+      $mail->CharSet    = 'UTF-8';
       $mail->isSMTP();
       $mail->Host       = SMTP_HOST;
       $mail->SMTPAuth   = true;
