@@ -156,6 +156,12 @@ main {
   color: var(--text-soft);
 }
 
+@media (max-width: 750px) {
+  .site-tagline {
+    display: none;
+  }
+}
+
 .mobile-only {
   display: none;
 }
