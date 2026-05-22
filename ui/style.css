@@ -1249,6 +1249,41 @@ ul.fun-facts .fact-aside {
   color: var(--text-soft);
 }
 
+.dashboard-record-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.85rem 0 0;
+  padding: 0.85rem 1.5rem;
+  background: linear-gradient(135deg, #1a2345 0%, #30395c 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.02rem;
+  border-radius: 999px;
+  box-shadow: 0 10px 22px rgba(20, 32, 54, 0.22);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.dashboard-record-btn:hover,
+.dashboard-record-btn:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 26px rgba(20, 32, 54, 0.3);
+  color: #ffffff;
+}
+
+.dashboard-record-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
 .white-space {
   height: 300px;
 }

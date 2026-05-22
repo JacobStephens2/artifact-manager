@@ -114,6 +114,13 @@ include(SHARED_PATH . '/header.php');
           See what needs attention, check the queue, and record interactions without leaving this page.
         </p>
 
+        <?php if (!is_guest()) { ?>
+        <a class="dashboard-record-btn" href="<?php echo url_for('/uses/1-n-new.php'); ?>">
+          <span class="dashboard-record-icon" aria-hidden="true">+</span>
+          Record interaction
+        </a>
+        <?php } ?>
+
         <div class="dashboard-actions">
           <a class="prominent-link" href="<?php echo url_for('/artifacts/useby.php'); ?>">
             Review interaction queue
