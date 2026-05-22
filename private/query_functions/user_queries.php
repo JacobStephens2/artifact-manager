@@ -115,12 +115,41 @@
 
     // For INSERT statements, $result is true/false
     if($result) {
+      notify_admin_new_user($user);
       return true;
     } else {
       // INSERT failed
       echo mysqli_error($db);
       db_disconnect($db);
       exit;
+    }
+  }
+
+  function notify_admin_new_user($user) {
+    try {
+      $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+      $mail->isSMTP();
+      $mail->Host       = SMTP_HOST;
+      $mail->SMTPAuth   = true;
+      $mail->Username   = SMTP_USER;
+      $mail->Password   = SMTP_PASS;
+      $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+      $mail->Port       = SMTP_PORT;
+
+      $mail->setFrom(SMTP_FROM_EMAIL, APP_NAME);
+      $mail->addAddress('jacob@stephens.page');
+
+      $ua = substr($_SERVER['HTTP_USER_AGENT'] ?? 'unknown', 0, 1024);
+      $mail->Subject = APP_NAME . ' — New Account Created';
+      $mail->Body = "A new account was created on " . APP_NAME . ".\n\n"
+        . "Name: " . ($user['first_name'] ?? '') . " " . ($user['last_name'] ?? '') . "\n"
+        . "Username: " . ($user['username'] ?? '') . "\n"
+        . "Email: " . ($user['email'] ?? '') . "\n"
+        . "Date: " . gmdate('c') . "\n"
+        . "Device: " . $ua;
+      $mail->send();
+    } catch (\Throwable $e) {
+      error_log('Failed to send admin signup notification: ' . $e->getMessage());
     }
   }
 
