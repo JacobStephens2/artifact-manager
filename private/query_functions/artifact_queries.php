@@ -896,7 +896,35 @@ function email_artifact_use_notice($user_id) {
           $mail->Subject = "Interactions Due";
           $body = '';
 
-          if (count($overdue_array) > 0) {
+          $overdue_count = count($overdue_array);
+          $due_today_count = count($due_today_array);
+          $due_in_coming_week_count = count($due_in_coming_week);
+
+          $body .= '
+              <h2 style="margin:0 0 0.5rem;">Summary</h2>
+              <p style="margin:0 0 0.75rem;">
+                  <strong>' . $count_to_notify_about . '</strong> ' .
+                  ($count_to_notify_about === 1 ? 'item needs' : 'items need') .
+                  ' attention.
+              </p>
+              <table cellpadding="6" cellspacing="0" style="border-collapse:collapse;margin-bottom:1.25rem;">
+                <tr>
+                  <td style="font-weight:bold;color:#b63d2f;">Overdue</td>
+                  <td style="font-weight:bold;">' . $overdue_count . '</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:bold;">Due today</td>
+                  <td style="font-weight:bold;">' . $due_today_count . '</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:bold;">Due in the coming week</td>
+                  <td style="font-weight:bold;">' . $due_in_coming_week_count . '</td>
+                </tr>
+              </table>
+              <hr>
+          ';
+
+          if ($overdue_count > 0) {
               $body .= '
                   <h1>Interactions overdue</h1>
                   <ul>
