@@ -113,6 +113,12 @@ main {
   padding: 2rem 1.5rem 4rem;
 }
 
+/* Useby page uses the full viewport so table rows have room to breathe. */
+main.useby-page {
+  width: calc(100vw - 2rem);
+  max-width: none;
+}
+
 .site-header {
   position: sticky;
   top: 0;
@@ -873,6 +879,13 @@ ul.userResults {
   margin: 0.75rem 0 1rem;
   padding: 0;
   list-style: none;
+}
+
+/* Cards 6–8 only appear when the grid has room for 4 columns. */
+@media (max-width: 1199px) {
+  .overdue-list > .overdue-item-card:nth-child(n+6) {
+    display: none;
+  }
 }
 
 .overdue-item-card {

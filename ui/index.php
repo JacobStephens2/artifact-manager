@@ -79,7 +79,9 @@ mysqli_stmt_close($stmt);
 
 // Sort by use-by date ascending (most overdue first)
 usort($overdue_items, fn($a, $b) => $a['days_diff'] <=> $b['days_diff']);
-$top_overdue = array_slice($overdue_items, 0, 5);
+// Render up to 8 cards; CSS hides cards 6-8 on viewports that don't have
+// room for a 4-column grid so they only show when there's space.
+$top_overdue = array_slice($overdue_items, 0, 8);
 $tracked_count = count($overdue_items);
 $overdue_count = 0;
 $due_soon_count = 0;
