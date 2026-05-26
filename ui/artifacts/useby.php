@@ -45,7 +45,7 @@
   $total_overdue = 0;
 ?>
 
-<main>
+<main class="useby-page">
 
   <meta id="apiOrigin" content="<?php echo API_ORIGIN; ?>">
 
