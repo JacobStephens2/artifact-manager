@@ -10,50 +10,13 @@ include(SHARED_PATH . '/header.php');
 
       <h1>Archived Pages</h1>
 
-      <ul>
-        <li>
-          <a href="<?php echo url_for('/uses/index.php'); ?>">
-            1:1 Uses (Archived Jul 16, 2023)
-          </a>
-        </li>
-
-        <li>
-          <a href="<?php echo url_for('/uses/new.php'); ?>">
-            Record 1:1 &nbsp;Use (Archived Jul 16, 2023)
-          </a>
-        </li>
-        
-        <li>
-          <a href="<?php echo url_for('/uses/create.php');?>">
-            Record Use (Archived Jan 11, 2022)
-          </a>
-        </li>
-      </ul>
-
-      <ul>
-        <li class="main-menu">
-          <a href="<?php echo url_for('/objects/index.php'); ?>">
-            Objects
-          </a>
-        </li>
-      </ul>
+      <p>Historical legacy interaction data was migrated into the modern
+        <a href="<?php echo url_for('/uses/interactions.php'); ?>">interactions</a> list,
+        so the old 1:1 Uses, Object Uses, and Objects pages have been removed.
+        See <code>database/migrations/migrate-responses-to-uses.sql</code> and
+        <code>migrate-use_table-to-uses.sql</code> for the record.</p>
 
       <ul class="list-2">
-        <li>
-          <a href="<?php echo url_for('/object_uses/new.php'); ?>">
-            Record Object Use
-          </a>
-        </li>
-        <li>
-          <a href="<?php echo url_for('/object_uses/index.php'); ?>">
-            Object Uses
-          </a>
-        </li>
-        <li>
-          <a href="<?php echo url_for('/objects/useby.php'); ?>">
-            Use Objects by Date List
-          </a>
-        </li>
         <li>
           <a href="<?php echo url_for('/aversions/index.php'); ?>">
             Aversions (Archived Dec 4 2022)
