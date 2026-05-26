@@ -6,46 +6,6 @@
     return $errors;
   }
 
-  function insert_response_revised($postArray) {
-    global $db;
-
-    $queriesArray = [];
-
-    $query = "INSERT INTO responses (
-      Title,
-      PlayDate,
-      Player,
-      user_id,
-      Note
-      ) VALUES (?, ?, ?, ?, ?)
-    ";
-    $stmt = mysqli_prepare($db, $query);
-
-    $i = 0;
-    foreach($postArray['user'] as $userArray) {
-      mysqli_stmt_bind_param($stmt, 'sssss',
-        $postArray['artifact']['id'],
-        $postArray['useDate'],
-        $userArray['id'],
-        $_SESSION['user_id'],
-        $postArray['Note']
-      );
-      $result = mysqli_stmt_execute($stmt);
-      $i++;
-    }
-    mysqli_stmt_close($stmt);
-
-    // For INSERT statements, $result is true/false
-    if ($result) {
-      return $result;
-    } else {
-      // INSERT failed
-      echo mysqli_error($db);
-      db_disconnect($db);
-      exit;
-    }
-  }
-
   function insert_use($postArray) {
 
     /* Sample post request body
@@ -134,57 +94,6 @@
     }
   }
 
-  function insert_response($response, $playerCount) {
-    global $db;
-
-    $errors = validate_response($response);
-    if(!empty($errors)) {
-      return $errors;
-    }
-
-    // First player includes Note
-    if ($playerCount >= 1) {
-      $sql = "INSERT INTO responses (Title, Note, PlayDate, Player, user_id) VALUES (?, ?, ?, ?, ?)";
-      $stmt = mysqli_prepare($db, $sql);
-      mysqli_stmt_bind_param($stmt, 'sssss',
-        $response['Title'],
-        $response['Note'],
-        $response['PlayDate'],
-        $response['Player1'],
-        $_SESSION['user_id']
-      );
-      $result = mysqli_stmt_execute($stmt);
-      mysqli_stmt_close($stmt);
-    }
-
-    // Remaining players (2-9) without Note
-    if ($playerCount >= 2) {
-      $sql = "INSERT INTO responses (Title, PlayDate, Player, user_id) VALUES (?, ?, ?, ?)";
-      $stmt = mysqli_prepare($db, $sql);
-      for ($i = 2; $i <= $playerCount && $i <= 9; $i++) {
-        $playerKey = 'Player' . $i;
-        mysqli_stmt_bind_param($stmt, 'ssss',
-          $response['Title'],
-          $response['PlayDate'],
-          $response[$playerKey],
-          $_SESSION['user_id']
-        );
-        $result = mysqli_stmt_execute($stmt);
-      }
-      mysqli_stmt_close($stmt);
-    }
-
-    // For INSERT statements, $result is true/false
-    if($result) {
-      return true;
-    } else {
-      // INSERT failed
-      echo mysqli_error($db);
-      db_disconnect($db);
-      exit;
-    }
-  }
-
   function insert_aversion($response, $playerCount) {
     global $db;
 
@@ -218,29 +127,6 @@
       db_disconnect($db);
       exit;
     }
-  }
-
-  function find_all_responses() {
-    global $db;
-
-    $sql = "SELECT ";
-    $sql .= "games.Title, ";
-    $sql .= "responses.id, ";
-    $sql .= "players.FirstName, ";
-    $sql .= "players.LastName, ";
-    $sql .= "responses.PlayDate ";
-    $sql .= "FROM responses ";
-    $sql .= "LEFT JOIN games ON responses.Title = games.id ";
-    $sql .= "LEFT JOIN players ON responses.Player = players.id ";
-    $sql .= "ORDER BY responses.PlayDate DESC, ";
-    $sql .= "games.Title DESC, ";
-    $sql .= "players.LastName ASC, ";
-    $sql .= "players.FirstName ASC ";
-    $sql .= "LIMIT 100";
-
-    $result = mysqli_query($db, $sql);
-    confirm_result_set($result);
-    return $result;
   }
 
   function find_uses_by_user_id($type, $minimumDate) {
@@ -296,37 +182,6 @@
 
     $stmt = mysqli_prepare($db, $sql);
     mysqli_stmt_bind_param($stmt, $param_types, ...$params);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    confirm_result_set($result);
-    return $result;
-  }
-
-  function find_responses_by_user_id() {
-    global $db;
-
-    $sql = "SELECT ";
-    $sql .= "games.Title, ";
-    $sql .= "games.type, ";
-    $sql .= "games.id AS gameID, ";
-    $sql .= "responses.id AS responseID, ";
-    $sql .= "players.FirstName, ";
-    $sql .= "players.LastName, ";
-    $sql .= "responses.PlayDate ";
-    $sql .= "FROM responses ";
-    $sql .= "LEFT JOIN games ON responses.Title = games.id ";
-    $sql .= "LEFT JOIN players ON responses.Player = players.id ";
-    $sql .= "WHERE responses.user_id = ? ";
-    $sql .= "AND responses.PlayDate IS NOT NULL ";
-    $sql .= "ORDER BY responses.PlayDate DESC, ";
-    $sql .= "responses.id DESC, ";
-    $sql .= "games.Title DESC, ";
-    $sql .= "players.LastName ASC, ";
-    $sql .= "players.FirstName ASC ";
-    $sql .= "LIMIT 9999";
-
-    $stmt = mysqli_prepare($db, $sql);
-    mysqli_stmt_bind_param($stmt, "i", $_SESSION['user_id']);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
     confirm_result_set($result);
@@ -396,35 +251,6 @@ function find_use_details_by_id($id) {
     WHERE uses.id=?
   ";
 
-  $stmt = mysqli_prepare($db, $sql);
-  mysqli_stmt_bind_param($stmt, "s", $id);
-  mysqli_stmt_execute($stmt);
-  $result = mysqli_stmt_get_result($stmt);
-  confirm_result_set($result);
-  $subject = mysqli_fetch_assoc($result);
-  mysqli_free_result($result);
-  return $subject; // returns an assoc. array
-}
-
-function find_use_users_by_id($id) {
-  global $db;
-
-  $sql = "SELECT
-    games.Title,
-    games.id AS gameid,
-    responses.PlayDate,
-    responses.Player,
-    responses.Note AS Note,
-    players.FirstName,
-    players.LastName,
-    responses.Title AS responsetitle,
-    responses.AversionDate,
-    responses.id
-    FROM responses
-    LEFT JOIN players ON responses.Player = players.id
-    LEFT JOIN games ON responses.Title = games.id
-    WHERE responses.id=?
-  ";
   $stmt = mysqli_prepare($db, $sql);
   mysqli_stmt_bind_param($stmt, "s", $id);
   mysqli_stmt_execute($stmt);
