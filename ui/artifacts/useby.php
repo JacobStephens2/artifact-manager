@@ -52,7 +52,7 @@
   <div class="page-header-row">
     <h1>
       <a class="hideOnPrint" target="_blank"
-        href="<?php echo url_for('/objects/about-useby.php'); ?>"
+        href="<?php echo url_for('/artifacts/about-useby.php'); ?>"
         >
         Interact with by date
       </a>

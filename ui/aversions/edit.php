@@ -3,7 +3,7 @@ require_once('../../private/initialize.php');
 require_login();
 
 if(!isset($_GET['id'])) {
-  redirect_to(url_for('/uses/index.php'));
+  redirect_to(url_for('/aversions/index.php'));
 }
 $id = $_GET['id'];
 
@@ -18,7 +18,7 @@ if(is_post_request()) {
   $result = update_response($response);
   if($result === true) {
     $_SESSION['message'] = 'The object was updated successfully.';
-    redirect_to(url_for('/uses/show.php?id=' . $id));
+    redirect_to(url_for('/aversions/index.php'));
   } else {
     $errors = $result;
   }
@@ -38,7 +38,7 @@ include(SHARED_PATH . '/header.php');
 
     <?php echo display_errors($errors); ?>
 
-    <form action="<?php echo url_for('/uses/edit.php?id=' . h(u($id))); ?>" method="post">
+    <form action="<?php echo url_for('/aversions/edit.php?id=' . h(u($id))); ?>" method="post">
       <?php echo csrf_input(); ?>
       <label for="Title">Artifact</label>
         <select id="Title" name="Title">

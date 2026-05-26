@@ -78,9 +78,7 @@
           <td class="edit"><?php echo h($artifact['MxP']); ?></td>
           <td class="edit"><?php echo h($artifact['MxT']); ?></td>
           <td class="edit date">
-            <a class="table-action" href="<?php echo url_for('/uses/edit.php?id=' . h(u($artifact['ResponseID']))); ?>">
-              <?php echo h($artifact['MaxOfPlayDate']); ?>
-            </a>
+            <?php echo h($artifact['MaxOfPlayDate']); ?>
           </td>
           <td class="edit">
             <a class="table-action" href="<?php echo url_for('/aversions/edit.php?id=' . h(u($artifact['ResponseID']))); ?>">

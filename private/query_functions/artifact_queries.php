@@ -286,33 +286,18 @@ use PHPMailer\PHPMailer\Exception;
     global $db;
 
     $stmt = mysqli_prepare($db, "SELECT
-      id,
-      use_date,
-      note
+      uses.id,
+      uses.use_date,
+      uses.note,
+      GROUP_CONCAT(DISTINCT CONCAT(players.FirstName, ' ', players.LastName)
+        ORDER BY players.FirstName SEPARATOR ', ') AS players
       FROM uses
-      WHERE artifact_id = ?
-      ORDER BY use_date DESC,
-      id DESC
-    ");
-    mysqli_stmt_bind_param($stmt, "i", $artifact_id);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    return $result;
-  }
-
-  function find_one_to_one_uses_by_artifact_id($artifact_id) {
-    global $db;
-
-    $stmt = mysqli_prepare($db, "SELECT
-      responses.PlayDate,
-      responses.id,
-      players.FirstName,
-      players.LastName
-      FROM responses
-      JOIN players ON responses.Player = players.id
-      WHERE responses.Title = ?
-      ORDER BY responses.PlayDate DESC,
-      responses.id DESC
+      LEFT JOIN uses_players ON uses_players.use_id = uses.id
+      LEFT JOIN players ON players.id = uses_players.player_id
+      WHERE uses.artifact_id = ?
+      GROUP BY uses.id, uses.use_date, uses.note
+      ORDER BY uses.use_date DESC,
+      uses.id DESC
     ");
     mysqli_stmt_bind_param($stmt, "i", $artifact_id);
     mysqli_stmt_execute($stmt);

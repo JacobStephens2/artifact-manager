@@ -24,7 +24,7 @@ if(is_post_request()) {
   if($result === true) {
     $new_id = mysqli_insert_id($db);
     $_SESSION['message'] = "The response was recorded successfully.";
-    redirect_to(url_for('/uses/create.php'));
+    redirect_to(url_for('/aversions/index.php'));
   } else {
     $errors = $result;
   }

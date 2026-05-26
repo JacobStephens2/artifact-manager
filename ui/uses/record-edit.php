@@ -3,7 +3,7 @@ require_once('../../private/initialize.php');
 require_login();
 
 if(!isset($_GET['id'])) {
-  redirect_to(url_for('/uses/index.php'));
+  redirect_to(url_for('/uses/interactions.php'));
 }
 $id = $_GET['id'];
 

@@ -3,14 +3,14 @@ require_once('../../private/initialize.php');
 require_login();
 
 if(!isset($_GET['id'])) {
-  redirect_to(url_for('/uses/index.php'));
+  redirect_to(url_for('/aversions/index.php'));
 }
 $id = $_GET['id'];
 
 if(is_post_request()) {
   $result = delete_response($id);
   $_SESSION['message'] = 'The response was deleted successfully.';
-  redirect_to(url_for('/uses/index.php'));
+  redirect_to(url_for('/aversions/index.php'));
 
 } else {
   $use = find_response_by_id($id);

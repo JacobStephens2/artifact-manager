@@ -163,21 +163,7 @@
           $mostRecentUseDateArray = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt_uses));
           mysqli_stmt_close($stmt_uses);
 
-          $oneToManyUse = true;
-
-          if ($mostRecentUseDateArray['most_recent_use_date'] == NULL) {
-
-            $oneToManyUse = false;
-
-            $stmt_resp = mysqli_prepare($db, "SELECT id, MAX(PlayDate) AS most_recent_use_date FROM responses WHERE Title = ? AND user_id = ?");
-            mysqli_stmt_bind_param($stmt_resp, "ii", $artifact_id, $current_user_id);
-            mysqli_stmt_execute($stmt_resp);
-            $mostRecentUseDateArray = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt_resp));
-            mysqli_stmt_close($stmt_resp);
-
-          }
-
-          $mostRecentUseDate = $mostRecentUseDateArray['most_recent_use_date'];
+          $mostRecentUseDate = $mostRecentUseDateArray['most_recent_use_date'] ?? null;
           $interval_time_ago = strtotime('now - ' . DEFAULT_USE_INTERVAL . ' days');
         //
         ?>
@@ -218,26 +204,14 @@
           </td>
 
           <td class="mostRecentUse date">
-            <a
-              <?php
-                $mostRecentUseTime = strtotime($mostRecentUseDate);
-                if ($mostRecentUseTime < $interval_time_ago) {
-                  echo ' style="color: red;" ';
-                }
-
-                if ($oneToManyUse === true) {
-                  ?>
-                  href="/uses/record-edit.php?id=<?php echo $mostRecentUseDateArray['id']; ?>"
-                  <?php
-                } elseif ($oneToManyUse === false) {
-                  ?>
-                  href="/uses/edit.php?id=<?php echo $mostRecentUseDateArray['id']; ?>"
-                  <?php
-                }
+            <?php if ($mostRecentUseDate) {
+              $mostRecentUseTime = strtotime($mostRecentUseDate);
+              $color = $mostRecentUseTime < $interval_time_ago ? ' style="color: red;"' : '';
               ?>
-              >
-              <?php echo h(substr($mostRecentUseDate, 0, 10)) ?>
-            </a>
+              <a href="<?php echo url_for('/uses/record-edit.php?id=' . h(u($mostRecentUseDateArray['id']))); ?>"<?php echo $color; ?>>
+                <?php echo h(substr($mostRecentUseDate, 0, 10)); ?>
+              </a>
+            <?php } ?>
           </td>
 
           <td class="sweet_spot">

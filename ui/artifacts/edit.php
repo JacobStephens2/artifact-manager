@@ -238,55 +238,17 @@
     </h2>
     <table>
       <tr>
-        <th>Interaction Date (<?php echo $usesOfArtifactByUserResultObject->num_rows; ?>)</th>
-      <tr>
-      <?php 
-        foreach ($usesOfArtifactByUserResultObject as $usesOfArtifactByUserArray) { 
-          ?>        
-          <tr>
-            <td>
-              <a href="/uses/record-edit.php?id=<?php echo $usesOfArtifactByUserArray['id']; ?>">
-                <?php echo $usesOfArtifactByUserArray['use_date']; ?>
-              </a>
-            </td>
-          </tr>
-          <?php 
-        } 
-      ?>
-    </table>
-  </section>
-
-  <section id="recordedUseList">
-    <?php
-      $usesOfArtifactByUserResultObject = find_one_to_one_uses_by_artifact_id($artifact['id']);
-    ?>
-    <h2>
-      You have recorded
-      <?php echo $usesOfArtifactByUserResultObject->num_rows; ?> 
-      one to one uses of
-      <?php echo h($artifact['Title']); ?>
-    </h2>
-    <table>
-      <tr>
-        <th>Interaction Date (<?php echo $usesOfArtifactByUserResultObject->num_rows; ?>)</th>
-        <th>Person</th>
-      <tr>
-      <?php foreach ($usesOfArtifactByUserResultObject as $usesOfArtifactByUserArray) { ?>        
+        <th>Interaction Date</th>
+        <th>People</th>
+      </tr>
+      <?php foreach ($usesOfArtifactByUserResultObject as $useRow) { ?>
         <tr>
           <td>
-            <a href="/uses/edit.php?id=<?php echo $usesOfArtifactByUserArray['id']; ?>">
-              <?php echo $usesOfArtifactByUserArray['PlayDate']; ?>
+            <a href="<?php echo url_for('/uses/record-edit.php?id=' . h(u($useRow['id']))); ?>">
+              <?php echo h(substr($useRow['use_date'] ?? '', 0, 10)); ?>
             </a>
           </td>
-          <td>
-            <?php 
-              echo 
-                $usesOfArtifactByUserArray['FirstName'] . 
-                " " . 
-                $usesOfArtifactByUserArray['LastName']
-              ; 
-            ?>
-          </td>
+          <td><?php echo h($useRow['players'] ?? ''); ?></td>
         </tr>
       <?php } ?>
     </table>

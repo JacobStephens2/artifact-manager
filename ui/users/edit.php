@@ -97,70 +97,33 @@
   </div>
 
   <section id="uses">
-    <?php 
+    <?php
       $player_id = (int) $_REQUEST['id'];
       $user_id_int = (int) $user_id;
 
-      // get interactions for this player
-      $stmt_up = mysqli_prepare($db, "SELECT use_id FROM uses_players WHERE user_id = ? AND player_id = ?");
-      mysqli_stmt_bind_param($stmt_up, "ii", $user_id_int, $player_id);
-      mysqli_stmt_execute($stmt_up);
-      $results = mysqli_stmt_get_result($stmt_up);
-      ?>
-      <p><?php $results->num_rows; ?> interactions recorded</p>
-      <table>
-        <thead>
-          <tr>
-            <td>Entity</td>
-            <td>Interaction Date</td>
-          </tr>
-        </thead>
-        <tbody>
-          <?php
-            foreach ($results as $result) {
-              $use_id = (int) $result['use_id'];
-              $stmt_ud = mysqli_prepare($db, "SELECT games.title, DATE(use_date) AS use_date FROM uses JOIN games ON uses.artifact_id = games.id WHERE uses.id = ?");
-              mysqli_stmt_bind_param($stmt_ud, "i", $use_id);
-              mysqli_stmt_execute($stmt_ud);
-              $data = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt_ud));
-              mysqli_stmt_close($stmt_ud);
-              ?>
-              <tr>
-                <td><?php echo $data['title']; ?></td>
-                <td><?php echo $data['use_date']; ?></td>
-              </tr>
-              <?php
-            }
-          ?>
-        </tbody>
-      </table>
-      <?php
-
-
-    
-      // get 1:1 uses
-      $stmt_11 = mysqli_prepare($db, "SELECT
-        responses.PlayDate,
-        responses.id as responseID,
+      $stmt_interactions = mysqli_prepare($db, "SELECT
+        uses.id AS use_id,
+        DATE(uses.use_date) AS use_date,
+        games.id AS artifactID,
         games.Title,
-        games.type,
-        games.id AS artifactID
-        FROM responses
-        JOIN games ON games.id = responses.Title
-        WHERE responses.Player = ?
-        ORDER BY responses.PlayDate DESC");
-      mysqli_stmt_bind_param($stmt_11, "i", $player_id);
-      mysqli_stmt_execute($stmt_11);
-      $resultObject = mysqli_stmt_get_result($stmt_11);
+        games.type
+        FROM uses_players
+        JOIN uses ON uses.id = uses_players.use_id
+        JOIN games ON games.id = uses.artifact_id
+        WHERE uses_players.user_id = ?
+          AND uses_players.player_id = ?
+        ORDER BY uses.use_date DESC");
+      mysqli_stmt_bind_param($stmt_interactions, "ii", $user_id_int, $player_id);
+      mysqli_stmt_execute($stmt_interactions);
+      $interactionsResult = mysqli_stmt_get_result($stmt_interactions);
     ?>
     <h2>
-      <?php echo $resultObject->num_rows; ?>
+      <?php echo $interactionsResult->num_rows; ?>
       <?php echo h($player['FirstName']) . ' ' . h($player['LastName']); ?>
-      1:1 interactions are recorded 
+      interactions are recorded
     </h2>
 
     <table id="useList" data-page-length='100'>
-
       <thead>
         <tr>
           <th>Interaction Date</th>
@@ -168,46 +131,27 @@
           <th>Type</th>
         </tr>
       </thead>
-
       <tbody>
-        
-        <?php foreach ($resultObject as $resultArray) { ?>        
-
+        <?php foreach ($interactionsResult as $row) { ?>
           <tr>
-
-            <td id="playDate">
-              <a href="/uses/edit.php?id=<?php echo $resultArray['responseID']; ?>">
-                <?php 
-                  if ($resultArray['PlayDate'] == '') {
-                    echo 'No date';
-                  } else {
-                    echo $resultArray['PlayDate'];
-                  }
-                ?>
+            <td>
+              <a href="<?php echo url_for('/uses/record-edit.php?id=' . h(u($row['use_id']))); ?>">
+                <?php echo $row['use_date'] ? h($row['use_date']) : 'No date'; ?>
               </a>
             </td>
-
-            <td id="artifact">
-              <a href="/artifacts/edit.php?id=<?php echo $resultArray['artifactID']; ?>">
-                <?php echo $resultArray['Title']; ?>
+            <td>
+              <a href="<?php echo url_for('/artifacts/edit.php?id=' . h(u($row['artifactID']))); ?>">
+                <?php echo h($row['Title']); ?>
               </a>
             </td>
-
-            <td id="type">
-              <?php echo $resultArray['type']; ?>
-            </td>
-
+            <td><?php echo h($row['type']); ?></td>
           </tr>
-          
         <?php } ?>
-
       </tbody>
-
     </table>
 
     <script>
       let table = new DataTable('#useList', {
-        // options
         order: [[ 0, 'desc']]
       });
     </script>
