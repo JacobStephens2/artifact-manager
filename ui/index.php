@@ -138,10 +138,10 @@ include(SHARED_PATH . '/header.php');
           <span class="metric-label">Tracked</span>
           <strong><?php echo h((string) $tracked_count); ?></strong>
         </div>
-        <div class="metric-card">
+        <a class="metric-card metric-card-link" href="<?php echo url_for('/artifacts/useby.php'); ?>">
           <span class="metric-label">Overdue</span>
           <strong><?php echo h((string) $overdue_count); ?></strong>
-        </div>
+        </a>
         <div class="metric-card">
           <span class="metric-label">Due In 14 Days</span>
           <strong><?php echo h((string) $due_soon_count); ?></strong>

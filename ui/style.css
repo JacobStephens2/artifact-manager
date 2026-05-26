@@ -776,6 +776,17 @@ main > div:not(#dataTableImports):not(.guest-banner):not(#message):not(.errors):
   background: var(--surface-lowest);
 }
 
+.metric-card-link {
+  display: block;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.metric-card-link:hover {
+  background: var(--surface-low);
+  transform: translateY(-1px);
+}
+
 .metric-card strong {
   display: block;
   font-size: clamp(2rem, 4vw, 3.2rem);
