@@ -117,7 +117,7 @@ include(SHARED_PATH . '/header.php');
         </p>
 
         <?php if (!is_guest()) { ?>
-        <a class="dashboard-record-btn" href="<?php echo url_for('/uses/1-n-new.php'); ?>">
+        <a class="dashboard-record-btn" href="<?php echo url_for('/uses/record-new.php'); ?>">
           <span class="dashboard-record-icon" aria-hidden="true">+</span>
           Record interaction
         </a>
@@ -181,7 +181,7 @@ include(SHARED_PATH . '/header.php');
               </p>
               <?php if (!is_guest()) { ?>
               <div class="overdue-item-actions">
-                <a class="menu-link" href="/uses/1-n-new?artifact_id=<?php echo h(u($item['id'])); ?>">Record</a>
+                <a class="menu-link" href="/uses/record-new?artifact_id=<?php echo h(u($item['id'])); ?>">Record</a>
                 <form method="post" action="<?php echo url_for('/artifacts/mark-get-rid-of.php'); ?>" class="overdue-item-getridof">
                   <?php echo csrf_input(); ?>
                   <input type="hidden" name="artifact_id" value="<?php echo h($item['id']); ?>">
@@ -205,7 +205,7 @@ include(SHARED_PATH . '/header.php');
         <h2 class="menu-card-title">Interact By Date</h2>
         <p class="menu-support">See what is due and take action on the items that need attention first.</p>
         <a class="menu-link" href="<?php echo url_for('/artifacts/useby.php'); ?>">Interact by date list</a>
-        <?php if (!is_guest()) { ?><a class="menu-link" href="/uses/1-n-new.php">Record interaction</a><?php } ?>
+        <?php if (!is_guest()) { ?><a class="menu-link" href="/uses/record-new.php">Record interaction</a><?php } ?>
       </div>
 
       <div class="menu-card">
@@ -222,7 +222,7 @@ include(SHARED_PATH . '/header.php');
         <h2 class="menu-card-title">Interactions</h2>
         <p class="menu-support">Record new activity and review the full history across the collection.</p>
         <a class="menu-link" href="<?php echo url_for('/uses/interactions.php'); ?>">All interactions</a>
-        <?php if (!is_guest()) { ?><a class="menu-link" href="/uses/1-n-new.php">Record interaction</a><?php } ?>
+        <?php if (!is_guest()) { ?><a class="menu-link" href="/uses/record-new.php">Record interaction</a><?php } ?>
       </div>
 
       <?php if (!is_guest()) { ?>
@@ -267,7 +267,7 @@ include(SHARED_PATH . '/header.php');
       <button type="button" class="modal-close" data-modal-close aria-label="Close">&times;</button>
       <h2 id="record-modal-title" class="modal-title">Record interaction</h2>
       <p id="record-modal-artifact" class="modal-subtitle"></p>
-      <form id="record-modal-form" method="post" action="<?php echo url_for('/uses/1-n-new.php'); ?>">
+      <form id="record-modal-form" method="post" action="<?php echo url_for('/uses/record-new.php'); ?>">
         <?php echo csrf_input(); ?>
         <input type="hidden" name="artifact[id]" id="record-modal-artifact-id">
         <input type="hidden" name="artifact[name]" id="record-modal-artifact-name">
@@ -336,7 +336,7 @@ include(SHARED_PATH . '/header.php');
         saveBtn.disabled = false;
         saveBtn.textContent = 'Save';
         if (fullFormLink) {
-          fullFormLink.href = '/uses/1-n-new.php?artifact_id=' + encodeURIComponent(artifactId);
+          fullFormLink.href = '/uses/record-new.php?artifact_id=' + encodeURIComponent(artifactId);
         }
         modal.hidden = false;
         modal.setAttribute('aria-hidden', 'false');
@@ -358,7 +358,7 @@ include(SHARED_PATH . '/header.php');
         if (event.key === 'Escape' && !modal.hidden) closeModal();
       });
 
-      document.querySelectorAll('.overdue-list a[href*="1-n-new"]').forEach(function (link) {
+      document.querySelectorAll('.overdue-list a[href*="record-new"]').forEach(function (link) {
         link.addEventListener('click', function (event) {
           event.preventDefault();
           var li = link.closest('li');

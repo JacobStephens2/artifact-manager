@@ -10,7 +10,7 @@
 
   if(is_post_request()) {
 
-    $result = delete_one_to_many_use($id);
+    $result = delete_use_by_id($id);
     $_SESSION['message'] = 'The use was deleted successfully.';
     redirect_to(url_for('/uses/interactions.php'));
 
@@ -45,7 +45,7 @@
     ?>
     </p>
 
-    <form action="<?php echo url_for('/uses/1-n-delete.php?id=' . h(u($use['id']))); ?>" method="post">
+    <form action="<?php echo url_for('/uses/record-delete.php?id=' . h(u($use['id']))); ?>" method="post">
       <?php echo csrf_input(); ?>
       <div id="operations">
         <input type="submit" name="commit" value="Delete Interaction" />

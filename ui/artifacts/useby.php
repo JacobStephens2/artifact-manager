@@ -144,7 +144,7 @@
       <button type="button" class="modal-close" data-modal-close aria-label="Close">&times;</button>
       <h2 id="record-modal-title" class="modal-title">Record interaction</h2>
       <p id="record-modal-artifact" class="modal-subtitle"></p>
-      <form id="record-modal-form" method="post" action="<?php echo url_for('/uses/1-n-new.php'); ?>">
+      <form id="record-modal-form" method="post" action="<?php echo url_for('/uses/record-new.php'); ?>">
         <?php echo csrf_input(); ?>
         <input type="hidden" name="artifact[id]" id="record-modal-artifact-id">
         <input type="hidden" name="artifact[name]" id="record-modal-artifact-name">
@@ -266,7 +266,7 @@
 
             <?php if (!is_guest()) { ?>
             <td class="record" data-label="Record">
-              <a href="/uses/1-n-new?artifact_id=<?php echo $id; ?>"
+              <a href="/uses/record-new?artifact_id=<?php echo $id; ?>"
                 target="_blank"
                 >
                 Record
@@ -481,7 +481,7 @@
         modalNotesInput.value = '';
         if (modalSaveBtn) { modalSaveBtn.disabled = false; modalSaveBtn.textContent = 'Save'; }
         if (modalFullFormLink) {
-          modalFullFormLink.href = '/uses/1-n-new.php?artifact_id=' + encodeURIComponent(artifactId);
+          modalFullFormLink.href = '/uses/record-new.php?artifact_id=' + encodeURIComponent(artifactId);
         }
         recordModal.hidden = false;
         recordModal.setAttribute('aria-hidden', 'false');

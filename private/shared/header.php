@@ -84,7 +84,7 @@
             Interactions
           </a>
           
-          <a href="<?php echo url_for('/uses/1-n-new'); ?>">
+          <a href="<?php echo url_for('/uses/record-new'); ?>">
             Record&nbsp;Interaction
           </a>
 

@@ -5,7 +5,7 @@
   require_once('../../private/initialize.php');
   require_login();
 
-  $formProcessingFile = '1-n-new.php';
+  $formProcessingFile = 'record-new.php';
 
   if(is_post_request()) {
 
@@ -55,7 +55,7 @@
 
     } else {
 
-      $insertResult = insert_response_one_to_many($_POST);
+      $insertResult = insert_use($_POST);
 
       if($insertResult === true) {
         $new_id = mysqli_insert_id($db);
@@ -114,7 +114,7 @@
 <script type="module" src="modules/searchArtifactsList.js"></script>
 <script type="module" src="modules/searchUsersList.js"></script>
 <script type="module" src="modules/getUsers.js"></script>
-<script defer src="1-n-new.js"></script>
+<script defer src="record-new.js"></script>
 
 <main>
 

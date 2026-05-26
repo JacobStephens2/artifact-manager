@@ -101,13 +101,13 @@
       $player_id = (int) $_REQUEST['id'];
       $user_id_int = (int) $user_id;
 
-      // get 1:n uses
+      // get interactions for this player
       $stmt_up = mysqli_prepare($db, "SELECT use_id FROM uses_players WHERE user_id = ? AND player_id = ?");
       mysqli_stmt_bind_param($stmt_up, "ii", $user_id_int, $player_id);
       mysqli_stmt_execute($stmt_up);
       $results = mysqli_stmt_get_result($stmt_up);
       ?>
-      <p><?php $results->num_rows; ?> 1:n interactions recorded</p>
+      <p><?php $results->num_rows; ?> interactions recorded</p>
       <table>
         <thead>
           <tr>

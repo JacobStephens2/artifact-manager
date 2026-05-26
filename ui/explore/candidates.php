@@ -227,7 +227,7 @@
 
                 if ($oneToManyUse === true) {
                   ?>
-                  href="/uses/1-n-edit.php?id=<?php echo $mostRecentUseDateArray['id']; ?>"
+                  href="/uses/record-edit.php?id=<?php echo $mostRecentUseDateArray['id']; ?>"
                   <?php
                 } elseif ($oneToManyUse === false) {
                   ?>

@@ -30,7 +30,7 @@ if(is_post_request()) {
   $response = find_use_details_by_id($id);
 }
 
-$page_title = 'Edit 1:n Interaction';
+$page_title = 'Edit Interaction';
 include(SHARED_PATH . '/header.php'); 
 
 ?>
@@ -47,7 +47,7 @@ include(SHARED_PATH . '/header.php');
     <?php echo display_errors($errors); ?>
 
     <form
-      action="<?php echo url_for('/uses/1-n-edit.php?id=' . h(u($id))); ?>"
+      action="<?php echo url_for('/uses/record-edit.php?id=' . h(u($id))); ?>"
       method="post"
       >
       <?php echo csrf_input(); ?>
@@ -152,7 +152,7 @@ include(SHARED_PATH . '/header.php');
 
   <a 
     class="action" 
-    href="<?php echo url_for('/uses/1-n-delete.php?id=' . h(u($response['id']))); ?>"
+    href="<?php echo url_for('/uses/record-delete.php?id=' . h(u($response['id']))); ?>"
   >
     <button>
       Delete Interaction

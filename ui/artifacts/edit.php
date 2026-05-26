@@ -70,7 +70,7 @@
 
     <li style="margin-bottom: 0.4rem;">
       <a class="back-link" 
-        href="<?php echo url_for('/uses/1-n-new.php?artifact_id=' . h(u($id))); ?>"
+        href="<?php echo url_for('/uses/record-new.php?artifact_id=' . h(u($id))); ?>"
         >
         Record Use
       </a>
@@ -226,14 +226,14 @@
 
   </div>
 
-  <section id="oneToManyUsesList">
+  <section id="interactionsList">
     <?php
-      $usesOfArtifactByUserResultObject = find_one_to_many_uses_by_artifact_id($artifact['id']);
+      $usesOfArtifactByUserResultObject = find_uses_by_artifact_id($artifact['id']);
     ?>
     <h2>
       You have recorded
-      <?php echo $usesOfArtifactByUserResultObject->num_rows; ?> 
-      one to many uses of
+      <?php echo $usesOfArtifactByUserResultObject->num_rows; ?>
+      interactions with
       <?php echo h($artifact['Title']); ?>
     </h2>
     <table>
@@ -245,7 +245,7 @@
           ?>        
           <tr>
             <td>
-              <a href="/uses/1-n-edit.php?id=<?php echo $usesOfArtifactByUserArray['id']; ?>">
+              <a href="/uses/record-edit.php?id=<?php echo $usesOfArtifactByUserArray['id']; ?>">
                 <?php echo $usesOfArtifactByUserArray['use_date']; ?>
               </a>
             </td>

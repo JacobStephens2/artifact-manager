@@ -46,7 +46,7 @@
     }
   }
 
-  function insert_response_one_to_many($postArray) {
+  function insert_use($postArray) {
 
     /* Sample post request body
 
@@ -602,7 +602,7 @@ function delete_response($id) {
   }
 }
 
-function delete_one_to_many_use($use_id) {
+function delete_use_by_id($use_id) {
   global $db;
 
   $sql = "DELETE FROM uses WHERE id=? AND user_id=? LIMIT 1";

@@ -212,7 +212,7 @@
                 <?php if (!is_guest()) { ?>
                 <a
                   class="action"
-                  href="<?php echo url_for('/uses/1-n-edit.php?id=' . h(u($use['useID']))); ?>"
+                  href="<?php echo url_for('/uses/record-edit.php?id=' . h(u($use['useID']))); ?>"
                   >
                   <?php echo h(substr($use['use_date'],0,10)); ?>
                 </a>

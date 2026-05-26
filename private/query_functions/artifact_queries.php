@@ -282,7 +282,7 @@ use PHPMailer\PHPMailer\Exception;
     return $result;
   }
 
-  function find_one_to_many_uses_by_artifact_id($artifact_id) {
+  function find_uses_by_artifact_id($artifact_id) {
     global $db;
 
     $stmt = mysqli_prepare($db, "SELECT
@@ -941,7 +941,7 @@ function email_artifact_use_notice($user_id) {
                       $body .= "
                           <li>
                               <a href='https://" . DOMAIN . "/artifacts/edit.php?id=$id'>$name</a>:
-                              <a href='https://" . DOMAIN . "/uses/1-n-new?artifact_id=$id'>Record Interaction</a>
+                              <a href='https://" . DOMAIN . "/uses/record-new?artifact_id=$id'>Record Interaction</a>
                               | <a href='$get_rid_of_url'>Get Rid Of</a>
                               $most_recent_use, interact by $use_by_date (" . date('l', strtotime($use_by_date)) . ", interval: $interval days)
                           </li>
@@ -950,7 +950,7 @@ function email_artifact_use_notice($user_id) {
                       $body .= "
                           <li>
                               <a href='https://" . DOMAIN . "/artifacts/edit.php?id=$id'>$name</a>:
-                              <a href='https://" . DOMAIN . "/uses/1-n-new?artifact_id=$id'>Record Interaction</a>
+                              <a href='https://" . DOMAIN . "/uses/record-new?artifact_id=$id'>Record Interaction</a>
                               | <a href='$get_rid_of_url'>Get Rid Of</a>
                               last interacted $most_recent_use, interact by $use_by_date (" . date('l', strtotime($use_by_date)) . " interval: $interval days)
                           </li>
@@ -977,7 +977,7 @@ function email_artifact_use_notice($user_id) {
                   $body .= "
                       <li>
                           <a href='https://" . DOMAIN . "/artifacts/edit.php?id=$id'>$name</a>:
-                          <a href='https://" . DOMAIN . "/uses/1-n-new?artifact_id=$id'>Record Interaction</a>
+                          <a href='https://" . DOMAIN . "/uses/record-new?artifact_id=$id'>Record Interaction</a>
                           last interacted $most_recent_use (interval: $interval days)
                       </li>
                   ";
@@ -1004,7 +1004,7 @@ function email_artifact_use_notice($user_id) {
                       $body .= "
                           <li>
                               <a href='https://" . DOMAIN . "/artifacts/edit.php?id=$id'>$name</a>:
-                              <a href='https://" . DOMAIN . "/uses/1-n-new?artifact_id=$id'>Record Interaction</a>
+                              <a href='https://" . DOMAIN . "/uses/record-new?artifact_id=$id'>Record Interaction</a>
                               $most_recent_use, interact by $use_by_date (" . date('l', strtotime($use_by_date)) . ", interval: $interval days)
                           </li>
                       ";
@@ -1012,7 +1012,7 @@ function email_artifact_use_notice($user_id) {
                       $body .= "
                           <li>
                               <a href='https://" . DOMAIN . "/artifacts/edit.php?id=$id'>$name</a>:
-                              <a href='https://" . DOMAIN . "/uses/1-n-new?artifact_id=$id'>Record Interaction</a>
+                              <a href='https://" . DOMAIN . "/uses/record-new?artifact_id=$id'>Record Interaction</a>
                               last interacted $most_recent_use, interact by $use_by_date (" . date('l', strtotime($use_by_date)) . ", interval: $interval days)
                           </li>
                       ";
@@ -1025,7 +1025,7 @@ function email_artifact_use_notice($user_id) {
           }
 
           $body .= '
-              <p>Record uses at <a href="https://' . DOMAIN . '/uses/1-n-new.php">' . DOMAIN . '</a></p>
+              <p>Record uses at <a href="https://' . DOMAIN . '/uses/record-new.php">' . DOMAIN . '</a></p>
           ';
 
 

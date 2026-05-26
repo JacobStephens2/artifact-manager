@@ -66,7 +66,7 @@ include(SHARED_PATH . '/header.php');
         </li>
       </ul>
 
-      <h2>Pages to be updated to accomodate one to many users uses</h2>
+      <h2>Pages to be updated to record interactions with multiple people</h2>
 
       <a href="<?php echo url_for('/playgroup/index.php'); ?>">
         Group
