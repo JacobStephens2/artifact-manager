@@ -99,3 +99,6 @@ capacitor/android/local.properties
 capacitor/*.apk
 capacitor/*.aab
 capacitor/keystore.jks
+
+# Database backups (local snapshots, not for source control)
+database/backups/
