@@ -568,6 +568,12 @@ use PHPMailer\PHPMailer\Exception;
     $params = [];
     $param_types = '';
 
+    // Pre-aggregate the most recent use per artifact in a derived table so
+    // the main query stays at one row per game (no GROUP BY blowup from
+    // joining many uses rows). The `responses` table is no longer joined
+    // — the responses→uses migration moved every PlayDate row into uses
+    // with use_date >= PlayDate, so MAX(uses.use_date) equals what the
+    // old CASE expression returned.
     $sql =
       "SELECT
         games.Title,
@@ -584,26 +590,19 @@ use PHPMailer\PHPMailer\Exception;
         games.age,
         games.type_id,
         games.InSecondaryCollection,
-        MAX(uses.use_date) AS MostRecentUse,
-        MAX(responses.PlayDate) AS MaxPlay,
-        CASE
-          WHEN MAX(uses.use_date) IS NULL THEN MAX(responses.PlayDate)
-          WHEN MAX(uses.use_date) < MAX(responses.PlayDate) THEN MAX(responses.PlayDate)
-          ELSE MAX(uses.use_date)
-        END MostRecentUseOrResponse,
+        recent.MostRecentUse AS MostRecentUseOrResponse,
         games.Acq,
         games.KeptCol,
         games.interaction_frequency_days,
         games.to_get_rid_of
       FROM games
-        LEFT JOIN responses ON games.id = responses.Title
-        LEFT JOIN uses ON games.id = uses.artifact_id
+        LEFT JOIN (
+          SELECT artifact_id, MAX(use_date) AS MostRecentUse
+          FROM uses
+          GROUP BY artifact_id
+        ) recent ON recent.artifact_id = games.id
         LEFT JOIN types ON games.type_id = types.id
-      GROUP BY games.Acq,
-        games.Title,
-        games.KeptCol, games.mnp, games.mxp, games.ss, games.type, games.id
-      HAVING
-        games.user_id = ?
+      WHERE games.user_id = ?
       ";
 
       $params[] = $user;
@@ -660,12 +659,13 @@ use PHPMailer\PHPMailer\Exception;
             $param_types .= 's';
           }
         } else {
-          $sql .= " AND type = '' ";
+          // User unchecked every type filter — return no rows.
+          $sql .= " AND 1 = 0 ";
         }
       } elseif ($type === '') {
         // add no type clause
       } else {
-        $sql .= "AND type = ? ";
+        $sql .= "AND types.objectType = ? ";
         $params[] = $type;
         $param_types .= 's';
       }
