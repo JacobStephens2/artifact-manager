@@ -1002,6 +1002,22 @@ ul.userResults {
   text-transform: uppercase;
 }
 
+.snoozed-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: 0.5rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(108, 117, 140, 0.16);
+  color: var(--text-soft);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
 .back-link {
   display: inline-flex;
   margin-bottom: 0.75rem;

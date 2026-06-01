@@ -35,13 +35,14 @@
   $shelfSort = $_POST['shelfSort'] ?? 'no';
   $showAttributes = $_POST['showAttributes'] ?? 'no';
   $showInterval = $_POST['showInterval'] ?? 'no';
+  $hideSnoozed = $_POST['hideSnoozed'] ?? 'no';
   $typeArray = $_SESSION['type'] ?? [];
   $default_use_interval = singleValueQuery("SELECT default_use_interval
     FROM users
     WHERE id = '$user_id'
   ");
   $interval = $_POST['interval'] ?? $default_use_interval;
-  $artifact_set = use_by($type, $interval, $sweetSpot, $minimumAge, $shelfSort);
+  $artifact_set = use_by($type, $interval, $sweetSpot, $minimumAge, $shelfSort, null, $hideSnoozed === 'yes');
   $total_overdue = 0;
 ?>
 
@@ -110,6 +111,16 @@
       <input type="checkbox" name="showInterval" id="showInterval" value="yes"
         <?php
           if ($showInterval === 'yes') {
+            echo ' checked ';
+          }
+        ?>
+      >
+
+      <label for="hideSnoozed">Hide snoozed artifacts</label>
+      <input type="hidden" name="hideSnoozed" value="no">
+      <input type="checkbox" name="hideSnoozed" id="hideSnoozed" value="yes"
+        <?php
+          if ($hideSnoozed === 'yes') {
             echo ' checked ';
           }
         ?>
@@ -202,13 +213,15 @@
     </thead>
 
     <tbody>
-      <?php while($artifact = mysqli_fetch_assoc($artifact_set)) { 
+      <?php while($artifact = mysqli_fetch_assoc($artifact_set)) {
         $id = h(u($artifact['id']));
         if ($artifact['interaction_frequency_days'] !== null) {
           $this_interval = $artifact['interaction_frequency_days'];
         } else {
           $this_interval = $interval;
         }
+        $snoozed_until = $artifact['snoozed_until'] ?? null;
+        $is_snoozed = $snoozed_until !== null && $snoozed_until > date('Y-m-d');
         ?>
         <tr>
           <td class="name artifact edit" data-label="Name">
@@ -223,6 +236,9 @@
                 src="/assets/copy.png"
                 alt="A clipboard icon for copying"
               >
+              <?php if ($is_snoozed) { ?>
+                <span class="snoozed-badge" title="Hidden from the dashboard priority queue until this date">Snoozed until <?php echo h($snoozed_until); ?></span>
+              <?php } ?>
 
               <script>
                 document
