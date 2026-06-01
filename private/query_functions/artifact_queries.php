@@ -85,6 +85,25 @@ use PHPMailer\PHPMailer\Exception;
     return $result;
   }
 
+  // Defer an artifact for $days days by setting snoozed_until to that future
+  // date. While snoozed_until is in the future the artifact is hidden from the
+  // dashboard "Most past due" priority queue. Returns the snooze-until date
+  // (Y-m-d) on success, or false on failure.
+  function snooze_artifact($artifact_id, $days) {
+    global $db;
+    $user_id = (int) $_SESSION['user_id'];
+    $artifact_id = (int) $artifact_id;
+    $days = max(1, (int) $days);
+    $snooze_until = (new DateTime('today'))
+      ->add(DateInterval::createFromDateString("$days days"))
+      ->format('Y-m-d');
+    $stmt = mysqli_prepare($db, "UPDATE games SET snoozed_until = ? WHERE id = ? AND user_id = ? LIMIT 1");
+    mysqli_stmt_bind_param($stmt, "sii", $snooze_until, $artifact_id, $user_id);
+    $result = mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    return $result ? $snooze_until : false;
+  }
+
   function set_artifact_tracked($artifact_id, $value) {
     global $db;
     $user_id = (int) $_SESSION['user_id'];
