@@ -3,14 +3,18 @@ require_once('../private/initialize.php');
 require_login_or_guest();
 $page_title = 'Menu';
 
-// Fetch user's default interval
+// Fetch user's default interval and snooze length
 $user_id = (int) $_SESSION['user_id'];
-$stmt = mysqli_prepare($db, "SELECT default_use_interval FROM users WHERE id = ?");
+$stmt = mysqli_prepare($db, "SELECT default_use_interval, default_snooze_days FROM users WHERE id = ?");
 mysqli_stmt_bind_param($stmt, "i", $user_id);
 mysqli_stmt_execute($stmt);
 $interval_row = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
 mysqli_stmt_close($stmt);
 $default_interval = (float) ($interval_row['default_use_interval'] ?? 90);
+$default_snooze_days = (int) ($interval_row['default_snooze_days'] ?? 7);
+if ($default_snooze_days < 1) {
+  $default_snooze_days = 7;
+}
 
 // Fetch tracked artifacts with most recent use dates (same query as use_by())
 $stmt = mysqli_prepare($db, "SELECT
@@ -28,8 +32,9 @@ $stmt = mysqli_prepare($db, "SELECT
     LEFT JOIN responses ON games.id = responses.Title
     LEFT JOIN uses ON games.id = uses.artifact_id
     LEFT JOIN types ON games.type_id = types.id
-  GROUP BY games.id, games.Title, games.Acq, games.interaction_frequency_days, types.objectType, games.KeptCol, games.user_id, games.to_get_rid_of
+  GROUP BY games.id, games.Title, games.Acq, games.interaction_frequency_days, types.objectType, games.KeptCol, games.user_id, games.to_get_rid_of, games.snoozed_until
   HAVING games.user_id = ? AND games.KeptCol = 1 AND (games.to_get_rid_of = 0 OR games.to_get_rid_of IS NULL)
+    AND (games.snoozed_until IS NULL OR games.snoozed_until <= CURDATE())
   ORDER BY MostRecentUseOrResponse ASC");
 mysqli_stmt_bind_param($stmt, "i", $user_id);
 mysqli_stmt_execute($stmt);
@@ -182,6 +187,13 @@ include(SHARED_PATH . '/header.php');
               <?php if (!is_guest()) { ?>
               <div class="overdue-item-actions">
                 <a class="menu-link" href="/uses/record-new?artifact_id=<?php echo h(u($item['id'])); ?>">Record</a>
+                <form method="post" action="<?php echo url_for('/artifacts/snooze.php'); ?>" class="overdue-item-snooze">
+                  <?php echo csrf_input(); ?>
+                  <input type="hidden" name="artifact_id" value="<?php echo h($item['id']); ?>">
+                  <input type="hidden" name="artifact_name" value="<?php echo h($item['title']); ?>">
+                  <input type="hidden" name="return_to" value="dashboard">
+                  <button type="submit" class="snooze-btn" title="Hide for <?php echo h((string) $default_snooze_days); ?> day<?php echo $default_snooze_days === 1 ? '' : 's'; ?>">Snooze</button>
+                </form>
                 <form method="post" action="<?php echo url_for('/artifacts/mark-get-rid-of.php'); ?>" class="overdue-item-getridof">
                   <?php echo csrf_input(); ?>
                   <input type="hidden" name="artifact_id" value="<?php echo h($item['id']); ?>">
