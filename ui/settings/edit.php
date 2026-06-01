@@ -23,20 +23,25 @@ if(is_post_request()) {
     $native_notify_lead_days = 3;
   }
   $native_notify_past_due = isset($_POST['native_notify_past_due']) ? 1 : 0;
+  $default_snooze_days = (int) ($_POST['default_snooze_days'] ?? 7);
+  if ($default_snooze_days < 1 || $default_snooze_days > 365) {
+    $default_snooze_days = 7;
+  }
   $user_id = (int) $_SESSION['user_id'];
 
   $stmt = mysqli_prepare($db, "UPDATE users
     SET first_name = ?, last_name = ?, email = ?, username = ?,
-        default_setting = ?, default_use_interval = ?, daily_email = ?, daily_email_hour = ?,
+        default_setting = ?, default_use_interval = ?, default_snooze_days = ?, daily_email = ?, daily_email_hour = ?,
         native_notify_enabled = ?, native_notify_hour = ?, native_notify_lead_days = ?, native_notify_past_due = ?
     WHERE id = ? LIMIT 1");
-  mysqli_stmt_bind_param($stmt, "sssssiiiiiiii",
+  mysqli_stmt_bind_param($stmt, "sssssiiiiiiiii",
     $_POST['first_name'],
     $_POST['last_name'],
     $_POST['email'],
     $_POST['username'],
     $_POST['default_setting'],
     $_POST['default_use_interval'],
+    $default_snooze_days,
     $daily_email,
     $daily_email_hour,
     $native_notify_enabled,
@@ -52,7 +57,7 @@ if(is_post_request()) {
 $user_id = (int) $_SESSION['user_id'];
 $stmt = mysqli_prepare($db, "SELECT
   first_name, last_name, email, username,
-  default_use_interval, default_setting, daily_email, daily_email_hour,
+  default_use_interval, default_snooze_days, default_setting, daily_email, daily_email_hour,
   native_notify_enabled, native_notify_hour, native_notify_lead_days, native_notify_past_due
   FROM users WHERE id = ?");
 mysqli_stmt_bind_param($stmt, "i", $user_id);
@@ -125,6 +130,16 @@ mysqli_stmt_close($stmt);
       required min="1"
     >
     
+    <label for="default_snooze_days">Snooze length (days)</label>
+    <input
+      type="number"
+      step="1"
+      name="default_snooze_days"
+      id="default_snooze_days"
+      value="<?php echo h($userArray['default_snooze_days']); ?>"
+      required min="1" max="365"
+    >
+
     <label for="default_setting">Default Setting</label>
     <input
       type="text"
