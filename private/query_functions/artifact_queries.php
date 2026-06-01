@@ -576,7 +576,7 @@ use PHPMailer\PHPMailer\Exception;
     return $result;
   }
 
-  function use_by($type, $interval, $sweetSpot, $minimumAge, $shelfSort, $user = null) {
+  function use_by($type, $interval, $sweetSpot, $minimumAge, $shelfSort, $user = null, $hideSnoozed = false) {
 
     if ($user === null && isset($_SESSION['user_id'])) {
       $user = $_SESSION['user_id'];
@@ -613,7 +613,8 @@ use PHPMailer\PHPMailer\Exception;
         games.Acq,
         games.KeptCol,
         games.interaction_frequency_days,
-        games.to_get_rid_of
+        games.to_get_rid_of,
+        games.snoozed_until
       FROM games
         LEFT JOIN (
           SELECT artifact_id, MAX(use_date) AS MostRecentUse
@@ -628,6 +629,10 @@ use PHPMailer\PHPMailer\Exception;
       $param_types .= 's';
 
       $sql .= " AND (games.to_get_rid_of = 0 OR games.to_get_rid_of IS NULL) ";
+
+      if ($hideSnoozed) {
+        $sql .= " AND (games.snoozed_until IS NULL OR games.snoozed_until <= CURDATE()) ";
+      }
 
       if ($shelfSort == 'yes') {
         $sql .= " AND (games.KeptCol = 1 OR games.InSecondaryCollection = 'yes') ";
