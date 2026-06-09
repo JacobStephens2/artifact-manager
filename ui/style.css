@@ -1797,17 +1797,23 @@ table#useBy.cards-view tbody td.interval::before {
 
 table#useBy.cards-view tbody td.name {
   grid-area: name;
-  position: relative;
-  padding-right: 1.75rem;
+  grid-column: 1 / -1;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 table#useBy.cards-view tbody td.name > div {
-  display: block;
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  width: 100%;
   min-width: 0;
 }
 
 table#useBy.cards-view tbody td.name a.action.edit {
-  display: inline;
+  flex: 1 1 auto;
+  min-width: 0;
   font-size: 1rem;
   font-weight: 700;
   color: var(--primary);
@@ -1815,9 +1821,14 @@ table#useBy.cards-view tbody td.name a.action.edit {
 }
 
 table#useBy.cards-view tbody td.name .clipboard {
-  position: absolute;
-  top: 0.15rem;
-  right: 0;
+  position: static;
+  flex: 0 0 auto;
+}
+
+table#useBy.cards-view tbody td.name .snoozed-badge {
+  flex: 0 1 100%;
+  max-width: max-content;
+  margin-left: 0;
 }
 
 table#useBy.cards-view tbody td.type {
