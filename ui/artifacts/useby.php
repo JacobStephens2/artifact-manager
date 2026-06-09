@@ -159,8 +159,31 @@
         <?php echo csrf_input(); ?>
         <input type="hidden" name="artifact[id]" id="record-modal-artifact-id">
         <input type="hidden" name="artifact[name]" id="record-modal-artifact-name">
-        <input type="hidden" name="user[0][id]" value="<?php echo h($_SESSION['player_id'] ?? ''); ?>">
-        <input type="hidden" name="user[0][name]" value="<?php echo h($_SESSION['FullName'] ?? ''); ?>">
+
+        <label>Interactors</label>
+        <div id="record-modal-users">
+          <div class="modal-user-chip" data-user-index="0">
+            <span class="modal-user-name"><?php echo h($_SESSION['FullName'] ?? 'Me'); ?></span>
+            <input type="hidden" name="user[0][id]" value="<?php echo h($_SESSION['player_id'] ?? ''); ?>" data-player-id="<?php echo h($_SESSION['player_id'] ?? ''); ?>">
+            <input type="hidden" name="user[0][name]" value="<?php echo h($_SESSION['FullName'] ?? ''); ?>">
+          </div>
+        </div>
+
+        <div id="record-modal-add-user">
+          <div class="modal-user-search-wrap">
+            <input type="search" id="record-modal-user-search" placeholder="Add another interactor…" autocomplete="off">
+            <ul id="record-modal-user-results" class="modal-user-results" hidden></ul>
+          </div>
+          <button type="button" id="record-modal-new-user-toggle" class="new-interactor-toggle">+ New person</button>
+        </div>
+
+        <div id="record-modal-new-user-form" class="new-interactor-form" style="display: none;">
+          <input type="text" id="record-modal-new-first" placeholder="First name" autocomplete="off">
+          <input type="text" id="record-modal-new-last" placeholder="Last name" autocomplete="off">
+          <button type="button" id="record-modal-new-create" class="new-interactor-create">Create &amp; add</button>
+          <button type="button" id="record-modal-new-cancel" class="new-interactor-cancel">Cancel</button>
+          <span id="record-modal-new-msg" class="new-interactor-msg" role="status" aria-live="polite"></span>
+        </div>
 
         <label for="record-modal-date">Date</label>
         <input type="date" name="useDate" id="record-modal-date" required>
@@ -495,6 +518,7 @@
         modalArtifactDisplay.textContent = artifactName;
         modalDateInput.value = todayLocal();
         modalNotesInput.value = '';
+        if (window.recordModalResetUsers) { window.recordModalResetUsers(); }
         if (modalSaveBtn) { modalSaveBtn.disabled = false; modalSaveBtn.textContent = 'Save'; }
         if (modalFullFormLink) {
           modalFullFormLink.href = '/uses/record-new.php?artifact_id=' + encodeURIComponent(artifactId);
@@ -647,6 +671,149 @@
 
       document.querySelectorAll('table#useBy td.get-rid-of form.untrack-form').forEach(function (form) {
         wireRowRemovalForm(form, { pendingLabel: 'Removing…', successFallback: 'Removed from tracked collection.' });
+      });
+    })();
+
+    // Record-interaction modal: add additional interactors (existing or brand-new).
+    (function () {
+      var usersWrap = document.getElementById('record-modal-users');
+      var search = document.getElementById('record-modal-user-search');
+      var results = document.getElementById('record-modal-user-results');
+      var newToggle = document.getElementById('record-modal-new-user-toggle');
+      var newForm = document.getElementById('record-modal-new-user-form');
+      var newFirst = document.getElementById('record-modal-new-first');
+      var newLast = document.getElementById('record-modal-new-last');
+      var newCreate = document.getElementById('record-modal-new-create');
+      var newCancel = document.getElementById('record-modal-new-cancel');
+      var newMsg = document.getElementById('record-modal-new-msg');
+      if (!usersWrap || !search) return;
+
+      var API_BASE = 'https://api.' + window.location.host.replace(/^www\./, '');
+      var currentUserId = '<?php echo h($_SESSION['user_id'] ?? ''); ?>';
+      var userIndex = 1; // index 0 is the current user (static chip)
+
+      function hideResults() { results.innerHTML = ''; results.hidden = true; }
+
+      function addChip(id, name) {
+        if (id) {
+          if (usersWrap.querySelector('input[data-player-id="' + id + '"]')) { return; }
+        }
+        var i = userIndex++;
+        var chip = document.createElement('div');
+        chip.className = 'modal-user-chip';
+
+        var label = document.createElement('span');
+        label.className = 'modal-user-name';
+        label.textContent = name;
+
+        var hidId = document.createElement('input');
+        hidId.type = 'hidden';
+        hidId.name = 'user[' + i + '][id]';
+        hidId.value = id;
+        hidId.setAttribute('data-player-id', id);
+
+        var hidName = document.createElement('input');
+        hidName.type = 'hidden';
+        hidName.name = 'user[' + i + '][name]';
+        hidName.value = name;
+
+        var remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'modal-user-remove';
+        remove.setAttribute('aria-label', 'Remove ' + name);
+        remove.innerHTML = '&times;';
+        remove.addEventListener('click', function () { chip.remove(); });
+
+        chip.append(label, hidId, hidName, remove);
+        usersWrap.appendChild(chip);
+      }
+
+      function resetNewForm() {
+        newFirst.value = '';
+        newLast.value = '';
+        newMsg.textContent = '';
+        newForm.style.display = 'none';
+        newToggle.style.display = '';
+      }
+
+      // Exposed so opening the modal for a new artifact starts clean.
+      window.recordModalResetUsers = function () {
+        usersWrap.querySelectorAll('.modal-user-chip:not([data-user-index="0"])').forEach(function (c) { c.remove(); });
+        userIndex = 1;
+        search.value = '';
+        hideResults();
+        resetNewForm();
+      };
+
+      search.addEventListener('input', function () {
+        var q = search.value.trim();
+        if (q === '') { hideResults(); return; }
+        fetch(API_BASE + '/users.php', {
+          method: 'POST',
+          credentials: 'include',
+          body: JSON.stringify({ query: q, userid: currentUserId }),
+        })
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (data.authenticated === false) { location.href = '/login.php'; return; }
+            results.innerHTML = '';
+            var list = (data.users || []).slice(0, 10);
+            if (!list.length) { results.hidden = true; return; }
+            results.hidden = false;
+            list.forEach(function (u) {
+              var li = document.createElement('li');
+              li.textContent = (u.FirstName + ' ' + u.LastName).trim();
+              li.addEventListener('click', function () {
+                addChip(u.id, (u.FirstName + ' ' + u.LastName).trim());
+                search.value = '';
+                hideResults();
+                search.focus();
+              });
+              results.appendChild(li);
+            });
+          })
+          .catch(function () { hideResults(); });
+      });
+
+      function createPerson() {
+        var first = newFirst.value.trim();
+        var last = newLast.value.trim();
+        if (first === '' && last === '') { newMsg.textContent = 'Enter a name.'; return; }
+        newCreate.disabled = true;
+        newMsg.textContent = 'Creating…';
+        var body = new FormData();
+        body.append('FirstName', first);
+        body.append('LastName', last);
+        fetch('/users/new.php', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' },
+          body: body,
+        })
+          .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+          .then(function (res) {
+            newCreate.disabled = false;
+            if (res.ok && res.d && res.d.ok) {
+              addChip(res.d.id, res.d.FullName);
+              resetNewForm();
+            } else {
+              newMsg.textContent = (res.d && res.d.message) || 'Could not create interactor.';
+            }
+          })
+          .catch(function (err) { newCreate.disabled = false; newMsg.textContent = 'Error: ' + err.message; });
+      }
+
+      newToggle.addEventListener('click', function () {
+        newForm.style.display = 'flex';
+        newToggle.style.display = 'none';
+        newFirst.focus();
+      });
+      newCancel.addEventListener('click', resetNewForm);
+      newCreate.addEventListener('click', createPerson);
+      [newFirst, newLast].forEach(function (el) {
+        el.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') { e.preventDefault(); createPerson(); }
+        });
       });
     })();
 
