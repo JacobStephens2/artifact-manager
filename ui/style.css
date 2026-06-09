@@ -108,14 +108,14 @@ strong {
 }
 
 main {
-  width: min(var(--page-width), calc(100vw - 2rem));
-  margin: 0 auto;
+  width: min(var(--page-width), 100%);
+  margin: 0;
   padding: 2rem 1.5rem 4rem;
 }
 
 /* Useby page uses the full viewport so table rows have room to breathe. */
 main.useby-page {
-  width: calc(100vw - 2rem);
+  width: 100%;
   max-width: none;
 }
 
@@ -131,8 +131,10 @@ main.useby-page {
 .site-header-inner,
 .site-nav-inner,
 .site-footer-inner {
-  width: min(var(--page-width), calc(100vw - 2rem));
-  margin: 0 auto;
+  width: min(var(--page-width), 100%);
+  margin: 0;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 .site-header-inner {
@@ -290,9 +292,9 @@ nav a:hover {
 .guest-banner,
 #message,
 .errors {
-  width: min(var(--page-width), calc(100vw - 2rem));
-  margin: 0 auto 1rem;
-  padding: 1rem 1.25rem;
+  width: min(var(--page-width), 100%);
+  margin: 0 0 1rem;
+  padding: 1rem 1.5rem;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow);
 }
