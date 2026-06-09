@@ -1638,7 +1638,7 @@ ul.fun-facts .fact-aside {
   #message,
   .errors,
   .site-footer-inner {
-    width: calc(100vw - 1rem);
+    width: 100%;
   }
 
   main {
