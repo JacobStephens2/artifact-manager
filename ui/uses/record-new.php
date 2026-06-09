@@ -114,6 +114,7 @@
 <script type="module" src="modules/searchArtifactsList.js"></script>
 <script type="module" src="modules/searchUsersList.js"></script>
 <script type="module" src="modules/getUsers.js"></script>
+<script type="module" src="modules/addNewUser.js"></script>
 <script defer src="record-new.js"></script>
 
 <main>
@@ -169,13 +170,27 @@
       </div>
     </section>
 
-    <button 
-      id="addUser"
-      class="user"
-      style="display: block;"
-      >
-      +
-    </button>
+    <div id="interactorControls">
+      <button
+        id="addUser"
+        class="user"
+        type="button"
+        >
+        +
+      </button>
+
+      <button type="button" id="showNewInteractor" class="new-interactor-toggle">
+        + New person
+      </button>
+    </div>
+
+    <div id="newInteractorForm" class="new-interactor-form" style="display: none;">
+      <input type="text" id="newInteractorFirst" placeholder="First name" autocomplete="off">
+      <input type="text" id="newInteractorLast" placeholder="Last name" autocomplete="off">
+      <button type="button" id="createInteractor" class="new-interactor-create">Create &amp; add</button>
+      <button type="button" id="cancelNewInteractor" class="new-interactor-cancel">Cancel</button>
+      <span id="newInteractorMsg" class="new-interactor-msg" role="status" aria-live="polite"></span>
+    </div>
 
     <label for="date">Date</label>
     <input type="date" name="useDate" id="date" 

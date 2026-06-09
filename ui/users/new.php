@@ -5,22 +5,50 @@ require_login();
 
 if(is_post_request()) {
 
+  $is_ajax = strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest';
+
   $player = [];
-  $player['FirstName'] = $_POST['FirstName'] ?? '';
-  $player['LastName'] = $_POST['LastName'] ?? '';
+  $player['FirstName'] = trim($_POST['FirstName'] ?? '');
+  $player['LastName'] = trim($_POST['LastName'] ?? '');
   $player['G'] = $_POST['G'] ?? '';
-  if (isset($_POST['G']) && $_POST['G'] == '') {
+  if ($player['G'] == '') {
     $player['G'] = 'other';
   }
   $player['birth_year'] = $_POST['birth_year'] ?? '';
 
+  if ($is_ajax && $player['FirstName'] === '' && $player['LastName'] === '') {
+    header('Content-Type: application/json');
+    http_response_code(400);
+    echo json_encode(['ok' => false, 'message' => 'Please enter a name.']);
+    exit;
+  }
 
   $result = insert_player($player);
   if($result === true) {
     $new_id = mysqli_insert_id($db);
+
+    if ($is_ajax) {
+      $fullName = trim($player['FirstName'] . ' ' . $player['LastName']);
+      header('Content-Type: application/json');
+      echo json_encode([
+        'ok' => true,
+        'id' => $new_id,
+        'FirstName' => $player['FirstName'],
+        'LastName' => $player['LastName'],
+        'FullName' => $fullName,
+      ]);
+      exit;
+    }
+
     $_SESSION['message'] = 'The player record was created successfully.';
     redirect_to(url_for('/users/show.php?id=' . $new_id));
   } else {
+    if ($is_ajax) {
+      header('Content-Type: application/json');
+      http_response_code(500);
+      echo json_encode(['ok' => false, 'message' => 'Failed to create interactor.']);
+      exit;
+    }
     $errors = $result;
   }
 
