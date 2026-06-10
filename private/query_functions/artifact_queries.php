@@ -946,11 +946,13 @@ function email_artifact_use_notice($user_id) {
                   $id = $overdue['artifact_id'];
                   $interval = $overdue['interval'];
                   $get_rid_of_url = 'https://' . DOMAIN . '/artifacts/mark-get-rid-of.php?artifact_id=' . $id . '&artifact_name=' . urlencode($name) . '&return_to=useby';
+                  $snooze_url = 'https://' . DOMAIN . '/artifacts/snooze.php?artifact_id=' . $id . '&artifact_name=' . urlencode($name) . '&return_to=useby';
                   if ($most_recent_use === 'No interactions') {
                       $body .= "
                           <li>
                               <a href='https://" . DOMAIN . "/artifacts/edit.php?id=$id'>$name</a>:
                               <a href='https://" . DOMAIN . "/uses/record-new?artifact_id=$id'>Record Interaction</a>
+                              | <a href='$snooze_url'>Snooze</a>
                               | <a href='$get_rid_of_url'>Get Rid Of</a>
                               $most_recent_use, interact by $use_by_date (" . date('l', strtotime($use_by_date)) . ", interval: $interval days)
                           </li>
@@ -960,6 +962,7 @@ function email_artifact_use_notice($user_id) {
                           <li>
                               <a href='https://" . DOMAIN . "/artifacts/edit.php?id=$id'>$name</a>:
                               <a href='https://" . DOMAIN . "/uses/record-new?artifact_id=$id'>Record Interaction</a>
+                              | <a href='$snooze_url'>Snooze</a>
                               | <a href='$get_rid_of_url'>Get Rid Of</a>
                               last interacted $most_recent_use, interact by $use_by_date (" . date('l', strtotime($use_by_date)) . " interval: $interval days)
                           </li>
@@ -983,10 +986,12 @@ function email_artifact_use_notice($user_id) {
                   $most_recent_use = $due_today['most_recent_use'];
                   $id = $due_today['artifact_id'];
                   $interval = $due_today['interval'];
+                  $snooze_url = 'https://' . DOMAIN . '/artifacts/snooze.php?artifact_id=' . $id . '&artifact_name=' . urlencode($name) . '&return_to=useby';
                   $body .= "
                       <li>
                           <a href='https://" . DOMAIN . "/artifacts/edit.php?id=$id'>$name</a>:
                           <a href='https://" . DOMAIN . "/uses/record-new?artifact_id=$id'>Record Interaction</a>
+                          | <a href='$snooze_url'>Snooze</a>
                           last interacted $most_recent_use (interval: $interval days)
                       </li>
                   ";
@@ -1009,11 +1014,13 @@ function email_artifact_use_notice($user_id) {
                   $use_by_date = $artifact['use_by_date'];
                   $id = $artifact['artifact_id'];
                   $interval = $artifact['interval'];
+                  $snooze_url = 'https://' . DOMAIN . '/artifacts/snooze.php?artifact_id=' . $id . '&artifact_name=' . urlencode($name) . '&return_to=useby';
                   if ($most_recent_use === 'No interactions') {
                       $body .= "
                           <li>
                               <a href='https://" . DOMAIN . "/artifacts/edit.php?id=$id'>$name</a>:
                               <a href='https://" . DOMAIN . "/uses/record-new?artifact_id=$id'>Record Interaction</a>
+                              | <a href='$snooze_url'>Snooze</a>
                               $most_recent_use, interact by $use_by_date (" . date('l', strtotime($use_by_date)) . ", interval: $interval days)
                           </li>
                       ";
@@ -1022,6 +1029,7 @@ function email_artifact_use_notice($user_id) {
                           <li>
                               <a href='https://" . DOMAIN . "/artifacts/edit.php?id=$id'>$name</a>:
                               <a href='https://" . DOMAIN . "/uses/record-new?artifact_id=$id'>Record Interaction</a>
+                              | <a href='$snooze_url'>Snooze</a>
                               last interacted $most_recent_use, interact by $use_by_date (" . date('l', strtotime($use_by_date)) . ", interval: $interval days)
                           </li>
                       ";
