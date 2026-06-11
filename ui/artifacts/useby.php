@@ -697,6 +697,8 @@
 
       var API_BASE = 'https://api.' + window.location.host.replace(/^www\./, '');
       var currentUserId = '<?php echo h($_SESSION['user_id'] ?? ''); ?>';
+      var csrfToken = (document.querySelector('#record-modal-form input[name="csrf_token"]') || {}).value || '';
+      var searchWrap = search.closest('.modal-user-search-wrap');
       var userIndex = 1; // index 0 is the current user (static chip)
 
       function hideResults() { results.innerHTML = ''; results.hidden = true; }
@@ -782,6 +784,13 @@
           .catch(function () { hideResults(); });
       });
 
+      // Tapping anywhere outside the search box dismisses the results so the
+      // "+ New person" button underneath becomes tappable.
+      document.addEventListener('pointerdown', function (event) {
+        if (results.hidden) { return; }
+        if (searchWrap && !searchWrap.contains(event.target)) { hideResults(); }
+      });
+
       function createPerson() {
         var first = newFirst.value.trim();
         var last = newLast.value.trim();
@@ -791,6 +800,7 @@
         var body = new FormData();
         body.append('FirstName', first);
         body.append('LastName', last);
+        body.append('csrf_token', csrfToken);
         fetch('/users/new.php', {
           method: 'POST',
           credentials: 'include',

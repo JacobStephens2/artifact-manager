@@ -56,9 +56,11 @@ function createInteractor(event) {
   createBtn.disabled = true;
   msg.textContent = "Creating…";
 
+  const csrfField = document.querySelector('input[name="csrf_token"]');
   const body = new FormData();
   body.append("FirstName", first);
   body.append("LastName", last);
+  if (csrfField) { body.append("csrf_token", csrfField.value); }
 
   fetch("/users/new.php", {
     method: "POST",
