@@ -35,7 +35,14 @@
   $shelfSort = $_POST['shelfSort'] ?? 'no';
   $showAttributes = $_POST['showAttributes'] ?? 'no';
   $showInterval = $_POST['showInterval'] ?? 'no';
-  $hideSnoozed = $_POST['hideSnoozed'] ?? 'no';
+  // Hide snoozed artifacts by default, and remember the user's last choice
+  // across future page loads (mirrors how $type is persisted in the session).
+  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $hideSnoozed = $_POST['hideSnoozed'] ?? 'no';
+  } else {
+    $hideSnoozed = $_SESSION['hideSnoozed'] ?? 'yes';
+  }
+  $_SESSION['hideSnoozed'] = $hideSnoozed;
   $typeArray = $_SESSION['type'] ?? [];
   $default_use_interval = singleValueQuery("SELECT default_use_interval
     FROM users
