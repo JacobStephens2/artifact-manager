@@ -211,7 +211,7 @@
           <strong><?php echo number_format($uses_90); ?></strong>
         </div>
         <div class="metric-card">
-          <span class="metric-label">Tracked entities</span>
+          <span class="metric-label">Tracked artifacts</span>
           <strong><?php echo number_format($tracked); ?></strong>
         </div>
         <div class="metric-card">

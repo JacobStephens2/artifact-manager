@@ -2078,3 +2078,46 @@ table#useBy.cards-view tbody td.get-rid-of button.get-rid-of-btn {
     max-width: 29ch;
   }
 }
+
+/* --- Edit entity page: action bar + non-overlapping form controls (2026-06-16) --- */
+#editArtifact .edit-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.25rem 0 1.5rem;
+}
+
+#editArtifact .edit-actions .back-link {
+  margin-top: 0;
+}
+
+/* Stack every control on its own row so submit buttons never overlap the
+   textarea (they were inline-flex and flowed beside it). */
+#editForm {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.45rem;
+  margin-bottom: 0;
+}
+
+#editForm label {
+  margin: 0.95rem 0 0;
+}
+
+#editForm label:first-of-type {
+  margin-top: 0.25rem;
+}
+
+#editForm input[type="submit"] {
+  align-self: flex-start;
+  margin: 1.1rem 0 0.35rem;
+}
+
+/* keep sweet-spot value + remove button on one line */
+#editForm #sweetSpots > div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

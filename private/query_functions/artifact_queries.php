@@ -880,6 +880,11 @@ function email_artifact_use_notice($user_id) {
       mysqli_stmt_close($email_stmt);
       $email = ($email_row !== null) ? $email_row[0] : null;
       if ($email === null) { return 0; }
+      // Skip RFC 2606 reserved-TLD addresses (e.g. the seeded demo user
+      // demo@artifact.example). They can never receive mail, so sending to
+      // them is a guaranteed hard bounce that erodes the domain's Resend
+      // sender reputation. Real recipients are unaffected.
+      if (preg_match('/\.(example|test|invalid|localhost)$/i', $email)) { return 0; }
 
       $mail = new PHPMailer(true);
 
@@ -911,10 +916,13 @@ function email_artifact_use_notice($user_id) {
 
           $body .= '
               <h2 style="margin:0 0 0.5rem;">Summary</h2>
-              <p style="margin:0 0 0.75rem;">
+              <p style="margin:0 0 0.25rem;">
                   <strong>' . $count_to_notify_about . '</strong> ' .
                   ($count_to_notify_about === 1 ? 'item needs' : 'items need') .
                   ' attention.
+              </p>
+              <p style="margin:0 0 0.75rem;">
+                  <a href="https://artifact.stephens.page/artifacts/useby.php">View interact by list</a>
               </p>
               <table cellpadding="6" cellspacing="0" style="border-collapse:collapse;margin-bottom:1.25rem;">
                 <tr>

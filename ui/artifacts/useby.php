@@ -76,6 +76,7 @@
   </div>
 
   <form action="<?php echo url_for('/artifacts/useby.php'); ?>"
+    id="useby-filters"
     method="post"
     style="display: none"
     >
@@ -473,12 +474,23 @@
       ?>
     });
 
-    document.addEventListener('keypress', function(event) {
-      if (event.key === 'Enter') {
+    // Pressing Enter inside the filter panel re-applies the filters (a normal
+    // server-side submit/reload). Scoped to the filter form so Enter elsewhere
+    // on the page — the table search box, the record-interaction modal — never
+    // triggers a stray submit or reload. (The modal handles its own Enter.)
+    var usebyFilterForm = document.getElementById('useby-filters');
+    if (usebyFilterForm) {
+      usebyFilterForm.addEventListener('keydown', function (event) {
+        if (event.key !== 'Enter') return;
+        if (event.target && event.target.tagName === 'TEXTAREA') return;
         event.preventDefault();
-        document.querySelector('form').submit();
-      }
-    });
+        if (typeof usebyFilterForm.requestSubmit === 'function') {
+          usebyFilterForm.requestSubmit();
+        } else {
+          usebyFilterForm.submit();
+        }
+      });
+    }
 
     (function () {
       var toastEl = document.getElementById('useby-toast');
@@ -595,6 +607,33 @@
               showToast('Network error: ' + error.message, 'error');
               if (modalSaveBtn) { modalSaveBtn.disabled = false; modalSaveBtn.textContent = 'Save'; }
             });
+        });
+
+        // Enter saves the interaction (via the AJAX submit above) instead of
+        // triggering a native submit / page reload.
+        recordForm.addEventListener('keydown', function (event) {
+          if (event.key !== 'Enter') return;
+          var t = event.target;
+          if (!t) return;
+          // Notes: let Enter insert a newline.
+          if (t.tagName === 'TEXTAREA') return;
+          // The "+ New person" sub-form handles its own Enter (creates the person).
+          if (t.closest && t.closest('#record-modal-new-user-form')) return;
+          // In the interactor search, if suggestions are open Enter picks the top match.
+          if (t.id === 'record-modal-user-search') {
+            var res = document.getElementById('record-modal-user-results');
+            if (res && !res.hidden && res.firstElementChild) {
+              event.preventDefault();
+              res.firstElementChild.click();
+              return;
+            }
+          }
+          event.preventDefault();
+          if (typeof recordForm.requestSubmit === 'function') {
+            recordForm.requestSubmit();
+          } else {
+            recordForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+          }
         });
       }
 

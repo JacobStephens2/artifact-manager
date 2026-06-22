@@ -17,29 +17,49 @@ $default_interval = singleValueQuery(
 
 if(is_post_request()) {
 
+  $is_ajax = strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest';
+
   $artifact = [];
   $artifact['Title'] = $_POST['Title'] ?? '';
-  $artifact['Acq'] = $_POST['Acq'] ?? '';
+  $artifact['Acq'] = $_POST['Acq'] ?? date('Y-m-d');
   $artifact['type'] = $_POST['type'] ?? '';
-  $artifact['KeptCol'] = $_POST['KeptCol'] ?? '';
+  // A quick add (e.g. from Record Use) defaults to tracked; the full form posts KeptCol explicitly.
+  $artifact['KeptCol'] = $_POST['KeptCol'] ?? ($is_ajax ? '1' : '');
   $artifact['Candidate'] = $_POST['Candidate'] ?? '';
   $artifact['interaction_frequency_days'] = $_POST['interaction_frequency_days'] ?? $default_interval;
   $artifact['CandidateGroupDate'] = date('Y-m-d');
   $artifact['UsedRecUserCt'] = 0;
   $artifact['Notes'] = $_POST['Notes'] ?? '';
-  ($_POST['MnT'] == '') ? $artifact['MnT'] = $defaultMnT : $artifact['MnT'] = $_POST['MnT'];
-  ($_POST['MxT'] == '') ? $artifact['MxT'] = $defaultMxT : $artifact['MxT'] = $_POST['MxT'];
-  ($_POST['MnP'] == '') ? $artifact['MnP'] = $defaultMnP : $artifact['MnP'] = $_POST['MnP'];
-  ($_POST['MxP'] == '') ? $artifact['MxP'] = $defaultMxP : $artifact['MxP'] = $_POST['MxP'];
-  ($_POST['SS'] == '') ? $artifact['SS'] = $defaultSS : $artifact['SS'] = $_POST['SS'];
+  (($_POST['MnT'] ?? '') == '') ? $artifact['MnT'] = $defaultMnT : $artifact['MnT'] = $_POST['MnT'];
+  (($_POST['MxT'] ?? '') == '') ? $artifact['MxT'] = $defaultMxT : $artifact['MxT'] = $_POST['MxT'];
+  (($_POST['MnP'] ?? '') == '') ? $artifact['MnP'] = $defaultMnP : $artifact['MnP'] = $_POST['MnP'];
+  (($_POST['MxP'] ?? '') == '') ? $artifact['MxP'] = $defaultMxP : $artifact['MxP'] = $_POST['MxP'];
+  (($_POST['SS'] ?? '') == '') ? $artifact['SS'] = $defaultSS : $artifact['SS'] = $_POST['SS'];
 
   $result = insert_artifact($artifact);
 
   if($result === true) {
     $new_id = mysqli_insert_id($db);
-    $_SESSION['message'] = 'The entity was created successfully.';
+
+    if ($is_ajax) {
+      header('Content-Type: application/json');
+      echo json_encode([
+        'ok' => true,
+        'id' => $new_id,
+        'Title' => $artifact['Title'],
+      ]);
+      exit;
+    }
+
+    $_SESSION['message'] = 'The artifact was created successfully.';
     redirect_to(url_for('/artifacts/show.php?id=' . $new_id));
   } else {
+    if ($is_ajax) {
+      header('Content-Type: application/json');
+      http_response_code(422);
+      echo json_encode(['ok' => false, 'message' => implode(' ', $result)]);
+      exit;
+    }
     $errors = $result;
   }
 

@@ -115,6 +115,7 @@
 <script type="module" src="modules/searchUsersList.js"></script>
 <script type="module" src="modules/getUsers.js"></script>
 <script type="module" src="modules/addNewUser.js"></script>
+<script type="module" src="modules/addNewEntity.js"></script>
 <script defer src="record-new.js"></script>
 
 <main>
@@ -142,6 +143,19 @@
       <ul class="searchResults" style="margin-top: 0;">
         <li></li>
       </ul>
+    </div>
+
+    <div id="entityControls">
+      <button type="button" id="showNewEntity" class="new-interactor-toggle">
+        + New artifact
+      </button>
+    </div>
+
+    <div id="newEntityForm" class="new-interactor-form" style="display: none;">
+      <input type="text" id="newEntityTitle" placeholder="Artifact name" autocomplete="off">
+      <button type="button" id="createEntity" class="new-interactor-create">Create &amp; select</button>
+      <button type="button" id="cancelNewEntity" class="new-interactor-cancel">Cancel</button>
+      <span id="newEntityMsg" class="new-interactor-msg" role="status" aria-live="polite"></span>
     </div>
 
     <label for="users">Interactors</label>

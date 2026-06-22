@@ -46,7 +46,7 @@
     ($_POST['SS'] == '') ? $artifact['SS'] = 1 : $artifact['SS'] = $_POST['SS'];
     $result = update_artifact($artifact);
     if($result === true) {
-      $_SESSION['message'] = 'The entity was updated successfully.';
+      $_SESSION['message'] = 'The artifact was updated successfully.';
       redirect_to(url_for('/artifacts/edit.php?id=' . $id));
     } else {
       $errors = $result;
@@ -68,17 +68,17 @@
 
     <?php echo display_errors($errors); ?>
 
-    <li style="margin-bottom: 0.4rem;">
-      <a class="back-link" 
+    <div class="edit-actions">
+      <a class="back-link"
         href="<?php echo url_for('/uses/record-new.php?artifact_id=' . h(u($id))); ?>"
         >
         Record Use
       </a>
-    </li>
 
-    <button id="editFormDisplayButton">
-      Toggle Edit Form Display
-    </button>
+      <button id="editFormDisplayButton" type="button">
+        Toggle Edit Form Display
+      </button>
+    </div>
 
     <form id="editForm"
       action="<?php echo url_for('/artifacts/edit?id=' . h(u($id))); ?>"

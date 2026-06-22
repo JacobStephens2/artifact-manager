@@ -133,7 +133,7 @@ include(SHARED_PATH . '/header.php');
             Review interaction queue
           </a>
           <a class="secondary-link" href="<?php echo url_for('/artifacts/index.php'); ?>">
-            Browse all entities
+            Browse all artifacts
           </a>
         </div>
       </div>
@@ -222,10 +222,10 @@ include(SHARED_PATH . '/header.php');
 
       <div class="menu-card">
         <p class="section-label">Library</p>
-        <h2 class="menu-card-title">Entities</h2>
+        <h2 class="menu-card-title">Artifacts</h2>
         <p class="menu-support">Audit what is active, what is archived, and what needs to leave the shelf.</p>
-        <a class="menu-link" href="<?php echo url_for('/artifacts/index.php'); ?>">All entities</a>
-        <?php if (!is_guest()) { ?><a class="menu-link" href="<?php echo url_for('/artifacts/new.php'); ?>">Create new entity</a><?php } ?>
+        <a class="menu-link" href="<?php echo url_for('/artifacts/index.php'); ?>">All artifacts</a>
+        <?php if (!is_guest()) { ?><a class="menu-link" href="<?php echo url_for('/artifacts/new.php'); ?>">Create new artifact</a><?php } ?>
         <a class="menu-link" href="<?php echo url_for('/artifacts/to-get-rid-of.php'); ?>">To get rid of</a>
       </div>
 
