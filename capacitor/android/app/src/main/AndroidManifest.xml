@@ -18,6 +18,17 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <!-- Android App Links: verified https deep links open in-app when
+                 installed (verified against /.well-known/assetlinks.json on the
+                 domain). Email "interact by" links stay plain https and fall back
+                 to the browser when the app is not installed. -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="artifact.stephens.page" />
+            </intent-filter>
         </activity>
 
         <provider
