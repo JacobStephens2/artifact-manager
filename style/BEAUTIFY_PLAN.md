@@ -1,6 +1,6 @@
 # Plan: Make Artifact More Beautiful
 
-**Status:** Phases 0–1 in progress (working tree) - continue from there; do not reset  
+**Status:** Phases 0–3 implemented (first ship) - polish Phases 4–6 later  
 **North star:** [DESIGN.md](./DESIGN.md) - The Digital Curator  
 **Style board:** [the-digital-curator-style-board.png](./the-digital-curator-style-board.png)  
 **Review:** [BEAUTIFY_PLAN_REVIEW.md](./BEAUTIFY_PLAN_REVIEW.md) (addressed in this revision)

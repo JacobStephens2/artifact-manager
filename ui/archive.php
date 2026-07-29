@@ -6,46 +6,40 @@ include(SHARED_PATH . '/header.php');
 ?>
 
 <main>
-  <div id="main-menu">
+  <header class="page-header">
+    <p class="section-label">Legacy</p>
+    <h1>Archived pages</h1>
+    <p class="page-lede">Historical routes kept for reference after the interactions migration.</p>
+  </header>
 
-      <h1>Archived Pages</h1>
+  <div class="surface-panel">
+    <p>Historical legacy interaction data was migrated into the modern
+      <a href="<?php echo url_for('/uses/interactions.php'); ?>">interactions</a> list,
+      so the old 1:1 Uses, Object Uses, and Objects pages have been removed.
+      See <code>database/migrations/migrate-responses-to-uses.sql</code> and
+      <code>migrate-use_table-to-uses.sql</code> for the record.</p>
 
-      <p>Historical legacy interaction data was migrated into the modern
-        <a href="<?php echo url_for('/uses/interactions.php'); ?>">interactions</a> list,
-        so the old 1:1 Uses, Object Uses, and Objects pages have been removed.
-        See <code>database/migrations/migrate-responses-to-uses.sql</code> and
-        <code>migrate-use_table-to-uses.sql</code> for the record.</p>
+    <ul class="list-2">
+      <li>
+        <a class="menu-link" href="<?php echo url_for('/aversions/index.php'); ?>">
+          Aversions (Archived Dec 4 2022)
+        </a>
+      </li>
+      <li>
+        <a class="menu-link" href="<?php echo url_for('/aversions/new.php'); ?>">
+          Record&nbsp;Aversion (Archived Dec 4 2022)
+        </a>
+      </li>
+    </ul>
 
-      <ul class="list-2">
-        <li>
-          <a href="<?php echo url_for('/aversions/index.php'); ?>">
-            Aversions (Archived Dec 4 2022)
-          </a>
-        </li>
-        <li>
-          <a href="<?php echo url_for('/aversions/new.php'); ?>">
-            Record&nbsp;Aversion (Archived Dec 4 2022)
-          </a>
-        </li>
-      </ul>
+    <h2>Pages to update for multi-person interactions</h2>
 
-      <h2>Pages to be updated to record interactions with multiple people</h2>
-
-      <a href="<?php echo url_for('/playgroup/index.php'); ?>">
-        Group
-      </a>
-
-      <a href="<?php echo url_for('/playgroup/choose.php'); ?>">
-        Choose&nbsp;for&nbsp;Group
-      </a>
-
-      <a href="<?php echo url_for('/explore/uses-by-artifact.php'); ?>">
-        Uses By Artifact
-      </a>
-
-
+    <div class="dashboard-actions">
+      <a class="secondary-link" href="<?php echo url_for('/playgroup/index.php'); ?>">Group</a>
+      <a class="secondary-link" href="<?php echo url_for('/playgroup/choose.php'); ?>">Choose for group</a>
+      <a class="secondary-link" href="<?php echo url_for('/explore/uses-by-artifact.php'); ?>">Uses by artifact</a>
+    </div>
   </div>
-
 </main>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>

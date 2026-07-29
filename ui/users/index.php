@@ -9,9 +9,26 @@ include(SHARED_PATH . '/dataTable.html');
 
 <main>
   <div class="objects listing">
-    <h1>Users</h1>
-    <a href="<?php echo url_for('/users/new'); ?>">Create User</a>
+    <header class="page-header page-header-row">
+      <div>
+        <p class="section-label">People</p>
+        <h1>Users</h1>
+        <p class="page-lede">People who appear on your interaction records.</p>
+      </div>
+      <div class="page-header-actions">
+        <a class="prominent-link" href="<?php echo url_for('/users/new'); ?>">Create user</a>
+      </div>
+    </header>
 
+    <?php if ($player_set->num_rows === 0) { ?>
+      <div class="empty-state">
+        <p class="section-label">Empty</p>
+        <h2>No users yet</h2>
+        <p>Add people so you can record who shared an interaction.</p>
+        <a class="prominent-link" href="<?php echo url_for('/users/new'); ?>">Create user</a>
+      </div>
+    <?php } else { ?>
+    <div class="table-scroll">
   	<table class="list" id="users" data-page-length='100'>
 
       <thead>
@@ -41,8 +58,7 @@ include(SHARED_PATH . '/dataTable.html');
       </tbody>
 
   	</table>
-
-    <?php mysqli_free_result($player_set); ?>
+    </div>
 
     <script>
       let table = new DataTable('#users', {
@@ -50,6 +66,9 @@ include(SHARED_PATH . '/dataTable.html');
         order: [[ 4, 'desc']] // most recent users first
       });
     </script>
+    <?php } ?>
+
+    <?php mysqli_free_result($player_set); ?>
   </div>
 
 </main>

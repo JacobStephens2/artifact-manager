@@ -57,25 +57,29 @@
 
   <meta id="apiOrigin" content="<?php echo API_ORIGIN; ?>">
 
-  <div class="page-header-row">
-    <h1>
-      <a class="hideOnPrint" target="_blank"
-        href="<?php echo url_for('/artifacts/about-useby.php'); ?>"
-        >
-        Interact with by date
-      </a>
-    </h1>
+  <header class="page-header page-header-row">
+    <div>
+      <p class="section-label">Queue</p>
+      <h1>
+        <a class="hideOnPrint" target="_blank"
+          href="<?php echo url_for('/artifacts/about-useby.php'); ?>"
+          >
+          Interact by date
+        </a>
+      </h1>
+      <p class="page-lede hideOnPrint">What is due next, ordered so you use what you keep.</p>
+    </div>
     <div class="page-header-actions">
-      <?php if (!is_guest()) { ?><button id="send_use_email" data-userid="<?php echo $user_id; ?>">Send Interact Email</button><?php } ?>
+      <?php if (!is_guest()) { ?><button id="send_use_email" data-userid="<?php echo $user_id; ?>">Send interact email</button><?php } ?>
       <div id="view_toggle" class="view-toggle" role="group" aria-label="View mode">
         <button type="button" class="view-toggle-btn" data-view="table" aria-pressed="false">Table</button>
         <button type="button" class="view-toggle-btn" data-view="cards" aria-pressed="false">Cards</button>
       </div>
-      <button id="display_filters">Show filters</button>
+      <button type="button" id="display_filters">Show filters</button>
     </div>
-  </div>
+  </header>
 
-  <form action="<?php echo url_for('/artifacts/useby.php'); ?>"
+  <form class="filter-panel" action="<?php echo url_for('/artifacts/useby.php'); ?>"
     id="useby-filters"
     method="post"
     style="display: none"
@@ -84,7 +88,7 @@
     <div class="hideOnPrint">
 
       <label for="artifactType">Artifact type</label>
-      <section id="artifactType" style="display: flex; flex-wrap: wrap">
+      <section id="artifactType" class="type-chip-group">
         <?php require_once SHARED_PATH . '/artifact_type_checkboxes.php'; ?>
       </section>
 
@@ -212,6 +216,7 @@
   </div>
   <?php } ?>
 
+  <div class="table-scroll">
   <table id="useBy" class="list" data-page-length='100'>
     <thead>
       <tr id="headerRow">
@@ -407,6 +412,7 @@
       <?php } ?>
     </tbody>
   </table>
+  </div>
 
   <?php mysqli_free_result($artifact_set); ?>
   <script>

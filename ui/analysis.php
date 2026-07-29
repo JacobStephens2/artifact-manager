@@ -186,6 +186,11 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
 
 <main>
+  <header class="page-header">
+    <p class="section-label">Insights</p>
+    <h1>Analysis</h1>
+    <p class="page-lede">How often you interact, what leads the list, and where the queue is thin.</p>
+  </header>
   <div class="dashboard">
     <section class="dashboard-hero">
       <div class="dashboard-hero-copy">

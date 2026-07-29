@@ -16,18 +16,20 @@
 
 <main>
   <div class="objects listing">
+    <header class="page-header page-header-row">
+      <div>
+        <p class="section-label">Catalog</p>
+        <h1>Types</h1>
+        <p class="page-lede">Artifact categories and how many you keep in each.</p>
+      </div>
+      <div class="page-header-actions">
+        <?php if (!is_guest()) { ?>
+        <a class="prominent-link" href="/types/new">New type</a>
+        <?php } ?>
+      </div>
+    </header>
 
-    <div style="display: flex;
-      justify-content: space-between;"
-      >
-      <h1>Types</h1>
-      <?php if (!is_guest()) { ?>
-      <a href="/types/new">
-        <button>New</button>
-      </a>
-      <?php } ?>
-    </div>
-
+    <div class="table-scroll">
   	<table class="list" data-page-length='100'>
 
       <thead>
@@ -91,6 +93,7 @@
         ?>
       </tbody>
   	</table>
+    </div>
 
     <script>
       let table = new DataTable('table', {

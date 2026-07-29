@@ -17,15 +17,23 @@
 ?>
 
 <main>
-
-  <h1>To Get Rid Of</h1>
-
-  <p>These are artifacts you have decided to get rid of. They no longer appear in your Interact By list.</p>
+  <header class="page-header">
+    <p class="section-label">Letting go</p>
+    <h1>To get rid of</h1>
+    <p class="page-lede">Artifacts you have decided to release. They no longer appear in your Interact By list.</p>
+  </header>
 
   <?php if ($artifact_set->num_rows === 0) { ?>
-    <p>You have no artifacts marked to get rid of.</p>
+    <div class="empty-state">
+      <p class="section-label">Empty</p>
+      <h2>Nothing marked to get rid of</h2>
+      <p>When an artifact no longer earns its keep, mark it from the interact-by queue. It will land here.</p>
+      <a class="secondary-link" href="<?php echo url_for('/artifacts/useby.php'); ?>">Review interact-by queue</a>
+    </div>
   <?php } else { ?>
 
+    <div class="surface-panel">
+    <div class="table-scroll">
     <table class="list">
       <thead>
         <tr id="headerRow">
@@ -79,6 +87,8 @@
         <?php } ?>
       </tbody>
     </table>
+    </div>
+    </div>
 
   <?php } ?>
 

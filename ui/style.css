@@ -1888,6 +1888,73 @@ ul.fun-facts .fact-aside {
   overflow-x: auto;
   border-radius: var(--radius-md);
   -webkit-overflow-scrolling: touch;
+  box-shadow: var(--shadow);
+}
+
+.table-scroll table {
+  margin-top: 0;
+  box-shadow: none;
+}
+
+.objects.listing > .page-header,
+.objects.listing > .page-header-row {
+  margin-top: 0;
+}
+
+.objects.listing > .page-header.page-header-row {
+  margin-bottom: 1rem;
+}
+
+.page-header h1 a {
+  color: inherit;
+}
+
+.page-header h1 a:hover {
+  color: var(--accent);
+}
+
+.list-2 {
+  display: grid;
+  gap: 0.65rem;
+  margin: 1rem 0 1.5rem;
+  padding: 0;
+}
+
+.list-2 li {
+  list-style: none;
+}
+
+.surface-panel > h2 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.surface-panel .dashboard-actions {
+  margin-top: 0.75rem;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible),
+summary:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Prefer subtle row separation over heavy zebra when possible */
+tbody tr:nth-child(even) td {
+  background: var(--surface-low);
+}
+
+tbody tr:last-child td:first-child {
+  border-bottom-left-radius: var(--radius-md);
+}
+
+tbody tr:last-child td:last-child {
+  border-bottom-right-radius: var(--radius-md);
 }
 
 @media (max-width: 900px) {

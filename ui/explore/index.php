@@ -18,14 +18,19 @@ include(SHARED_PATH . '/header.php');
 
 <main>
   <div class="objects listing">
-    <h1>Artifacts by Characteristic</h1>
+    <header class="page-header page-header-row">
+      <div>
+        <p class="section-label">Explore</p>
+        <h1>Artifacts by characteristic</h1>
+        <p class="page-lede">Filter the collection by type and attributes.</p>
+      </div>
+      <div class="page-header-actions">
+        <a class="secondary-link" href="<?php echo url_for('/artifacts/new.php'); ?>">Create artifact</a>
+        <a class="prominent-link" href="<?php echo url_for('/artifacts/useby.php'); ?>">Interact by date</a>
+      </div>
+    </header>
 
-    <div class="actions">
-      <a class="action" href="<?php echo url_for('/artifacts/new.php'); ?>">Create New Game</a>
-      <a class="action" href="<?php echo url_for('/artifacts/useby.php'); ?>">Play games by date</a>
-    </div>
-
-    <form action="<?php echo url_for('/explore/index.php'); ?>" method="post">
+    <form class="filter-panel" action="<?php echo url_for('/explore/index.php'); ?>" method="post">
       <?php echo csrf_input(); ?>
       <dl>
         <dt>Artifact Type</dt>
@@ -56,7 +61,9 @@ include(SHARED_PATH . '/header.php');
       </div>
     </form>
 
+    <div class="table-scroll">
   	<table class="list">
+      <thead>
   	  <tr>
         <th>Name</th>
         <th>Kept</th>
@@ -70,7 +77,8 @@ include(SHARED_PATH . '/header.php');
         <th>Age</th>
         <th>BGG Rat</th>
   	  </tr>
-
+      </thead>
+      <tbody>
       <?php while($object = mysqli_fetch_assoc($object_set)) { ?>
         <tr>
           <td><?php echo h($object['Title']); ?></td>
@@ -86,7 +94,9 @@ include(SHARED_PATH . '/header.php');
     	    <td><?php echo h($object['bgg_rat']); ?></td>
     	  </tr>
       <?php } ?>
+      </tbody>
   	</table>
+    </div>
 
     <?php mysqli_free_result($object_set); ?>
   </div>
