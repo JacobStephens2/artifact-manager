@@ -1,11 +1,12 @@
-const CACHE_NAME = 'artifact-manager-v4';
+// Bump CACHE_NAME whenever shipping CSS/chrome so PWA clients drop stale assets.
+// Pages load style.css?v=N; the SW still pre-caches /style.css - both must stay in sync.
+const CACHE_NAME = 'artifact-manager-v5';
 const STATIC_ASSETS = [
   '/style.css',
   '/manifest.json',
   '/assets/icon-192x192.png',
   '/assets/icon-512x512.png',
   '/assets/copy.png',
-  '/fonts/RobotoSlab-VariableFont_wght.ttf',
   '/shared/js/api-client.js',
   '/shared/js/search-component.js',
   '/shared/js/filter-utils.js'

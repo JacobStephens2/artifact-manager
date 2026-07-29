@@ -41,7 +41,7 @@
   $sweetSpotFilter = $_POST['sweetSpotFilter'] ?? '';
   $showAttributes = $_POST['showAttributes'] ?? 'no';
   $artifact_set = find_artifacts_by_user_id($kept, $type, $interval, $sweetSpotFilter);
-  $page_title = 'Entities';
+  $page_title = 'Artifacts';
   if ($kept === 'secondary_only') { $page_title .= ' (Secondary Only)'; }
   include(SHARED_PATH . '/header.php'); 
   include(SHARED_PATH . '/dataTable.html');
@@ -56,8 +56,8 @@
     <div style="display: flex;
       justify-content: space-between;"
       >
-      <h1>Entities <?php if ($kept === 'secondary_only') { echo ' (Secondary Only)'; } ?></h1>
-      <a href="<?php echo url_for('/artifacts/new'); ?>">Create Entity</a>
+      <h1>Artifacts <?php if ($kept === 'secondary_only') { echo ' (Secondary Only)'; } ?></h1>
+      <a href="<?php echo url_for('/artifacts/new'); ?>">Create Artifact</a>
       <button id="display_filters" style="display: block">Show filters</button>
     </div>
 

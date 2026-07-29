@@ -1,7 +1,7 @@
 <?php
   require_once('../../private/initialize.php');
   require_login_or_guest();
-  $page_title = 'Entity Interactions';
+  $page_title = 'Artifact Interactions';
   include(SHARED_PATH . '/header.php');
   include(SHARED_PATH . '/dataTable.html');
 
@@ -113,7 +113,7 @@
       <thead>
         <tr id="headerRow">
           <th>Interaction Date <?php if ($hide_duplicate_group_settings === 'no') { echo '(' . $total_rows . ')'; } ?></th>
-          <th>Entity</th>
+          <th>Artifact</th>
           <th class="group_setting">Group Setting</th>
           <th>Type</th>
           <th>Setting</th>

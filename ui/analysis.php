@@ -238,7 +238,7 @@
           <table class="list analysis-list">
             <thead>
               <tr>
-                <th>Entity</th>
+                <th>Artifact</th>
                 <th>Type</th>
                 <th class="num">Uses</th>
               </tr>

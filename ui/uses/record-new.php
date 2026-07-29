@@ -129,7 +129,7 @@
 
     <input type="submit" value="Submit">
 
-    <label for="SearchTitles">Search Entities</label>
+    <label for="SearchTitles">Search Artifacts</label>
     <input type="search" 
       id="SearchTitles" 
       name="artifact[name]" 
