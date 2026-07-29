@@ -41,7 +41,7 @@
       <div class="site-header-inner">
         <div class="site-brand">
           <a class="header-link" href="/">
-            <img class="site-logo" src="<?php echo url_for('/assets/logo.svg'); ?>" width="36" height="36" alt="" aria-hidden="true">
+            <img class="site-logo" src="<?php echo url_for('/assets/icon-192x192.png'); ?>?v=2" width="36" height="36" alt="" aria-hidden="true">
             <span class="site-wordmark">Artifact</span>
           </a>
           <p class="site-tagline">Track what you own. Use what you keep.</p>
