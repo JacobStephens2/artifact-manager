@@ -79,7 +79,7 @@ if(is_post_request()) {
   $artifact["SS"] = $defaultSS;
 }
 
-$page_title = 'Create Entity';
+$page_title = 'Create Artifact';
 include(SHARED_PATH . '/header.php');
 
 ?>
@@ -87,7 +87,7 @@ include(SHARED_PATH . '/header.php');
 <main>
 
   <div class="object new">
-    <h1>Create Entity</h1>
+    <h1>Create Artifact</h1>
 
     <?php echo display_errors($errors); ?>
 

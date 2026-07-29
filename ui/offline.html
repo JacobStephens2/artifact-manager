@@ -3,52 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Offline - Artifact Manager</title>
+  <meta name="theme-color" content="#30395c">
+  <title>Offline - Artifact</title>
   <style>
     body {
-      font-family: "Roboto", serif;
-      background-color: ivory;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: #f8fafc;
       margin: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
       text-align: center;
-      color: #30395c;
+      color: #1b2230;
     }
     .container {
       padding: 2rem;
       max-width: 30rem;
     }
     h1 {
-      font-family: "Raleway", Arial, Helvetica, sans-serif;
+      font-family: inherit;
       font-size: 1.7rem;
-      margin-bottom: 1rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin: 0 0 1rem;
+      color: #30395c;
     }
     p {
-      font-size: 1.1rem;
-      line-height: 1.6;
+      font-size: 1.05rem;
+      line-height: 1.65;
+      color: #5f6777;
+      margin: 0 0 1.25rem;
     }
     button {
-      color: white;
-      background: #0093e9;
+      color: #f8fbff;
+      background: linear-gradient(135deg, #30395c 0%, #3d4668 100%);
       border: none;
-      padding: 0.7rem 1.3rem;
-      border-radius: 0.8rem;
-      font-size: 1.2rem;
+      padding: 0.85rem 1.35rem;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
       cursor: pointer;
-      margin-top: 1rem;
     }
     button:hover {
-      background: #80d0c7;
+      filter: brightness(1.05);
+    }
+    button:focus-visible {
+      outline: 2px solid #33b1e4;
+      outline-offset: 3px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>You're Offline</h1>
-    <p>It looks like you've lost your internet connection. Please check your connection and try again.</p>
-    <button onclick="location.reload()">Try Again</button>
+    <h1>You're offline</h1>
+    <p>It looks like you've lost your internet connection. Check the connection and try again.</p>
+    <button type="button" onclick="location.reload()">Try again</button>
   </div>
 </body>
 </html>

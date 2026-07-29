@@ -71,18 +71,21 @@ mysqli_stmt_close($stmt);
 <?php include(SHARED_PATH . '/header.php'); ?>
 
 <main>
-  
-  <h1><?php echo $page_title; ?></h1>
+  <header class="page-header">
+    <p class="section-label">Account</p>
+    <h1><?php echo h($page_title); ?></h1>
+    <p class="page-lede">Profile, intervals, email, and notification preferences.</p>
+  </header>
 
   <?php
       if (isset($update_result) && $update_result === false) {
-        echo '<p>Update failed, please contact support</p>';
+        echo '<p class="errors">Update failed, please contact support</p>';
       } elseif (isset($update_result) && $update_result === true) {
-        echo '<p>Update successful</p>';
+        echo '<p id="message">Update successful</p>';
       }
   ?>
 
-  <form method='POST'>
+  <form class="surface-panel" method='POST'>
     <?php echo csrf_input(); ?>
     <label for="first_name">First Name</label>
     <input

@@ -12,7 +12,7 @@
   <li><a class="back-link" href="<?php echo url_for('/artifacts/index.php'); ?>">&laquo; Artifacts</a></li>
   <li><a class="back-link" href="<?php echo url_for('/artifacts/useby.php'); ?>">&laquo; Interact By List</a></li>
   <?php if (!is_guest()) { ?>
-  <li><a class="back-link" href="<?php echo url_for('/artifacts/new.php'); ?>">&laquo; Create Entity</a></li>
+  <li><a class="back-link" href="<?php echo url_for('/artifacts/new.php'); ?>">&laquo; Create Artifact</a></li>
   <li><a class="back-link" href="<?php echo url_for('/uses/record-new.php?artifact_id=' . h(u($object['id']))); ?>">&laquo; Record Interaction</a></li>
   <?php } ?>
   

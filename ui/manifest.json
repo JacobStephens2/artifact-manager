@@ -1,10 +1,10 @@
 {
-  "name": "Artifact Manager",
-  "short_name": "Artifacts",
+  "name": "Artifact",
+  "short_name": "Artifact",
   "description": "Track artifact usage and operationalize the Minimalists' 90/90 Rule",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#fffff0",
+  "background_color": "#f8fafc",
   "theme_color": "#30395c",
   "icons": [
     {

@@ -11,13 +11,19 @@
 ?>
 
 <main>
+  <header class="page-header">
+    <p class="section-label">Help</p>
+    <h1><?php echo h($page_title); ?></h1>
+    <p class="page-lede">Questions, bugs, or account issues - reach the maintainer directly.</p>
+  </header>
 
-  <h1>
-    <?php echo $page_title; ?>
-  </h1>
-
-    <p>Contact <?php echo DEV_NAME . ' at ' . DEV_EMAIL; ?> for support. </p>
-
+  <div class="surface-panel">
+    <p>
+      Contact <?php echo h(DEV_NAME); ?> at
+      <a href="mailto:<?php echo h(DEV_EMAIL); ?>"><?php echo h(DEV_EMAIL); ?></a>
+      for support.
+    </p>
+  </div>
 </main>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>

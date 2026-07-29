@@ -14,10 +14,18 @@ By leveraging tonal depth and sophisticated layering, the interface feels reliab
 We have refined the previous palette into a sophisticated ecosystem of deep navies and breathable slates. 
 
 ### The Palette
-- **Primary (`#1a2345`)**: Our "Deep Navy." Used for primary actions and authoritative grounding.
-- **Secondary (`#505f76`)**: "Soft Slate." Used for supporting elements and non-critical navigation.
-- **Tertiary (`#002939`)**: A dark teal-shadow used to anchor tertiary interactions.
-- **Surface Tones**: A range from `surface_container_lowest` (#ffffff) to `surface_container_highest` (#e0e3e5).
+
+Aligned to the Digital Curator style board and live CSS tokens in `ui/style.css` `:root`.
+
+- **Primary (`#30395c`)**: Board "Deep Navy." Used for primary actions, wordmark, and authoritative grounding.
+- **Primary soft (`#3d4668`)**: Hover / gradient companion for primary CTAs.
+- **Secondary (`#64748b`)**: "Soft Slate." Supporting elements and non-critical navigation.
+- **Tertiary (`#002939`)**: Dark teal-shadow used to anchor muted chips and low-emphasis grounding. **Not** the cyan highlight.
+- **Accent (`#33b1e4`)**: Board cyan. Reserved for focus rings and tiny highlights only - never large backgrounds.
+- **Page background (`#f8fafc`)**: Board Neutral.
+- **Surface tones**: From `surface_container_lowest` (#ffffff) through `surface` / `surface_low` to `surface_container_highest` (#e0e3e5).
+
+**Naming:** "Tertiary" always means dark teal (`#002939`). Cyan is always **Accent**. Do not call the cyan "tertiary" in docs or code.
 
 ### Core Visual Rules
 *   **The "No-Line" Rule**: Explicitly prohibit the use of 1px solid borders for sectioning. Structural boundaries must be defined solely through background color shifts. For example, a `surface-container-low` section sitting directly on a `surface` background creates a natural, modern edge without the visual noise of a stroke.
@@ -82,4 +90,5 @@ We eschew traditional drop-shadows in favor of **Tonal Layering** and **Ambient 
 - **Don't** use 1px black or high-contrast grey borders to separate sections.
 - **Don't** use "Default" shadows. If you can clearly see where the shadow starts and ends, it is too heavy.
 - **Don't** mix font families. The strength of this system relies on the expert application of the **Inter** scale.
-- **Don't** use the legacy sky-blue for large backgrounds; keep it reserved for tiny "tertiary" accents only.
+- **Don't** use the cyan **accent** for large backgrounds; keep it reserved for tiny highlights and focus only.
+- **Don't** let DESIGN.md, the style board, and `ui/style.css` disagree on hex values - one change updates all three.

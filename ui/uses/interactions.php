@@ -1,7 +1,7 @@
 <?php
   require_once('../../private/initialize.php');
   require_login_or_guest();
-  $page_title = 'Entity Interactions';
+  $page_title = 'Artifact Interactions';
   include(SHARED_PATH . '/header.php');
   include(SHARED_PATH . '/dataTable.html');
 
@@ -63,17 +63,21 @@
 <script defer src="/shared/filter_button.js"></script>
 
 <main>
-    <div class="page-header-row">
-        <h1><?php echo $page_title; ?></h1>
-        <div class="page-header-actions">
-          <button id="display_filters">Show filters</button>
-        </div>
-    </div>
+    <header class="page-header page-header-row">
+      <div>
+        <p class="section-label">History</p>
+        <h1><?php echo h($page_title); ?></h1>
+        <p class="page-lede">Recorded uses, filterable by type and date.</p>
+      </div>
+      <div class="page-header-actions">
+        <button type="button" id="display_filters">Show filters</button>
+      </div>
+    </header>
 
-    <form method="POST" style="display: none">
+    <form class="filter-panel" method="POST" style="display: none">
       <?php echo csrf_input(); ?>
       <label for="artifactType">Artifact type</label>
-      <section id="artifactType" style="display: flex; flex-wrap: wrap">
+      <section id="artifactType" class="type-chip-group">
         <?php require_once SHARED_PATH . '/artifact_type_checkboxes.php'; ?>
       </section>
 
@@ -109,11 +113,12 @@
       <button type="submit">Submit</button>
     </form>
 
+    <div class="table-scroll">
   	<table class="list" id="uses" data-page-length='100'>
       <thead>
         <tr id="headerRow">
           <th>Interaction Date <?php if ($hide_duplicate_group_settings === 'no') { echo '(' . $total_rows . ')'; } ?></th>
-          <th>Entity</th>
+          <th>Artifact</th>
           <th class="group_setting">Group Setting</th>
           <th>Type</th>
           <th>Setting</th>
@@ -270,6 +275,7 @@
         ?>
       </tbody>
   	</table>
+    </div>
 
     <p>Group, setting, and game combinations: <?php echo count($group_setting_game_array); ?></p>
     <p>Group and setting combinations: <?php echo count($group_and_setting_array); ?></p>

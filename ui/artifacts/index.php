@@ -41,7 +41,7 @@
   $sweetSpotFilter = $_POST['sweetSpotFilter'] ?? '';
   $showAttributes = $_POST['showAttributes'] ?? 'no';
   $artifact_set = find_artifacts_by_user_id($kept, $type, $interval, $sweetSpotFilter);
-  $page_title = 'Entities';
+  $page_title = 'Artifacts';
   if ($kept === 'secondary_only') { $page_title .= ' (Secondary Only)'; }
   include(SHARED_PATH . '/header.php'); 
   include(SHARED_PATH . '/dataTable.html');
@@ -53,15 +53,19 @@
 <main>
   <div class="objects listing">
 
-    <div style="display: flex;
-      justify-content: space-between;"
-      >
-      <h1>Entities <?php if ($kept === 'secondary_only') { echo ' (Secondary Only)'; } ?></h1>
-      <a href="<?php echo url_for('/artifacts/new'); ?>">Create Entity</a>
-      <button id="display_filters" style="display: block">Show filters</button>
-    </div>
+    <header class="page-header page-header-row">
+      <div>
+        <p class="section-label">Collection</p>
+        <h1>Artifacts<?php if ($kept === 'secondary_only') { echo ' (secondary only)'; } ?></h1>
+        <p class="page-lede">Everything you track, filterable by type and attributes.</p>
+      </div>
+      <div class="page-header-actions">
+        <a class="prominent-link" href="<?php echo url_for('/artifacts/new'); ?>">Create artifact</a>
+        <button type="button" id="display_filters">Show filters</button>
+      </div>
+    </header>
 
-    <form action="<?php echo url_for('/artifacts/index.php'); ?>"
+    <form class="filter-panel" action="<?php echo url_for('/artifacts/index.php'); ?>"
       method="post"
       style="display: none"
       >
@@ -86,7 +90,7 @@
       >
 
       <label for="artifactType">Artifact type</label>
-      <section id="artifactType" style="display: flex; flex-wrap: wrap">
+      <section id="artifactType" class="type-chip-group">
         <?php require_once SHARED_PATH . '/artifact_type_checkboxes.php'; ?>
       </section>
 
@@ -147,6 +151,7 @@
       <input type="submit" value="Submit" />
     </form>
 
+    <div class="table-scroll">
   	<table class="list" id="artifacts" data-page-length='100'>
       <thead>
         <tr id="headerRow">
@@ -267,6 +272,7 @@
         <?php } ?>
       </tbody>
   	</table>
+    </div>
 
     <?php mysqli_free_result($artifact_set); ?>
 
