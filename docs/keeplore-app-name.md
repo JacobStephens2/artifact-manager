@@ -364,7 +364,7 @@ Recorded here so the decision is not re-litigated later.
 - [x] Ship a temporary "Artifact Manager is now Keeplore" notice
 
 ### GitHub
-- [ ] Rename `artifact-manager` → `keeplore` (GitHub 301s the old path; stars,
+- [x] Rename `artifact-manager` → `keeplore` (GitHub 301s the old path; stars,
       issues, and clone URLs survive)
 - [ ] Archive `artifact-manager-web-app` — same treatment as Magisterium: a
       deliberate portfolio artifact, not a deletion
