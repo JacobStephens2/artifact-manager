@@ -46,7 +46,7 @@
     ($_POST['SS'] == '') ? $artifact['SS'] = 1 : $artifact['SS'] = $_POST['SS'];
     $result = update_artifact($artifact);
     if($result === true) {
-      $_SESSION['message'] = 'The artifact was updated successfully.';
+      $_SESSION['message'] = 'The item was updated successfully.';
       redirect_to(url_for('/artifacts/edit.php?id=' . $id));
     } else {
       $errors = $result;

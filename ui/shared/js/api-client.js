@@ -8,7 +8,7 @@
 // Override it after import if needed: ApiClient.baseUrl = 'https://other-host';
 
 const ApiClient = {
-  baseUrl: 'https://api.artifact.stephens.page',
+  baseUrl: 'https://api.keeplore.app',
 
   /**
    * Core request method. All other methods delegate here.
@@ -120,7 +120,7 @@ const ApiClient = {
    * Create a new artifact.
    * Corresponds to POST /artifact.php
    *
-   * @param {object} data - Artifact fields (Title required, plus optional fields)
+   * @param {object} data - Item fields (Title required, plus optional fields)
    */
   async createArtifact(data) {
     return this.request('artifact.php', {
@@ -187,7 +187,7 @@ const ApiClient = {
    * Update an existing artifact.
    * Corresponds to PUT /artifact.php
    *
-   * @param {number} id   - Artifact ID
+   * @param {number} id   - Item ID
    * @param {object} data - Fields to update
    */
   async updateArtifact(id, data) {
@@ -205,7 +205,7 @@ const ApiClient = {
    * Delete an artifact by ID.
    * Corresponds to DELETE /artifact.php?id=…
    *
-   * @param {number} id - Artifact ID
+   * @param {number} id - Item ID
    */
   async deleteArtifact(id) {
     return this.request(`artifact.php?id=${encodeURIComponent(id)}`, {

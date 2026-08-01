@@ -12,11 +12,6 @@
 
   ob_start(); // output buffering is turned on
 
-  // Set session lifetime to 24 hours (matching JWT token expiry)
-  ini_set('session.gc_maxlifetime', 86400);
-  session_set_cookie_params(86400);
-  session_start(); // turn on sessions
-  
   // Assign file paths to PHP constants
   // __FILE__ returns the current path to this file
   // dirname() returns the path to the parent directory
@@ -39,6 +34,20 @@
 
   require_once(__DIR__ . '/vendor/autoload.php');
   require_once('environment_variables.php');
+
+  // Session + cookies use ARTIFACTS_DOMAIN (e.g. keeplore.app) so auth
+  // survives across the canonical host. Load env first so domain is known.
+  $session_lifetime = 86400; // 24 hours, matching JWT token expiry
+  ini_set('session.gc_maxlifetime', $session_lifetime);
+  session_set_cookie_params([
+    'lifetime' => $session_lifetime,
+    'path' => '/',
+    'domain' => ARTIFACTS_DOMAIN,
+    'secure' => COOKIE_SECURE,
+    'httponly' => true,
+    'samesite' => 'Lax',
+  ]);
+  session_start();
 
   require_once('functions.php');
   require_once('database.php');

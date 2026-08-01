@@ -1,7 +1,7 @@
     <footer class="site-footer">
       <div class="site-footer-inner">
         <div>
-          <p class="footer-label">Artifact</p>
+          <p class="footer-label">Keeplore</p>
           <h2>Know what you own. Use what you keep.</h2>
         </div>
         <p class="footer-meta">&copy; <?php echo date('Y'); ?> <a href="https://resume.jacobstephens.net" target="_blank">Jacob Stephens</a></p>

@@ -111,7 +111,7 @@
       </div>
     </section>
 
-    <label for="artifactType">Artifact type</label>
+    <label for="artifactType">Item type</label>
     <section id="artifactType" style="display: flex; flex-wrap: wrap">
       <?php require_once SHARED_PATH . '/artifact_type_checkboxes.php'; ?>
     </section>
@@ -143,7 +143,7 @@
         <th>Users</th>
         <th>Group and Setting</th>
         <th>Group Date</th>
-        <th>Artifact (<?php echo $resultObject->num_rows; ?>)</th>
+        <th>Item (<?php echo $resultObject->num_rows; ?>)</th>
         <th>Recent Use</th>
         <th>SwS</th>
         <th>MnP</th>

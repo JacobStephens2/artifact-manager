@@ -216,7 +216,7 @@
           <strong><?php echo number_format($uses_90); ?></strong>
         </div>
         <div class="metric-card">
-          <span class="metric-label">Tracked artifacts</span>
+          <span class="metric-label">Tracked items</span>
           <strong><?php echo number_format($tracked); ?></strong>
         </div>
         <div class="metric-card">
@@ -243,8 +243,7 @@
           <table class="list analysis-list">
             <thead>
               <tr>
-                <th>Artifact</th>
-                <th>Type</th>
+                <th>Item</th>                <th>Type</th>
                 <th class="num">Uses</th>
               </tr>
             </thead>

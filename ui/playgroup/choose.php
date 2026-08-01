@@ -18,7 +18,7 @@
 
 <main>
   <div class="objects listing">
-    <h1>Choose Artifacts for Group of <?php echo $usergroup->num_rows; ?> Users</h1>
+    <h1>Choose Items for Group of <?php echo $usergroup->num_rows; ?> Users</h1>
     <p>
       The dates represent the most recent instance of the type of response indicated by the column header. SS = sweet spot, Mnp = minimum player count, Mxp = maximum player count.
     </p>
@@ -27,18 +27,18 @@
       <?php echo csrf_input(); ?>
 
         <div style="display: flex">
-          <label for="range">Show only artifacts matching count of user group</label>
+          <label for="range">Show only items matching count of user group</label>
           <input type="hidden" name="range" value="false" />
           <input type="checkbox" id="range" name="range" value="true" <?php if($range == 'true') { echo " checked"; } ?> />
         </div>
 
         <div style="display: flex">
-          <label for="kept">Show only artifacts kept</label>
+          <label for="kept">Show only items kept</label>
           <input type="hidden" name="kept" value="0" />
           <input type="checkbox" id="kept" name="kept" value="1" <?php if($kept == 1) { echo " checked"; } ?> />
         </div>
 
-        <label for="type">Artifact type</label>
+        <label for="type">Item type</label>
         <section id="type">
           <?php require_once '../../private/shared/artifact_type_checkboxes.php'; ?>
         </section>
@@ -50,7 +50,7 @@
 
   	<table class="list">
   	  <tr class="header-row">
-        <th class="table-header">Artifact</th>
+        <th class="table-header">Item</th>
   	    <th class="table-header">User</th>
         <th class="table-header">SS</th>
         <th class="table-header">MnP</th>

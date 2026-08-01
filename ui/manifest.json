@@ -1,8 +1,7 @@
 {
-  "name": "Artifact",
-  "short_name": "Artifact",
-  "description": "Track artifact usage and operationalize the Minimalists' 90/90 Rule",
-  "start_url": "/",
+  "name": "Keeplore",
+  "short_name": "Keeplore",
+  "description": "Know what you own. Use what you keep. Self-hosted 90/90 rule tracker for physical possessions.",  "start_url": "/",
   "display": "standalone",
   "background_color": "#f8fafc",
   "theme_color": "#30395c",

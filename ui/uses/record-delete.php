@@ -30,7 +30,7 @@
     <p>Are you sure you want to delete this use?</p>
     <p class="item">Interaction id: <?php echo h($use['id']); ?></p>
     <p class="item">Interaction date: <?php echo h(substr($use['use_date'], 0, 10)); ?></p>
-    <p class="item">Artifact: <?php echo h($use['artifact']); ?></p>
+    <p class="item">Item: <?php echo h($use['artifact']); ?></p>
     <p class="item">People: 
     <?php
       $usersResultObject = find_users_by_use_id($use['id']);

@@ -127,7 +127,7 @@
       <thead>
         <tr>
           <th>Interaction Date</th>
-          <th>Artifact</th>
+          <th>Item</th>
           <th>Type</th>
         </tr>
       </thead>

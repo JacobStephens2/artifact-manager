@@ -35,8 +35,8 @@
       <thead>
         <tr id="headerRow">
           <th>Type</th>
-          <th>Artifacts Kept</th>
-          <th>Artifacts Not Kept</th>
+          <th>Items Kept</th>
+          <th>Items Not Kept</th>
         </tr>
       </thead>
 

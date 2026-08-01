@@ -177,7 +177,7 @@ mysqli_stmt_close($stmt);
     </select>
 
     <h2>App notifications</h2>
-    <p>These settings control notifications from the Artifact Android app.</p>
+    <p>These settings control notifications from the Keeplore Android app.</p>
 
     <label for="native_notify_enabled">
       <input

@@ -133,7 +133,7 @@ include(SHARED_PATH . '/header.php');
             Review interaction queue
           </a>
           <a class="secondary-link" href="<?php echo url_for('/artifacts/index.php'); ?>">
-            Browse all artifacts
+            Browse all items
           </a>
         </div>
       </div>
@@ -222,10 +222,10 @@ include(SHARED_PATH . '/header.php');
 
       <div class="menu-card">
         <p class="section-label">Library</p>
-        <h2 class="menu-card-title">Artifacts</h2>
+        <h2 class="menu-card-title">Items</h2>
         <p class="menu-support">Audit what is active, what is archived, and what needs to leave the shelf.</p>
-        <a class="menu-link" href="<?php echo url_for('/artifacts/index.php'); ?>">All artifacts</a>
-        <?php if (!is_guest()) { ?><a class="menu-link" href="<?php echo url_for('/artifacts/new.php'); ?>">Create new artifact</a><?php } ?>
+        <a class="menu-link" href="<?php echo url_for('/artifacts/index.php'); ?>">All items</a>
+        <?php if (!is_guest()) { ?><a class="menu-link" href="<?php echo url_for('/artifacts/new.php'); ?>">Create new item</a><?php } ?>
         <a class="menu-link" href="<?php echo url_for('/artifacts/to-get-rid-of.php'); ?>">To get rid of</a>
       </div>
 
@@ -259,7 +259,7 @@ include(SHARED_PATH . '/header.php');
     </div>
 
     <p class="menu-about">
-      Artifact generates interact-by dates so the things you keep stay in use. Inspired by
+      Keeplore generates interact-by dates so the things you keep stay in use. Inspired by
       <a href="https://www.theminimalists.com/ninety/" target="_blank">The Minimalists' 90/90 Rule</a>
       and built by
       <a href="https://jacobstephens.net" target="_blank">Jacob Stephens</a>.

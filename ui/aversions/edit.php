@@ -40,7 +40,7 @@ include(SHARED_PATH . '/header.php');
 
     <form action="<?php echo url_for('/aversions/edit.php?id=' . h(u($id))); ?>" method="post">
       <?php echo csrf_input(); ?>
-      <label for="Title">Artifact</label>
+      <label for="Title">Item</label>
         <select id="Title" name="Title">
         <?php
           $type_set = list_artifacts();

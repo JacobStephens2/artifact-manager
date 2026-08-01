@@ -1,4 +1,4 @@
-package com.stewardgoods.artifact;
+package app.keeplore;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -7,7 +7,7 @@ import android.os.Bundle;
 import com.getcapacitor.BridgeActivity;
 
 /**
- * Loads the tapped https://artifact.stephens.page/... URL into the WebView when
+ * Loads the tapped https://keeplore.app/... URL into the WebView when
  * the app is opened via an App Link (e.g. a link in the "interact by" email).
  *
  * Capacitor points the WebView at the remote site (server.url) but does not
@@ -16,7 +16,7 @@ import com.getcapacitor.BridgeActivity;
  */
 public class MainActivity extends BridgeActivity {
 
-    private static final String APP_HOST = "artifact.stephens.page";
+    private static final String APP_HOST = "keeplore.app";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

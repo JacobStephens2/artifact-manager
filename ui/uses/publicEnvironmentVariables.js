@@ -1,3 +1,3 @@
-const API_ORIGIN = "api.artifact.stephens.page";
+const API_ORIGIN = "api.keeplore.app";
 
 export { API_ORIGIN };

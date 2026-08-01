@@ -51,7 +51,7 @@ if(is_post_request()) {
       exit;
     }
 
-    $_SESSION['message'] = 'The artifact was created successfully.';
+    $_SESSION['message'] = 'The item was created successfully.';
     redirect_to(url_for('/artifacts/show.php?id=' . $new_id));
   } else {
     if ($is_ajax) {
@@ -79,16 +79,14 @@ if(is_post_request()) {
   $artifact["SS"] = $defaultSS;
 }
 
-$page_title = 'Create Artifact';
-include(SHARED_PATH . '/header.php');
+$page_title = 'Create Item';include(SHARED_PATH . '/header.php');
 
 ?>
 
 <main>
 
   <div class="object new">
-    <h1>Create Artifact</h1>
-
+    <h1>Create Item</h1>
     <?php echo display_errors($errors); ?>
 
     <form action="<?php echo url_for('/artifacts/new'); ?>" method="POST">
@@ -147,7 +145,7 @@ include(SHARED_PATH . '/header.php');
       <textarea name="Notes" id="Notes" cols="30" rows="5"></textarea>
 
       <div id="operations">
-        <input type="submit" value="Create Artifact" />
+        <input type="submit" value="Create Item" />
       </div>
     </form>
 

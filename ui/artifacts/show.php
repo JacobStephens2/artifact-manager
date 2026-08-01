@@ -3,17 +3,16 @@
   require_login_or_guest();
   $id = $_GET['id'] ?? '1';
   $object = find_artifact_by_id($id);
-  $page_title = 'Show Artifact';
+  $page_title = 'Show Item';
   include(SHARED_PATH . '/header.php');
 ?>
 
 <main>
 
-  <li><a class="back-link" href="<?php echo url_for('/artifacts/index.php'); ?>">&laquo; Artifacts</a></li>
+  <li><a class="back-link" href="<?php echo url_for('/artifacts/index.php'); ?>">&laquo; Items</a></li>
   <li><a class="back-link" href="<?php echo url_for('/artifacts/useby.php'); ?>">&laquo; Interact By List</a></li>
   <?php if (!is_guest()) { ?>
-  <li><a class="back-link" href="<?php echo url_for('/artifacts/new.php'); ?>">&laquo; Create Artifact</a></li>
-  <li><a class="back-link" href="<?php echo url_for('/uses/record-new.php?artifact_id=' . h(u($object['id']))); ?>">&laquo; Record Interaction</a></li>
+  <li><a class="back-link" href="<?php echo url_for('/artifacts/new.php'); ?>">&laquo; Create Item</a></li>  <li><a class="back-link" href="<?php echo url_for('/uses/record-new.php?artifact_id=' . h(u($object['id']))); ?>">&laquo; Record Interaction</a></li>
   <?php } ?>
   
   <h1>Title: <?php echo h($object['Title']); ?></h1>

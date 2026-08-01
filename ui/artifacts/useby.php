@@ -35,7 +35,7 @@
   $shelfSort = $_POST['shelfSort'] ?? 'no';
   $showAttributes = $_POST['showAttributes'] ?? 'no';
   $showInterval = $_POST['showInterval'] ?? 'no';
-  // Hide snoozed artifacts by default, and remember the user's last choice
+  // Hide snoozed items by default, and remember the user's last choice
   // across future page loads (mirrors how $type is persisted in the session).
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $hideSnoozed = $_POST['hideSnoozed'] ?? 'no';
@@ -87,7 +87,7 @@
     <?php echo csrf_input(); ?>
     <div class="hideOnPrint">
 
-      <label for="artifactType">Artifact type</label>
+      <label for="artifactType">Item type</label>
       <section id="artifactType" class="type-chip-group">
         <?php require_once SHARED_PATH . '/artifact_type_checkboxes.php'; ?>
       </section>
@@ -108,7 +108,7 @@
         ?>
       >
       
-      <label for="showAttributes">Show artifact attributes</label>
+      <label for="showAttributes">Show item attributes</label>
       <input type="hidden" name="showAttributes" value="no">
       <input type="checkbox" name="showAttributes" id="showAttributes" value="yes"
         <?php
@@ -128,7 +128,7 @@
         ?>
       >
 
-      <label for="hideSnoozed">Hide snoozed artifacts</label>
+      <label for="hideSnoozed">Hide snoozed items</label>
       <input type="hidden" name="hideSnoozed" value="no">
       <input type="checkbox" name="hideSnoozed" id="hideSnoozed" value="yes"
         <?php

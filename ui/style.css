@@ -828,6 +828,23 @@ section.actions {
   object-fit: contain;
 }
 
+.auth-hero {
+  margin: -0.25rem -0.25rem 0;
+  border-radius: calc(var(--radius-lg) - 6px);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: inset 0 0 0 1px rgba(26, 35, 69, 0.06);
+}
+
+.auth-hero img {
+  display: block;
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+  object-fit: cover;
+  aspect-ratio: 16 / 9;
+}
+
 .auth-copy {
   display: grid;
   gap: 0.75rem;

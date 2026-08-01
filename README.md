@@ -1,8 +1,16 @@
-# Artifact Manager
+# Keeplore
 
-A web app for tracking artifact usage and operationalizing the [Minimalists' 90/90 Rule](https://www.theminimalists.com/ninety/) — if you haven't used something in the last 90 days and won't in the next 90, it's time to let it go.
+**Know what you own. Use what you keep.**
 
-Live at [artifact.stewardgoods.com](https://artifact.stewardgoods.com/).
+![Keeplore — know what you own. Use what you keep.](ui/assets/keeplore.png)
+
+Keeplore is a self-hosted possessions tracker inspired by the Minimalists'
+90/90 rule. Record when you use the things you own, see what is due for
+attention, and decide what still earns its place.
+
+Live at [keeplore.app](https://keeplore.app/).
+
+Formerly **Artifact Manager** — see [docs/keeplore-app-name.md](docs/keeplore-app-name.md) for the naming decision record.
 
 ## Tech Stack
 
@@ -15,9 +23,9 @@ Live at [artifact.stewardgoods.com](https://artifact.stewardgoods.com/).
 
 ## Features
 
-### Artifact Tracking
+### Item Tracking
 
-- Create and manage artifacts across types: board games, books, films, equipment, toys, instruments, food, drinks, and more
+- Create and manage items across types: board games, books, films, equipment, toys, instruments, food, drinks, and more
 - Track acquisition dates, player counts, complexity, ratings
 - Organize into primary/secondary collections or archive
 - Candidate/exploration status for items under consideration
@@ -26,14 +34,14 @@ Live at [artifact.stewardgoods.com](https://artifact.stewardgoods.com/).
 
 - Record usage events with dates, notes, and participants
 - Multi-player support per interaction
-- Sweet spot tracking (ideal player counts per artifact)
-- Per-artifact frequency overrides
+- Sweet spot tracking (ideal player counts per item)
+- Per-item frequency overrides
 
 ### Usage Analysis
 
-- Calculate "use-by" dates based on configurable interaction frequency
-- List artifacts ordered by next due date to prioritize what to use next
-- Default and per-artifact interval settings
+- Calculate interact-by dates based on configurable interaction frequency
+- List items ordered by next due date to prioritize what to use next
+- Default and per-item interval settings
 
 ### Player & Playgroup Management
 
@@ -44,7 +52,7 @@ Live at [artifact.stewardgoods.com](https://artifact.stewardgoods.com/).
 ### REST API
 
 - JWT + API key authentication
-- CRUD endpoints for artifacts, uses, types, and users
+- CRUD endpoints for items, uses, types, and users
 - Cursor-based and offset-based pagination
 - Search and filtering
 - Rate limiting (60 requests/minute per IP)
@@ -52,7 +60,7 @@ Live at [artifact.stewardgoods.com](https://artifact.stewardgoods.com/).
 
 ### Multi-Tenant
 
-- Each user manages their own artifacts, players, and data
+- Each user manages their own items, players, and data
 - User roles (regular, admin)
 - Registration, login, and password reset flows
 
@@ -60,11 +68,11 @@ Live at [artifact.stewardgoods.com](https://artifact.stewardgoods.com/).
 
 ```
 ui/                         Web-accessible frontend
-├── artifacts/              Artifact CRUD pages
+├── artifacts/              Item CRUD pages
 ├── uses/                   Interaction recording
 ├── players/                Player management
 ├── playgroup/              Playgroup selection
-├── types/                  Artifact type management
+├── types/                  Item type management
 ├── users/                  User management
 ├── settings/               User settings
 ├── explore/                Candidate exploration
@@ -73,10 +81,10 @@ ui/                         Web-accessible frontend
 └── style.css               Global stylesheet
 
 api/                        REST API endpoints
-├── artifact.php            Single artifact CRUD
-├── artifacts.php           Artifact listing/search
+├── artifact.php            Single item CRUD
+├── artifacts.php           Item listing/search
 ├── uses.php                Interaction recording
-├── types.php               Artifact types
+├── types.php               Item types
 ├── users.php               User management
 └── private/                API-specific initialization
 
@@ -99,7 +107,7 @@ private/                    Backend logic (not web-accessible)
 └── oneTimeScripts/         Migration scripts
 
 tests/                      PHPUnit test suite
-docs/                       DATABASE_SCHEMA.md with ERD
+docs/                       Schema docs and naming decision record
 ```
 
 ## Setup
@@ -139,8 +147,9 @@ chmod 777 logs/ cache/
 | `SENDGRID_API_KEY` | Email delivery |
 | `ARTIFACTS_API_KEY` | API authentication key |
 | `JWT_SECRET` | JWT signing key |
-| `ARTIFACTS_DOMAIN` | Application domain |
+| `ARTIFACTS_DOMAIN` | Application domain (`keeplore.app`) |
 | `API_ORIGIN` | API domain for CORS |
+| `APP_NAME` | Product name for emails and copy (`Keeplore`) |
 | `APP_ENV` | `development` or `production` |
 
 ### Running Tests

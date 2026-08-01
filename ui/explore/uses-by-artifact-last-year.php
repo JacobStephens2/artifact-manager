@@ -4,7 +4,7 @@ require_once('../../private/initialize.php');
 
 require_login_or_guest();
 
-$page_title = 'Uses By Artifact Over Last 365 Days';
+$page_title = 'Uses By Item Over Last 365 Days';
 
 include(SHARED_PATH . '/header.php');
 include(SHARED_PATH . '/dataTable.html'); 
@@ -111,7 +111,7 @@ foreach ($usesMultiByPlayerResultObjec as $usesMultiByPlayerArray) {
   </h1>
 
   <a href="uses-by-artifact.php">
-    <p>All Uses By Artifact</p>
+    <p>All Uses By Item</p>
   </a>
 
   <table id='usesByArtifact'>
@@ -119,7 +119,7 @@ foreach ($usesMultiByPlayerResultObjec as $usesMultiByPlayerArray) {
     <thead>
       <tr>
         <th>Uses</th>
-        <th>Artifact</th>
+        <th>Item</th>
         <th>Type</th>
       </tr>
     </thead>

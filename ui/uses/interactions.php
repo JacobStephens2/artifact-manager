@@ -1,7 +1,7 @@
 <?php
   require_once('../../private/initialize.php');
   require_login_or_guest();
-  $page_title = 'Artifact Interactions';
+  $page_title = 'Item Interactions';
   include(SHARED_PATH . '/header.php');
   include(SHARED_PATH . '/dataTable.html');
 
@@ -76,7 +76,7 @@
 
     <form class="filter-panel" method="POST" style="display: none">
       <?php echo csrf_input(); ?>
-      <label for="artifactType">Artifact type</label>
+      <label for="artifactType">Item type</label>
       <section id="artifactType" class="type-chip-group">
         <?php require_once SHARED_PATH . '/artifact_type_checkboxes.php'; ?>
       </section>
@@ -84,7 +84,7 @@
       <label for="minimumDate">Minimum Date (<?php echo DEFAULT_USE_INTERVAL; ?> days ago: <?php echo date('m/d/Y', strtotime(DEFAULT_USE_INTERVAL . ' days ago')); ?>)</label>
       <input type="date" name="minimumDate" id="minimumDate" value="<?php echo $minimumDate; ?>">
 
-      <label for="showAttributes">Show artifact attributes</label>
+      <label for="showAttributes">Show item attributes</label>
       <input type="hidden" name="showAttributes" value="no">
       <input type="checkbox" name="showAttributes" id="showAttributes" value="yes"
         <?php
@@ -118,7 +118,7 @@
       <thead>
         <tr id="headerRow">
           <th>Interaction Date <?php if ($hide_duplicate_group_settings === 'no') { echo '(' . $total_rows . ')'; } ?></th>
-          <th>Artifact</th>
+          <th>Item</th>
           <th class="group_setting">Group Setting</th>
           <th>Type</th>
           <th>Setting</th>

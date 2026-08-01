@@ -11,15 +11,15 @@
     if ($is_ajax) {
       header('Content-Type: application/json');
       http_response_code(400);
-      echo json_encode(['ok' => false, 'message' => 'No artifact specified.']);
+      echo json_encode(['ok' => false, 'message' => 'No item specified.']);
       exit;
     }
-    $_SESSION['message'] = 'No artifact specified.';
+    $_SESSION['message'] = 'No item specified.';
     redirect_to(url_for('/artifacts/useby.php'));
   }
 
   $artifact_record = find_artifact_by_id($artifact_id);
-  $artifact_name = $artifact_record['Title'] ?? ($_REQUEST['artifact_name'] ?? 'Artifact');
+  $artifact_name = $artifact_record['Title'] ?? ($_REQUEST['artifact_name'] ?? 'Item');
 
   $result = set_artifact_tracked($artifact_id, $value);
 
@@ -28,7 +28,7 @@
       ? $artifact_name . ' restored to tracked collection.'
       : $artifact_name . ' removed from tracked collection.';
   } else {
-    $message = 'Failed to update artifact.';
+    $message = 'Failed to update item.';
   }
 
   if ($is_ajax) {

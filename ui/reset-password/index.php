@@ -106,7 +106,7 @@ include(SHARED_PATH . '/header.php');
    
             // Content
             $mail->isHTML(true);
-            $mail->Subject = "Password Reset - " . DOMAIN;
+            $mail->Subject = "Password Reset — " . APP_NAME;
             $mail->Body = $output;
 
             $mail->send();

@@ -1,6 +1,6 @@
 // Bump CACHE_NAME whenever shipping CSS/chrome so PWA clients drop stale assets.
 // Pages load style.css?v=N; the SW still pre-caches /style.css - both must stay in sync.
-const CACHE_NAME = 'artifact-manager-v6';
+const CACHE_NAME = 'keeplore-v2';
 const STATIC_ASSETS = [
   '/style.css',
   '/manifest.json',
@@ -47,7 +47,7 @@ self.addEventListener('fetch', event => {
   }
 
   // API requests: network only (don't cache dynamic data)
-  if (request.url.includes('/api/') || request.url.includes('api.artifact')) {
+  if (request.url.includes('/api/') || request.url.includes('api.keeplore')) {
     event.respondWith(fetch(request));
     return;
   }

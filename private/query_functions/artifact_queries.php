@@ -922,7 +922,7 @@ function email_artifact_use_notice($user_id) {
                   ' attention.
               </p>
               <p style="margin:0 0 0.75rem;">
-                  <a href="https://artifact.stephens.page/artifacts/useby.php">View interact by list</a>
+                  <a href="https://' . DOMAIN . '/artifacts/useby.php">View interact by list</a>
               </p>
               <table cellpadding="6" cellspacing="0" style="border-collapse:collapse;margin-bottom:1.25rem;">
                 <tr>
@@ -1061,7 +1061,7 @@ function email_artifact_use_notice($user_id) {
        } catch (Exception $Exception) {
 
           try {
-              $mail->Subject = "Error with Artifact Uses Due Today Email";
+              $mail->Subject = "Error with Keeplore Uses Due Today Email";
               $mail->Body = '<p>The following Exception was thrown when trying to email an interact by list:</p>
                   <pre>' . print_r($Exception, true) . '</pre>
               ';

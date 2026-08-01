@@ -4,7 +4,7 @@
 
   require_login_or_guest();
 
-  $page_title = 'Uses By Artifact';
+  $page_title = 'Uses By Item';
 
   include(SHARED_PATH . '/header.php');
 
@@ -50,7 +50,7 @@
 
     <tr>
       <th>Uses</th>
-      <th>Artifact</th>
+      <th>Item</th>
     </tr>
 
     <?php foreach ($usesByPlayerResultObject as $usesByPlayerArray) { ?>

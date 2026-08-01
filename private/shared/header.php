@@ -1,4 +1,4 @@
-<?php if ( ! isset($page_title) ) { $page_title = 'Artifact'; } ?>
+<?php if ( ! isset($page_title) ) { $page_title = 'Keeplore'; } ?>
 
 <!DOCTYPE html>
 
@@ -6,14 +6,32 @@
   <head>
     
     <title>
-      <?php echo h($page_title); ?> - Artifact
+      <?php echo h($page_title); ?> - Keeplore
     </title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#30395c">
+    <meta name="description" content="Keeplore — know what you own. Use what you keep. Self-hosted 90/90 rule tracker for physical possessions.">
+    <meta name="application-name" content="Keeplore">
+    <meta name="apple-mobile-web-app-title" content="Keeplore">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <?php
+      $keeplore_host = (defined('DOMAIN') && DOMAIN !== '')
+        ? DOMAIN
+        : (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'keeplore.app');
+      $keeplore_og_image = 'https://' . $keeplore_host . '/assets/keeplore.png';
+    ?>
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Keeplore">
+    <meta property="og:title" content="<?php echo h($page_title); ?> - Keeplore">
+    <meta property="og:description" content="Know what you own. Use what you keep.">
+    <meta property="og:image" content="<?php echo h($keeplore_og_image); ?>">
+    <meta property="og:image:width" content="1400">
+    <meta property="og:image:height" content="788">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="<?php echo h($keeplore_og_image); ?>">
 
     <link rel="shortcut icon" type="image/jpg" href="<?php echo url_for('favicon.ico') ?>">
     <link rel="manifest" href="<?php echo url_for('manifest.json') ?>">
@@ -41,10 +59,10 @@
       <div class="site-header-inner">
         <div class="site-brand">
           <a class="header-link" href="/">
-            <img class="site-logo" src="<?php echo url_for('/assets/icon-192x192.png'); ?>?v=2" width="36" height="36" alt="" aria-hidden="true">
-            <span class="site-wordmark">Artifact</span>
+            <img class="site-logo" src="<?php echo url_for('/assets/icon-192x192.png'); ?>?v=3" width="36" height="36" alt="" aria-hidden="true">
+            <span class="site-wordmark">Keeplore</span>
           </a>
-          <p class="site-tagline">Track what you own. Use what you keep.</p>
+          <p class="site-tagline">Know what you own. Use what you keep.</p>
         </div>
 
         <div class="site-status">
@@ -80,7 +98,7 @@
 
           <div class="nav-group nav-group-secondary" aria-label="Browse">
             <a class="nav-link" href="<?php echo url_for('/uses/interactions'); ?>">Interactions</a>
-            <a class="nav-link" href="<?php echo url_for('/artifacts'); ?>">Artifacts</a>
+            <a class="nav-link" href="<?php echo url_for('/artifacts'); ?>">Items</a>
             <a class="nav-link" href="<?php echo url_for('/artifacts/to-get-rid-of'); ?>">To&nbsp;Get&nbsp;Rid&nbsp;Of</a>
             <a class="nav-link" href="<?php echo url_for('/analysis'); ?>">Analysis</a>
           </div>
@@ -107,7 +125,7 @@
 
           <div class="nav-group nav-group-secondary" aria-label="Browse">
             <a class="nav-link" href="<?php echo url_for('/uses/interactions'); ?>">Interactions</a>
-            <a class="nav-link" href="<?php echo url_for('/artifacts'); ?>">Artifacts</a>
+            <a class="nav-link" href="<?php echo url_for('/artifacts'); ?>">Items</a>
             <a class="nav-link" href="<?php echo url_for('/artifacts/to-get-rid-of'); ?>">To&nbsp;Get&nbsp;Rid&nbsp;Of</a>
             <a class="nav-link" href="<?php echo url_for('/analysis'); ?>">Analysis</a>
           </div>
@@ -130,7 +148,7 @@
     <?php if (is_guest()) { ?>
       <div class="guest-banner">
         You are browsing as a guest.
-        <a href="<?php echo url_for('/register.php'); ?>">Create an account</a> to track your own artifacts,
+        <a href="<?php echo url_for('/register.php'); ?>">Create an account</a> to track your own items,
         or <a href="<?php echo url_for('/login.php?action=logout'); ?>">exit guest mode</a>.
       </div>
     <?php } ?>

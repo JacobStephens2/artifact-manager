@@ -146,7 +146,7 @@
         $artifact = Artifact::find_by_id_and_user_id($artifact_id, $user_id);
         if (!$artifact) {
           http_response_code(404);
-          $response->message = 'Artifact not found or does not belong to you.';
+          $response->message = 'Item not found or does not belong to you.';
           echo json_encode($response);
           exit;
         }

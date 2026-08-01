@@ -32,9 +32,16 @@ function log_in_user($user, $remember = false) {
   $_SESSION['user_group'] = $user['user_group'];
   $_SESSION['logged_in'] = true;
 
-  // Extend PHP session lifetime to match
+  // Extend PHP session lifetime to match JWT / remember-me window
   ini_set('session.gc_maxlifetime', $expiry_seconds);
-  session_set_cookie_params($expiry_seconds);
+  session_set_cookie_params([
+    'lifetime' => $expiry_seconds,
+    'path' => '/',
+    'domain' => ARTIFACTS_DOMAIN,
+    'secure' => COOKIE_SECURE,
+    'httponly' => true,
+    'samesite' => 'Lax',
+  ]);
 
   // Create JWT access token cookie for response
   $issuedAt   = new DateTimeImmutable();

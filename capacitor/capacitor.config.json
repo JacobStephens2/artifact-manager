@@ -1,9 +1,9 @@
 {
-  "appId": "com.stewardgoods.artifact",
-  "appName": "Artifacts",
+  "appId": "app.keeplore",
+  "appName": "Keeplore",
   "webDir": "www",
   "server": {
-    "url": "https://artifact.stephens.page",
+    "url": "https://keeplore.app",
     "androidScheme": "https"
   },
   "android": {

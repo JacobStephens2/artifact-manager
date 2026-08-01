@@ -6,7 +6,7 @@
 
   $response = new stdClass;
 
-  $response->message = 'Hello from the Artifact Management Tool API.';
+  $response->message = 'Hello from the Keeplore API.';
 
   $response->endpoints = array(
     'GET /artifacts.php' => 'https://' . API_ORIGIN . '/artifacts.php'

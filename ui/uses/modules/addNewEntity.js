@@ -1,5 +1,5 @@
-// Lets you create a brand-new entity (artifact) without leaving the page.
-// On success the new entity is selected in the search box, mirroring a search-result click.
+// Lets you create a brand-new item without leaving the page.
+// On success the new item is selected in the search box, mirroring a search-result click.
 
 const showBtn = document.querySelector("#showNewEntity");
 const formWrap = document.querySelector("#newEntityForm");
@@ -47,7 +47,7 @@ function createEntity(event) {
   event.preventDefault();
   const title = titleInput.value.trim();
   if (title === "") {
-    msg.textContent = "Enter an artifact name.";
+    msg.textContent = "Enter an item name.";
     return;
   }
 
@@ -76,7 +76,7 @@ function createEntity(event) {
         selectEntity(result.data.id, result.data.Title);
         resetForm();
       } else {
-        msg.textContent = (result.data && result.data.message) || "Could not create artifact.";
+        msg.textContent = (result.data && result.data.message) || "Could not create item.";
       }
     })
     .catch(function (error) {

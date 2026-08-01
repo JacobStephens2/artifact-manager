@@ -60,8 +60,7 @@ include(SHARED_PATH . '/header.php');
         value="<?php echo h(substr($response['use_date'],0,10)); ?>" 
       />
 
-      <label for="Title">Artifact</label>
-      <select id="Title" name="artifact_id">
+      <label for="Title">Item</label>      <select id="Title" name="artifact_id">
         <?php
           $artifact_set = list_artifacts();
           while($artifact = mysqli_fetch_assoc($artifact_set)) {

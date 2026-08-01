@@ -72,10 +72,9 @@ include(SHARED_PATH . '/header.php');
       <?php echo csrf_input(); ?>
 
       <!-- This select gets populated by the JavaScript fetch request above -->
-      <label for="SearchTitles">Search Artifacts</label>
-      <input type="text" name="SearchTitles" id="SearchTitles">
+      <label for="SearchTitles">Search Items</label>      <input type="text" name="SearchTitles" id="SearchTitles">
       
-			<label for="Title">Artifact</label>
+			<label for="Title">Item</label>
 			<select name="Title" id="Title">
 			</select>
 

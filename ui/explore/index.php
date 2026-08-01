@@ -10,7 +10,7 @@ $allGames = $_POST['allGames'] ?? '';
 $favCt = $_POST['favCt'] ?? '';
 $object_set = find_artifacts_by_characteristic($kept, $type, $allGames, $favCt);
 
-$page_title = 'Explore Artifacts';
+$page_title = 'Explore Items';
 
 include(SHARED_PATH . '/header.php');
 
@@ -21,11 +21,11 @@ include(SHARED_PATH . '/header.php');
     <header class="page-header page-header-row">
       <div>
         <p class="section-label">Explore</p>
-        <h1>Artifacts by characteristic</h1>
+        <h1>Items by characteristic</h1>
         <p class="page-lede">Filter the collection by type and attributes.</p>
       </div>
       <div class="page-header-actions">
-        <a class="secondary-link" href="<?php echo url_for('/artifacts/new.php'); ?>">Create artifact</a>
+        <a class="secondary-link" href="<?php echo url_for('/artifacts/new.php'); ?>">Create item</a>
         <a class="prominent-link" href="<?php echo url_for('/artifacts/useby.php'); ?>">Interact by date</a>
       </div>
     </header>
@@ -33,7 +33,7 @@ include(SHARED_PATH . '/header.php');
     <form class="filter-panel" action="<?php echo url_for('/explore/index.php'); ?>" method="post">
       <?php echo csrf_input(); ?>
       <dl>
-        <dt>Artifact Type</dt>
+        <dt>Item Type</dt>
           <select name="type">
             <option value="1" <?php if ($type == '1') { echo 'selected'; } ?>>All types</option>
             <option value="board-game" <?php if ($type == 'board-game') { echo 'selected'; } ?>>Board Game</option>
@@ -42,7 +42,7 @@ include(SHARED_PATH . '/header.php');
             <option value="sport" <?php if ($type == 'sport') { echo 'selected'; } ?>>Sport</option>
             <option value="game" <?php if ($type == 'game') { echo 'selected'; } ?>>Game</option>
           </select>
-        <dt>Include artifacts from Jacob
+        <dt>Include items from Jacob
           <input type="hidden" name="allGames" value="1" />
           <input type="checkbox" name="allGames" value="true"<?php if($allGames == 'true') { echo " checked"; } ?> />
         </dt>

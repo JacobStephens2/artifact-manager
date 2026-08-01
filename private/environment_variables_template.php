@@ -23,7 +23,12 @@ define(
 );
 define("COOKIE_SECURE", true);
 
-define("ARTIFACTS_DOMAIN", "artifact.stephens.page");
+// Product branding (emails, password reset, copy)
+define("APP_NAME", "Keeplore");
+
+// Canonical host for links, sessions, and JWT cookies (no scheme, no path).
+// Production: keeplore.app — local dev: leave empty string "" for localhost.
+define("ARTIFACTS_DOMAIN", "keeplore.app");
 define("DOMAIN", ARTIFACTS_DOMAIN);
 define("API_ORIGIN", "api." . ARTIFACTS_DOMAIN);
 define("REQUEST_ORIGIN", ARTIFACTS_DOMAIN);

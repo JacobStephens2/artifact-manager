@@ -83,15 +83,22 @@ if ($action == 'guest') {
     <main class="auth-main">
       <section class="auth-layout">
         <div class="auth-intro">
-          <div class="auth-mark">
-            <img src="<?php echo url_for('/assets/icon-512x512.png'); ?>" alt="Artifact logo">
+          <div class="auth-hero">
+            <img
+              src="<?php echo url_for('/assets/keeplore.png'); ?>"
+              alt="Keeplore — a quiet shelf of well-loved possessions with interact-by dates"
+              width="1400"
+              height="788"
+              loading="eager"
+              decoding="async"
+            >
           </div>
 
           <div class="auth-copy">
             <p class="section-label">Welcome Back</p>
             <h1>Log in</h1>
             <p>
-              Artifact generates interact-by dates so the things you keep stay in use. Inspired by
+              Keeplore generates interact-by dates so the things you keep stay in use. Inspired by
               <a href="https://www.theminimalists.com/ninety/" target="_blank">The Minimalists' 90/90 Rule</a>
               and built by
               <a href="https://jacobstephens.net" target="_blank">Jacob Stephens</a>.

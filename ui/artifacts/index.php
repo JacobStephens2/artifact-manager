@@ -41,7 +41,7 @@
   $sweetSpotFilter = $_POST['sweetSpotFilter'] ?? '';
   $showAttributes = $_POST['showAttributes'] ?? 'no';
   $artifact_set = find_artifacts_by_user_id($kept, $type, $interval, $sweetSpotFilter);
-  $page_title = 'Artifacts';
+  $page_title = 'Items';
   if ($kept === 'secondary_only') { $page_title .= ' (Secondary Only)'; }
   include(SHARED_PATH . '/header.php'); 
   include(SHARED_PATH . '/dataTable.html');
@@ -56,11 +56,11 @@
     <header class="page-header page-header-row">
       <div>
         <p class="section-label">Collection</p>
-        <h1>Artifacts<?php if ($kept === 'secondary_only') { echo ' (secondary only)'; } ?></h1>
+        <h1>Items<?php if ($kept === 'secondary_only') { echo ' (secondary only)'; } ?></h1>
         <p class="page-lede">Everything you track, filterable by type and attributes.</p>
       </div>
       <div class="page-header-actions">
-        <a class="prominent-link" href="<?php echo url_for('/artifacts/new'); ?>">Create artifact</a>
+        <a class="prominent-link" href="<?php echo url_for('/artifacts/new'); ?>">Create item</a>
         <button type="button" id="display_filters">Show filters</button>
       </div>
     </header>
@@ -79,7 +79,7 @@
         ?>
       >
 
-      <label for="showAttributes">Show artifact attributes</label>
+      <label for="showAttributes">Show item attributes</label>
       <input type="hidden" name="showAttributes" value="no">
       <input type="checkbox" name="showAttributes" id="showAttributes" value="yes"
         <?php 
@@ -89,7 +89,7 @@
         ?>
       >
 
-      <label for="artifactType">Artifact type</label>
+      <label for="artifactType">Item type</label>
       <section id="artifactType" class="type-chip-group">
         <?php require_once SHARED_PATH . '/artifact_type_checkboxes.php'; ?>
       </section>
@@ -103,7 +103,7 @@
         </style>
 
         <div style="margin-top: 1.6rem">
-          <label for="allkeptandnot">Show All Artifacts</label>
+          <label for="allkeptandnot">Show All Items</label>
           <input type="radio" name="kept" value="allkeptandnot" id="allkeptandnot"
           <?php 
             if ($kept === 'allkeptandnot') {
@@ -114,7 +114,7 @@
         </div>
 
         <div>
-          <label for="onlykept">Show Only Artifacts Kept</label>
+          <label for="onlykept">Show Only Items Kept</label>
           <input type="radio" name="kept" value="yes" id="onlykept"
             <?php 
             if ($kept === 'yes') {
@@ -125,7 +125,7 @@
         </div>
 
         <div>
-          <label for="notkept">Show Only Artifacts Not Kept</label>
+          <label for="notkept">Show Only Items Not Kept</label>
           <input type="radio" name="kept" value="no" id="notkept"
           <?php 
             if ($kept === 'no') {

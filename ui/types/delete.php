@@ -82,20 +82,20 @@ include(SHARED_PATH . '/header.php');
               AND id = '$user_id'
               AND KeptCol = '1'
             ");
-            echo "You keep $count_kept_with_this_type artifacts with this type. ";
+            echo "You keep $count_kept_with_this_type items with this type. ";
             $count_not_kept_with_this_type = singleValueQuery(
               "SELECT COUNT(id) FROM games
               WHERE type = '$type'
               AND id = '$user_id'
               AND KeptCol = '0'
             ");
-            echo "You have created $count_not_kept_with_this_type artifacts with this type that you do not keep. ";
+            echo "You have created $count_not_kept_with_this_type items with this type that you do not keep. ";
           ?>
         </p>
         <form method="post">
           <?php echo csrf_input(); ?>
           <label for="new_type">
-            Recategorize Existing <?php echo $type; ?> artifacts with this type
+            Recategorize Existing <?php echo $type; ?> items with this type
           </label>
           <select name="new_type" id="new_type">
             <?php

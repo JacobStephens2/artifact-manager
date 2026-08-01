@@ -51,7 +51,7 @@
 
       if (!$artifact) {
         http_response_code(404);
-        $response->message = 'Artifact not found.';
+        $response->message = 'Item not found.';
         echo json_encode($response);
         exit;
       }
@@ -107,12 +107,12 @@
       if ($result === true) {
         http_response_code(201);
         $logger->logDataChange('create', 'artifact', $artifact->id, ['title' => $artifact->Title]);
-        $response->message = 'Artifact created successfully.';
+        $response->message = 'Item created successfully.';
         $response->artifact = $artifact;
         echo json_encode($response);
       } else {
         http_response_code(422);
-        $response->message = 'Failed to create artifact.';
+        $response->message = 'Failed to create item.';
         $response->errors = $artifact->errors;
         echo json_encode($response);
       }
@@ -148,7 +148,7 @@
 
       if (!$artifact) {
         http_response_code(404);
-        $response->message = 'Artifact not found.';
+        $response->message = 'Item not found.';
         echo json_encode($response);
         exit;
       }
@@ -178,7 +178,7 @@
 
       if ($result === true) {
         $logger->logDataChange('update', 'artifact', $artifact->id, ['title' => $artifact->Title]);
-        $response->message = 'Artifact updated successfully.';
+        $response->message = 'Item updated successfully.';
         $response->artifact = $artifact;
         echo json_encode($response);
       } elseif (is_string($result)) {
@@ -188,7 +188,7 @@
         echo json_encode($response);
       } else {
         http_response_code(422);
-        $response->message = 'Failed to update artifact.';
+        $response->message = 'Failed to update item.';
         $response->errors = $artifact->errors;
         echo json_encode($response);
       }
@@ -214,7 +214,7 @@
 
       if (!$artifact) {
         http_response_code(404);
-        $response->message = 'Artifact not found.';
+        $response->message = 'Item not found.';
         echo json_encode($response);
         exit;
       }
@@ -227,7 +227,7 @@
 
       if ($result === true) {
         $logger->logDataChange('delete', 'artifact', $id, ['title' => $artifact->Title]);
-        $response->message = 'Artifact deleted successfully.';
+        $response->message = 'Item deleted successfully.';
         echo json_encode($response);
       } elseif (is_string($result)) {
         http_response_code(404);
@@ -235,7 +235,7 @@
         echo json_encode($response);
       } else {
         http_response_code(500);
-        $response->message = 'Failed to delete artifact.';
+        $response->message = 'Failed to delete item.';
         echo json_encode($response);
       }
       break;

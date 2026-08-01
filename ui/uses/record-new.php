@@ -45,11 +45,11 @@
       if ($is_ajax) {
         header('Content-Type: application/json');
         http_response_code(400);
-        echo json_encode(['ok' => false, 'message' => 'Please choose an artifact.']);
+        echo json_encode(['ok' => false, 'message' => 'Please choose an item.']);
         exit;
       }
 
-      $_SESSION['message'] = "Please choose an artifact.";
+      $_SESSION['message'] = "Please choose an item.";
 
       redirect_to(url_for('/uses/' . $formProcessingFile));
 
@@ -129,8 +129,7 @@
 
     <input type="submit" value="Submit">
 
-    <label for="SearchTitles">Search Artifacts</label>
-    <input type="search" 
+    <label for="SearchTitles">Search Items</label>    <input type="search" 
       id="SearchTitles" 
       name="artifact[name]" 
       value="<?php echo $artifact_name; ?>"
@@ -147,12 +146,12 @@
 
     <div id="entityControls">
       <button type="button" id="showNewEntity" class="new-interactor-toggle">
-        + New artifact
+        + New item
       </button>
     </div>
 
     <div id="newEntityForm" class="new-interactor-form" style="display: none;">
-      <input type="text" id="newEntityTitle" placeholder="Artifact name" autocomplete="off">
+      <input type="text" id="newEntityTitle" placeholder="Item name" autocomplete="off">
       <button type="button" id="createEntity" class="new-interactor-create">Create &amp; select</button>
       <button type="button" id="cancelNewEntity" class="new-interactor-cancel">Cancel</button>
       <span id="newEntityMsg" class="new-interactor-msg" role="status" aria-live="polite"></span>

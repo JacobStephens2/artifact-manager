@@ -2,7 +2,7 @@
 require_once('../../private/initialize.php');
 require_login();
 $use_set = find_aversions_by_user_id();
-$page_title = 'Artifact Aversions';
+$page_title = 'Item Aversions';
 include(SHARED_PATH . '/header.php');
 ?>
 

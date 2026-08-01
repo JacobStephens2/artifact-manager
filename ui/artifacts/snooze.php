@@ -10,10 +10,10 @@
     if ($is_ajax) {
       header('Content-Type: application/json');
       http_response_code(400);
-      echo json_encode(['ok' => false, 'message' => 'No artifact specified.']);
+      echo json_encode(['ok' => false, 'message' => 'No item specified.']);
       exit;
     }
-    $_SESSION['message'] = 'No artifact specified.';
+    $_SESSION['message'] = 'No item specified.';
     redirect_to(url_for('/index.php') . '#priority-queue');
   }
 
@@ -31,14 +31,14 @@
   }
 
   $artifact_record = find_artifact_by_id($artifact_id);
-  $artifact_name = $artifact_record['Title'] ?? ($_REQUEST['artifact_name'] ?? 'Artifact');
+  $artifact_name = $artifact_record['Title'] ?? ($_REQUEST['artifact_name'] ?? 'Item');
 
   $snooze_until = snooze_artifact($artifact_id, $days);
 
   if ($snooze_until !== false) {
     $message = $artifact_name . ' snoozed until ' . $snooze_until . '.';
   } else {
-    $message = 'Failed to snooze artifact.';
+    $message = 'Failed to snooze item.';
   }
 
   if ($is_ajax) {

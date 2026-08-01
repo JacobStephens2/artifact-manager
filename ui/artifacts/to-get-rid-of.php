@@ -20,14 +20,14 @@
   <header class="page-header">
     <p class="section-label">Letting go</p>
     <h1>To get rid of</h1>
-    <p class="page-lede">Artifacts you have decided to release. They no longer appear in your Interact By list.</p>
+    <p class="page-lede">Items you have decided to release. They no longer appear in your Interact By list.</p>
   </header>
 
   <?php if ($artifact_set->num_rows === 0) { ?>
     <div class="empty-state">
       <p class="section-label">Empty</p>
       <h2>Nothing marked to get rid of</h2>
-      <p>When an artifact no longer earns its keep, mark it from the interact-by queue. It will land here.</p>
+      <p>When an item no longer earns its keep, mark it from the interact-by queue. It will land here.</p>
       <a class="secondary-link" href="<?php echo url_for('/artifacts/useby.php'); ?>">Review interact-by queue</a>
     </div>
   <?php } else { ?>

@@ -71,10 +71,10 @@ We eschew traditional drop-shadows in favor of **Tonal Layering** and **Ambient 
 
 ### Cards & Lists
 - **The No-Divider Rule**: Forbid the use of horizontal divider lines. Separate list items using vertical whitespace (Spacing `4` or `5`) or alternating tonal shifts between `surface_container_low` and `surface_container_lowest`.
-- **Artifact Cards**: Use an asymmetrical layout—image or icon on the left, high-contrast `title-md` on the right, with metadata tucked into the bottom-right in `label-sm`.
+- **Item Cards**: Use an asymmetrical layout—image or icon on the left, high-contrast `title-md` on the right, with metadata tucked into the bottom-right in `label-sm`.
 
 ### Additional Specialized Components
-- **Artifact Status Chips**: Small, pill-shaped indicators using `tertiary_container` for a muted, professional highlight rather than "loud" status colors.
+- **Item Status Chips**: Small, pill-shaped indicators using `tertiary_container` for a muted, professional highlight rather than "loud" status colors.
 - **Surface-Anchored Footer**: Unlike the legacy site's high-contrast bar, the footer should use `surface_container_high` with no border, creating a seamless transition to the end of the page experience.
 
 ---
