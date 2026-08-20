@@ -1,0 +1,36 @@
+# The `keeplore-verification` job is the required check named by the Keeplore
+# Registered Codebase in the Voice Agent, so production-branch rules can require
+# it. Its run step must stay the verification command that registration declares.
+
+name: Keeplore verification
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  keeplore-verification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+
+      - name: Lint every PHP file the Release will serve
+        run: |
+          set -euo pipefail
+          find . -name '*.php' -not -path './vendor/*' -print0 \
+            | xargs -0 -r -n1 php -l
+
+      - name: Run the declared Keeplore verification
+        run: vendor/bin/phpunit
