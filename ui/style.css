@@ -2546,3 +2546,14 @@ table#useBy.cards-view tbody td.get-rid-of button.get-rid-of-btn {
   align-items: center;
   gap: 0.5rem;
 }
+
+table#useBy:not(.cards-view) td.get-rid-of button.get-rid-of-btn {
+  background: transparent;
+  color: var(--text-soft);
+  font-weight: 600;
+  font-size: 0.82rem;
+  min-height: 2rem;
+  padding: 0.35rem 0.7rem;
+  box-shadow: inset 0 0 0 1px rgba(80, 95, 118, 0.3);
+  white-space: nowrap;
+}
